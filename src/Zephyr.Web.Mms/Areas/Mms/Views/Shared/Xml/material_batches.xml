@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+  <module>Mms</module>
+  <select>*</select>
+  <from>
+    (select 'receive' as SrcBillType
+    ,A.BillNo as SrcBillNo
+    ,A.RowId as SrcRowId
+    ,B.ReceiveDate as SrcDate
+    ,B.WarehouseCode
+    ,B.ProjectCode
+    ,A.RemainNum
+    ,A.UnitPrice as SrcUnitPrice
+    ,C.*
+    from mms_receiveDetail as A
+    left join mms_receive as B ON A.BillNo=B.BillNo
+    left join mms_material as C ON A.MaterialCode=C.MaterialCode
+    where A.RemainNum>0
+
+    union
+
+    select 'refund' as SrcBillType
+    ,A.BillNo as SrcBillNo
+    ,A.RowId as SrcRowId
+    ,B.RefundDate as SrcDate
+    ,B.WarehouseCode
+    ,B.ProjectCode
+    ,A.RemainNum
+    ,A.UnitPrice as SrcUnitPrice
+    ,C.*
+    from mms_refundDetail as A
+    left join mms_refund as B ON A.BillNo=B.BillNo
+    left join mms_material as C ON A.MaterialCode=C.MaterialCode
+    where A.RemainNum>0
+
+    union
+
+    select 'adjust' as SrcBillType
+    ,A.BillNo as SrcBillNo
+    ,A.RowId as SrcRowId
+    ,B.EffectDate as SrcDate
+    ,B.WarehouseCode
+    ,B.ProjectCode
+    ,A.RemainNum
+    ,A.UnitPrice as SrcUnitPrice
+    ,C.*
+    from mms_stockAdjustDetail as A
+    left join mms_stockAdjust as B ON A.BillNo=B.BillNo
+    left join mms_material as C ON A.MaterialCode=C.MaterialCode
+    where A.RemainNum>0) T
+  </from>
+  <where>
+    <c column='MaterialType'   ignore='empty'   symbol='startwith'  ></c>
+    <c column='MaterialCode'   ignore='empty'   symbol='startwith'  ></c>
+    <c column='MaterialCode'   ignore='empty'   symbol='equal' values='{MaterialCodeEqual}'></c>
+    <c column='MaterialName'   ignore='empty'   symbol='like'       ></c>
+    <c column='ProjectCode'    ignore='empty'   symbol='equal'      ></c>
+    <c column='WarehouseCode' symbol='equal' ></c>
+  </where>
+  <orderby>MaterialCode</orderby>
+</settings>
