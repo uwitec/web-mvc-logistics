@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+  <module>Mms</module>
+  <select>A.*</select>
+  <from>mms_material A</from>
+  <where>
+    <c column='MaterialType'      symbol='startwith' ignore='empty'  ></c>
+    <c column='MaterialCode'      symbol='startwith' ignore='empty'  ></c>
+    <c column='MaterialName'      symbol='like'      ignore='empty'  ></c>
+  </where>
+  <orderby>MaterialCode</orderby>
+</settings>

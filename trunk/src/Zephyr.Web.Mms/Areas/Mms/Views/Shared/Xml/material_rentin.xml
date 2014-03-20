@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings >
+  <module>Mms</module>
+  <select>C.*,A.RemainNum,'rentin' as SrcBillType,A.BillNo as SrcBillNo,A.RowId as SrcRowId</select>
+  <from>
+    mms_rentInDetail A
+    left join mms_rentIn B on B.BillNo =A.BillNo
+    left join mms_material C on C.MaterialCode = A.MaterialCode
+  </from>
+  <where>
+    <c column='B.ProjectCode'       symbol='equal' ></c>
+    <c column='C.MaterialType'   ignore='empty'   symbol='startwith'  ></c>
+    <c column='A.MaterialCode'   ignore='empty'   symbol='startwith'  ></c>
+    <c column='C.MaterialName'   ignore='empty'   symbol='like'       ></c>
+    <c column='B.SupplierCode'      symbol='equal'  ></c>
+  </where>
+  <orderby>MaterialCode</orderby>
+</settings>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings >
+  <module>Mms</module>
+  <select>A.*,B.Num as RemainNum,B.Num as StockNum,B.UnitPrice as StockUnitPrice</select>
+  <from>
+    mms_material A
+    inner join mms_warehouseStock B on B.MaterialCode = A.MaterialCode and B.Num >0
+    inner join mms_warehouse C on C.WarehouseCode = B.WarehouseCode
+  </from>
+  <where>
+    <c column='A.MaterialType'   ignore='empty'   symbol='startwith'  ></c>
+    <c column='A.MaterialCode'   ignore='empty'   symbol='startwith'  ></c>
+    <c column='A.MaterialCode'   ignore='empty'   symbol='equal' values='{MaterialCodeEqual}'></c>
+    <c column='A.MaterialName'   ignore='empty'   symbol='like'       ></c>
+    <c column='ProjectCode'      ignore='empty'   symbol='equal'      ></c>
+    <c column='C.WarehouseCode'     symbol='equal' ></c>
+  </where>
+  <orderby>MaterialCode</orderby>
+</settings>
