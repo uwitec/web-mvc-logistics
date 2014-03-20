@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "TrailerEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="~/Areas/Trade/ViewModels/trade.com.js"></script>
+    <script src="~/Areas/Trade/ViewModels/trade.viewModel.edit.js"></script>
+    <script type="text/javascript">
+        var viewModel = function(data){ 
+            var self = this;
+            trade.viewModel.edit.apply(self,arguments);
+            this.grid.size={w:8,h:203};
+
+            this.addRowClick = function(){
+                debugger;
+
+                if (self.readonly()) return;
+                com.ajax({
+                    type: 'GET',
+                    url: '/api/trade/trailer/getnewrowid/1',
+                    data:{Jobno:self.form.JOBNO()},
+                    success: function (d) {
+                        var row = $.extend({ Jobno: self.scrollKeys.current(), SNO: d }, self.defaultRow);
+                        self.gridEdit.addnew(row);
+                    }
+                });
+            };
+
+            this.removeRowClick = function(){
+                if (self.readonly()) return;
+                self.gridEdit.deleterow();
+            };
+
+        } 
+        var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+        ko.bindingViewModel(new viewModel(data));
+    </script>
+}
+
+<div class="z-toolbar">
+    <a id="a_save" href="#" plain="true" class="easyui-linkbutton" icon="icon-save" data-bind="click:saveClick" title="保存">保存</a>
+    <a id="a_undo" href="#" plain="true" class="easyui-linkbutton" icon="icon-undo" data-bind="click:rejectClick,linkbuttonDisable:readonly" title="撤消">撤消</a>
+    <a id="a_audit" href="#" plain="true" class="easyui-linkbutton" icon="icon-user-accept" data-bind="click:auditClick,easyuiLinkbutton:approveButton" title="审核">审核</a>
+    <a id="a_printer" href="#" plain="true" class="easyui-linkbutton" icon="icon-printer" title="打印" data-bind="click:printClick">打印</a>
+    <div class="datagrid-btn-separator"></div>
+    <a id="a_other" href="#" class="easyui-splitbutton" data-options="menu:'#divother',iconCls:'icon-application_go'" title="其他">其他</a>
+    <div class="datagrid-btn-separator"></div>
+    <a id="a_first" href="#" plain="true" class="easyui-linkbutton" icon="icon-resultset_first" data-bind="click:firstClick,linkbuttonEnable:scrollKeys.firstEnable" title="第一条"></a> 
+    <a id="a_previous" href="#" plain="true" class="easyui-linkbutton" icon="icon-resultset_previous" data-bind="click:previousClick,linkbuttonEnable:scrollKeys.previousEnable" title="上一条"></a> 
+    <a id="a_next" href="#" plain="true" class="easyui-linkbutton" icon="icon-resultset_next" data-bind="click:nextClick,linkbuttonEnable:scrollKeys.nextEnable" title="下一条"></a> 
+    <a id="a_last" href="#" plain="true" class="easyui-linkbutton" icon="icon-resultset_last" data-bind="click:lastClick,linkbuttonEnable:scrollKeys.lastEnable" title="最后一条"></a> 
+</div>
+
+<div id="divother" style="width:100px; display:none;">
+    <div data-options="iconCls:'icon-add'">新增</div>
+    <div data-options="iconCls:'icon-cross'">删除</div>
+    <div data-options="iconCls:'icon-arrow_refresh'">刷新</div>
+</div>  
+
+<div id="master" class="container_12" data-bind="inputwidth:0.9">
+    <div class="grid_1 lbl">工作号</div>
+    <div class="grid_3 val"><input type="text" data-bind="value:form.JOBNO ,readOnly : true" class="z-txt " /></div>
+
+    <div class="grid_1 lbl">内部工作号</div>
+    <div class="grid_3 val"><input type="text" data-bind="value:form.TR_JOBNOIN ,readOnly:readonly" class="z-txt " /></div>
+
+    <div class="grid_1 lbl">进口/出口</div>
+    <div class="grid_3 val"><input type="text" data-bind="dateboxValue:form.TR_IEID ,dateboxReadOnly : readonly" class="z-txt easyui-datebox" /></div>
+    
+    <div class="clear"></div>
+    
+    <div class="grid_1 lbl">提单号</div>
+    <div class="grid_3 val"><input type="text" data-bind="value:form.TR_BLNO ,readOnly:readonly" class="z-txt " /></div>
+    <div class="grid_1 lbl">箱号</div>
+    <div class="grid_3 val"><input type="text" data-bind="value:form.TR_CONNO ,readOnly:readonly" class="z-txt " /></div>
+    <div class="grid_1 lbl">封铅号</div>
+    <div class="grid_3 val"><input type="text" data-bind="value:form.TR_SEALNO ,readOnly:readonly" class="z-txt " /></div>
+    
+    <div class="clear"></div>
+    
+    <div class="grid_1 lbl">船名代码</div>
+    <div class="grid_3 val"><input type="text" data-bind="comboboxValue:form.TR_CARRICD ,readOnly : true" class="z-txt easyui-combobox" /></div>
+    <div class="grid_1 lbl">船名</div>
+    <div class="grid_3 val"><input type="text" data-bind="value:form.TR_CARRI ,readOnly:readonly" class="z-txt " /></div>
+    <div class="grid_1 lbl">航次</div>
+    <div class="grid_3 val"><input type="text" data-bind="value:form.TR_CARNO ,readOnly:readonly" class="z-txt " /></div>
+    
+    <div class="clear"></div>
+    
+    <div class="grid_1 lbl">船期</div>
+    <div class="grid_3 val"><input type="text" data-bind="dateboxValue:form.TR_ETSH ,dateboxReadOnly : readonly" class="z-txt easyui-datebox" /></div>
+    <div class="grid_1 lbl">箱型</div>
+    <div class="grid_3 val"><input type="text" data-bind="comboboxValue:form.TR_TYPE ,comboboxReadOnly : readonly" class="z-txt easyui-combobox" /></div>
+    <div class="grid_1 lbl">规格</div>
+    <div class="grid_3 val"><input type="text" data-bind="comboboxValue:form.TR_SPTYPE ,comboboxReadOnly : readonly" class="z-txt easyui-combobox" /></div>
+    
+    <div class="clear"></div>
+    
+    <div class="grid_1 lbl">集装箱状态</div>
+    <div class="grid_3 val"><input type="text" data-bind="comboboxValue:form.TR_STATUS ,comboboxReadOnly : readonly" class="z-txt easyui-combobox" /></div>
+    <div class="clear"></div>
+</div>
+
+<div id="tt" class="easyui-tabs">  
+    <div title="车辆调度">
+        <table id="list" data-bind="datagrid:grid">
+            <thead>
+                <tr> 
+                    <th field="JOBNO" hidden="true"></th>  
+                    <th field="SNO"  hidden="true" ></th> 
+                    <th field="SC_DRIVERCD"		sortable="true"	align="left"	width="80" editor="text" >司机代码</th>
+                    <th field="SC_DRIVER"		sortable="true"	align="left"	width="80" editor="text" >司机名称</th>
+                    <th field="SC_TRUCKCD"		sortable="true"	align="left"	width="80" editor="text" >车辆代码</th>
+                    <th field="SC_TRUCKNAME"		sortable="true"	align="left"	width="80" editor="text" >车辆名称</th>
+                    <th field="SC_FRAMECD"		sortable="true"	align="left"	width="80" editor="text" >车架代码</th>
+                    <th field="SC_FRAMENO"		sortable="true"	align="left"	width="80" editor="text" >车架号</th>
+                    <th field="SC_DRIVERTEL"		sortable="true"	align="left"	width="80" editor="text" >司机联系电话</th>
+                    <th field="SC_STARTDATE"		sortable="true"	align="left"	width="80" editor="text" formatter="com.formatDate">出发时间</th>
+                </tr>
+            </thead>
+        </table>
+         
+        <div id="gridtb">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" data-bind="click:addRowClick,linkbuttonDisable:readonly">新增</a>
+            <!--
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" data-bind="click:onClickRow,linkbuttonDisable:readonly">编辑</a>
+            -->
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" data-bind="click:removeRowClick,linkbuttonDisable:readonly">删除</a>
+        </div>  
+    </div>
+</div>
