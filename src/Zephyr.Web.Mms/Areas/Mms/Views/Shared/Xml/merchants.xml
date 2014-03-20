@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings lookupType="project">
+  <module>Mms</module>
+  <select>MerchantsCode as value,MerchantsName as text</select>
+  <from>
+    mms_merchants A
+    left join mms_merchantsType B on B.MerchantsTypeCode = A.MerchantsTypeCode
+  </from>
+  <where>
+    <c column='MerchantsCode'         symbol='startwith' values='{value}'             ignore='empty'></c>
+    <c column='MerchantsName'         symbol='like'      values='{text}'              ignore='empty' ></c>
+    <c column='B.MerchantsProperty'   symbol='in'        values='{MerchantsProperty}' ignore='empty'  ></c>
+  </where>
+  <orderby>MerchantsCode</orderby>
+</settings>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings lookupType="project">
+  <module>Mms</module>
+  <select>
+    ProjectName as text,ProjectCode as value
+  </select>
+  <from>mms_project</from>
+  <where>
+    <c column='ProjectCode'       symbol='startwith' values='{value}' ignore='empty' ></c>
+    <c column='ProjectName'       symbol='like'      values='{text}'  ignore='empty' ></c>
+  </where>
+  <orderby>ProjectCode</orderby>
+</settings>
