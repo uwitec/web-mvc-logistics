@@ -1,0 +1,76 @@
+﻿/*该文件为less文件，需要编译才能用 */
+
+.z-body
+{
+    background:@body-background-color;
+}
+
+.z-toolbar,.z-toolbar-dialog{
+    border-color:@border-color;
+    background:@header-background-color;
+}
+
+.z-txt {
+    border-color:@border-color;
+}
+
+::-webkit-scrollbar {
+	width:7px;
+	height:7px;
+}
+::-webkit-scrollbar-thumb {
+	border-radius:1em;
+	background-color:rgba(50,50,50,0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+	background-color:rgba(50,50,50,0.6);
+}
+::-webkit-scrollbar-track {
+	border-radius:1em;
+	background-color:rgba(50,50,50,0.1);
+}
+::-webkit-scrollbar-track:hover {
+	background-color:rgba(50,50,50,0.2);
+}
+
+.container_12, .container_16
+{
+   background-color: @body-background-color;
+   color: lighten(@body-text-color,30%);
+}
+
+a{
+    color:@body-text-color;
+}
+
+.head-left, .head-right, .head-right a
+{
+    color: $when(@theme=gray,default,black,bootstrap| #fff | #000); 
+}
+ 
+.head-north
+{
+    $when(@theme=default,gray|
+        background: url(/Content/images/headbg_@theme.png) repeat-x|
+        .gradient(@selected-background-color,@header-background-color, @selected-background-color));
+}
+
+.head-south,.head-south a
+{
+    background:@header-background-color;
+    color: lighten(@body-text-color,30%);
+}
+ 
+#wnav,#west{background-color:@body-background-color;color:@body-text-color;}
+#wnav .accordion-header-selected{ background-color:@header-background-color;}
+#wnav .accordion-header-selected .panel-title{color:@header-text-color;}
+.menuacc li div{border-color:@body-background-color;}
+.menuacc li div.hover{border:1px dashed @hover-border-color; background:@hover-background-color;}
+.menuacc li div.hover a{color:@hover-text-color;}
+.menuacc li div.selected{border:1px solid @selected-border-color;background:@selected-background-color;}
+.menuacc li div.selected a{color:@selected-text-color;}
+.menubtn{background-color:@header-background-color !important;}
+.ztree li a{color: @body-text-color;}
+ 
+#mmsdeskcenter{background-color:@header-background-color;}
+

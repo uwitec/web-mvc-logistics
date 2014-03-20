@@ -1,0 +1,58 @@
+﻿/*根据easyui.css生成less变量*/
+
+/*common*/
+@border-color: .accordion[border-color];
+@border-radius: .slider-inner[border-radius];
+/*请匆修改此文件*/
+@font-size: .combobox-item[font-size];
+@shadow-background-color: .menu-shadow[background];
+@mask-background-color: .window-mask[background];
+@toolbar-background-color: .datagrid-pager[background];
+@toolbar-border-color: .datagrid-pager[border-color];
+@split-color: .layout-split-north[border-bottom][2];
+@split-proxy-color: .datagrid-resize-proxy[background];
+
+/*Header*/
+@header-background-color: .panel-header[background-color];
+@header-text-color: .panel-title[color];
+@header-gradient-used: @exist(.window[filter]);
+@header-gradient-from: .panel-header[background](1,0);
+@header-gradient-to: .panel-header[background](2,0);
+
+/*body*/
+@body-background-color: .accordion[background];
+@body-text-color: .panel-body[color];
+
+/*grid*/
+@grid-header-background-color:.datagrid-header[background-color];
+@grid-header-gradient-from:  .datagrid-header[background](1,0);
+@grid-header-gradient-to: .datagrid-header[background](2,0);
+@cell-border-color: .datagrid-body td[border-color];
+@alt-background-color: .datagrid-row-alt[background];
+
+/*state*/
+@selected-background-color: .datagrid-row-selected[background];
+@selected-text-color: .datagrid-row-selected[color];
+@selected-border-color:.calendar-selected[border][2];
+@hover-background-color: .combobox-item-hover[background-color];
+@hover-text-color: .combobox-item-hover[color];
+@hover-border-color:.menu-active[border-color];
+@invalid-background-color:.validatebox-invalid[background-color];
+@invalid-border-color:.validatebox-invalid[border-color];
+@invalid-text-color:.validatebox-invalid[color];
+
+/*menu*/
+@menu-background-color:.menu[background-color];
+@menu-text-color:.menu[color];
+@menu-border-color:.menu[border-color];
+
+/*button*/
+@button-background-color:a.l-btn[background];
+@button-selected-color: a.l-btn-plain-selected[background];
+@button-text-color: a.l-btn[color];
+@button-gradient-used:@exist(a.l-btn[filter]);
+@button-gradient-from:a.l-btn[background](1,0);
+@button-gradient-to:a.l-btn[background](2,0);
+@button-radius:a.l-btn[border-radius][0];
+@button-split-color1:.menu-line[border-left][2];
+@button-split-color2:.menu-line[border-right][2];
