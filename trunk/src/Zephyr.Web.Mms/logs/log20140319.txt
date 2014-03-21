@@ -1,0 +1,292 @@
+2014-03-19 19:19:52,878 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-03-19 19:19:53,847 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-03-19 19:19:53,942 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-03-19 19:19:54,215 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-03-19 19:19:54,220 [1] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-03-19 19:19:54,366 [1] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-03-19 19:19:55,632 [6] DEBUG Servicesys_parameter - 获取字段
+2014-03-19 19:19:55,649 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-03-19 19:19:56,499 [6] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-03-19 19:19:56,956 [6] DEBUG Servicesys_parameter - 获取字段
+2014-03-19 19:19:56,957 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2014-03-19 19:19:58,189 [5] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2014-03-19 19:20:11,862 [10] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/role/Index','/Sys/role')
+2014-03-19 19:20:11,892 [10] DEBUG Servicesys_user - 获取动态列表
+2014-03-19 19:20:11,893 [10] DEBUG Sys - select UserCode,UserName from sys_user
+2014-03-19 19:20:11,950 [10] DEBUG Servicesys_organize - 获取动态列表
+2014-03-19 19:20:11,950 [10] DEBUG Sys - select OrganizeCode,OrganizeName from sys_organize
+2014-03-19 19:20:12,775 [6] DEBUG Servicesys_role - 获取实体列表
+2014-03-19 19:20:12,776 [6] DEBUG Sys - select sys_role.* from sys_role order by RoleSeq
+2014-03-19 19:20:17,533 [6] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/user/Index','/Sys/user')
+2014-03-19 19:20:17,975 [5] DEBUG Servicesys_organize - 获取实体列表
+2014-03-19 19:20:17,975 [5] DEBUG Sys - select sys_organize.* from sys_organize
+2014-03-19 19:20:17,988 [6] DEBUG Servicesys_user - 获取实体列表
+2014-03-19 19:20:17,988 [6] DEBUG Sys - select top 20 sys_user.* from sys_user order by UserSeq
+2014-03-19 19:20:18,221 [6] DEBUG Sys - select count(*) from ( select sys_user.* from sys_user ) tb_temp
+2014-03-19 19:20:21,628 [6] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/organize/Index','/Sys/organize')
+2014-03-19 19:20:21,689 [6] DEBUG Servicesys_organize - 获取实体列表
+2014-03-19 19:20:21,689 [6] DEBUG Sys - select sys_organize.* from sys_organize
+2014-03-19 19:20:25,206 [6] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/role/Index','/Sys/role')
+2014-03-19 19:20:25,249 [6] DEBUG Servicesys_user - 获取动态列表
+2014-03-19 19:20:25,249 [6] DEBUG Sys - select UserCode,UserName from sys_user
+2014-03-19 19:20:25,250 [6] DEBUG Servicesys_organize - 获取动态列表
+2014-03-19 19:20:25,250 [6] DEBUG Sys - select OrganizeCode,OrganizeName from sys_organize
+2014-03-19 19:20:25,543 [6] DEBUG Servicesys_role - 获取实体列表
+2014-03-19 19:20:25,543 [6] DEBUG Sys - select sys_role.* from sys_role order by RoleSeq
+2014-03-19 19:20:28,132 [10] DEBUG Sys - select * from sys_button order by ButtonSeq
+2014-03-19 19:20:28,139 [6] DEBUG Servicesys_permission - 获取动态列表
+2014-03-19 19:20:28,174 [6] DEBUG Sys - select A.*
+,case when B.PermissionCode is null then 0 else 1           end as checked
+,case when B.PermissionCode is null then 0 else B.IsDefault end as IsDefault from sys_permission A
+left join sys_rolePermissionMap B on B.RoleCode='Warehouse' and B.PermissionCode = A.PermissionCode 
+2014-03-19 19:20:28,365 [10] DEBUG Sys - select A.MenuName,A.MenuCode,A.ParentCode,A.IconClass as iconCls,B.MenuName as ParentName,(select 1 from sys_roleMenuMap tb_role where tb_role.RoleCode='Warehouse' and tb_role.MenuCode=A.MenuCode) as checked,(
+select case when max(tb1_add.ID) is null then -1 
+            when max(tb2_add.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_add
+left join sys_roleMenuButtonMap AS tb2_add ON tb2_add.MenuCode=tb1_add.MenuCode AND tb2_add.ButtonCode=tb1_add.ButtonCode AND tb2_add.RoleCode='Warehouse'
+where tb1_add.MenuCode = A.MenuCode and  tb1_add.ButtonCode = 'add'  
+)as 'btn_add' ,(
+select case when max(tb1_browse.ID) is null then -1 
+            when max(tb2_browse.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_browse
+left join sys_roleMenuButtonMap AS tb2_browse ON tb2_browse.MenuCode=tb1_browse.MenuCode AND tb2_browse.ButtonCode=tb1_browse.ButtonCode AND tb2_browse.RoleCode='Warehouse'
+where tb1_browse.MenuCode = A.MenuCode and  tb1_browse.ButtonCode = 'browse'  
+)as 'btn_browse' ,(
+select case when max(tb1_edit.ID) is null then -1 
+            when max(tb2_edit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_edit
+left join sys_roleMenuButtonMap AS tb2_edit ON tb2_edit.MenuCode=tb1_edit.MenuCode AND tb2_edit.ButtonCode=tb1_edit.ButtonCode AND tb2_edit.RoleCode='Warehouse'
+where tb1_edit.MenuCode = A.MenuCode and  tb1_edit.ButtonCode = 'edit'  
+)as 'btn_edit' ,(
+select case when max(tb1_delete.ID) is null then -1 
+            when max(tb2_delete.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_delete
+left join sys_roleMenuButtonMap AS tb2_delete ON tb2_delete.MenuCode=tb1_delete.MenuCode AND tb2_delete.ButtonCode=tb1_delete.ButtonCode AND tb2_delete.RoleCode='Warehouse'
+where tb1_delete.MenuCode = A.MenuCode and  tb1_delete.ButtonCode = 'delete'  
+)as 'btn_delete' ,(
+select case when max(tb1_search.ID) is null then -1 
+            when max(tb2_search.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_search
+left join sys_roleMenuButtonMap AS tb2_search ON tb2_search.MenuCode=tb1_search.MenuCode AND tb2_search.ButtonCode=tb1_search.ButtonCode AND tb2_search.RoleCode='Warehouse'
+where tb1_search.MenuCode = A.MenuCode and  tb1_search.ButtonCode = 'search'  
+)as 'btn_search' ,(
+select case when max(tb1_refresh.ID) is null then -1 
+            when max(tb2_refresh.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_refresh
+left join sys_roleMenuButtonMap AS tb2_refresh ON tb2_refresh.MenuCode=tb1_refresh.MenuCode AND tb2_refresh.ButtonCode=tb1_refresh.ButtonCode AND tb2_refresh.RoleCode='Warehouse'
+where tb1_refresh.MenuCode = A.MenuCode and  tb1_refresh.ButtonCode = 'refresh'  
+)as 'btn_refresh' ,(
+select case when max(tb1_download.ID) is null then -1 
+            when max(tb2_download.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_download
+left join sys_roleMenuButtonMap AS tb2_download ON tb2_download.MenuCode=tb1_download.MenuCode AND tb2_download.ButtonCode=tb1_download.ButtonCode AND tb2_download.RoleCode='Warehouse'
+where tb1_download.MenuCode = A.MenuCode and  tb1_download.ButtonCode = 'download'  
+)as 'btn_download' ,(
+select case when max(tb1_print.ID) is null then -1 
+            when max(tb2_print.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_print
+left join sys_roleMenuButtonMap AS tb2_print ON tb2_print.MenuCode=tb1_print.MenuCode AND tb2_print.ButtonCode=tb1_print.ButtonCode AND tb2_print.RoleCode='Warehouse'
+where tb1_print.MenuCode = A.MenuCode and  tb1_print.ButtonCode = 'print'  
+)as 'btn_print' ,(
+select case when max(tb1_accredit.ID) is null then -1 
+            when max(tb2_accredit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_accredit
+left join sys_roleMenuButtonMap AS tb2_accredit ON tb2_accredit.MenuCode=tb1_accredit.MenuCode AND tb2_accredit.ButtonCode=tb1_accredit.ButtonCode AND tb2_accredit.RoleCode='Warehouse'
+where tb1_accredit.MenuCode = A.MenuCode and  tb1_accredit.ButtonCode = 'accredit'  
+)as 'btn_accredit' ,(
+select case when max(tb1_audit.ID) is null then -1 
+            when max(tb2_audit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_audit
+left join sys_roleMenuButtonMap AS tb2_audit ON tb2_audit.MenuCode=tb1_audit.MenuCode AND tb2_audit.ButtonCode=tb1_audit.ButtonCode AND tb2_audit.RoleCode='Warehouse'
+where tb1_audit.MenuCode = A.MenuCode and  tb1_audit.ButtonCode = 'audit'  
+)as 'btn_audit' ,(
+select case when max(tb1_inport.ID) is null then -1 
+            when max(tb2_inport.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_inport
+left join sys_roleMenuButtonMap AS tb2_inport ON tb2_inport.MenuCode=tb1_inport.MenuCode AND tb2_inport.ButtonCode=tb1_inport.ButtonCode AND tb2_inport.RoleCode='Warehouse'
+where tb1_inport.MenuCode = A.MenuCode and  tb1_inport.ButtonCode = 'inport'  
+)as 'btn_inport' ,(
+select case when max(tb1_copy.ID) is null then -1 
+            when max(tb2_copy.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_copy
+left join sys_roleMenuButtonMap AS tb2_copy ON tb2_copy.MenuCode=tb1_copy.MenuCode AND tb2_copy.ButtonCode=tb1_copy.ButtonCode AND tb2_copy.RoleCode='Warehouse'
+where tb1_copy.MenuCode = A.MenuCode and  tb1_copy.ButtonCode = 'copy'  
+)as 'btn_copy' ,(
+select case when max(tb1_save.ID) is null then -1 
+            when max(tb2_save.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_save
+left join sys_roleMenuButtonMap AS tb2_save ON tb2_save.MenuCode=tb1_save.MenuCode AND tb2_save.ButtonCode=tb1_save.ButtonCode AND tb2_save.RoleCode='Warehouse'
+where tb1_save.MenuCode = A.MenuCode and  tb1_save.ButtonCode = 'save'  
+)as 'btn_save' 
+from sys_menu as A
+left join sys_menu B on B.MenuCode = A.ParentCode
+where A.IsEnable = 1
+order by A.MenuSeq,A.MenuCode
+2014-03-19 19:20:28,953 [10] DEBUG Sys - select * from sys_roleMenuColumnMap where RoleCode = 'Warehouse'
+2014-03-19 19:20:31,184 [10] DEBUG Sys - 
+ select A1.UserName as MemberName ,A1.UserCode as MemberCode,'user' as MemberType
+  from sys_user A1
+ where A1.UserCode in (select B1.UserCode from sys_userRoleMap B1 where B1.RoleCode = 'Warehouse')
+union
+ select A2.OrganizeName as MemberName ,A2.OrganizeCode as MemberCode,'organize' as MemberType
+   from sys_organize A2
+  where A2.OrganizeCode in (select B2.OrganizeCode from sys_organizeRoleMap B2 where B2.RoleCode = 'Warehouse')
+2014-03-19 19:20:41,682 [5] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/user/Index','/Sys/user')
+2014-03-19 19:20:42,118 [10] DEBUG Servicesys_organize - 获取实体列表
+2014-03-19 19:20:42,119 [10] DEBUG Sys - select sys_organize.* from sys_organize
+2014-03-19 19:20:42,153 [5] DEBUG Servicesys_user - 获取实体列表
+2014-03-19 19:20:42,154 [5] DEBUG Sys - select top 20 sys_user.* from sys_user order by UserSeq
+2014-03-19 19:20:42,156 [5] DEBUG Sys - select count(*) from ( select sys_user.* from sys_user ) tb_temp
+2014-03-19 19:20:52,184 [10] DEBUG Sys - 
+select distinct A.OrganizeCode,A.OrganizeName,A.ParentCode
+,(case when B.UserCode is null then 'false' else 'true' end) as Checked
+from sys_organize A
+left join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode and B.UserCode = 'zzx'
+2014-03-19 19:21:03,397 [6] DEBUG Servicesys_user - 设置用户机构
+2014-03-19 19:21:03,438 [6] DEBUG Sys - delete from sys_userOrganizeMap where [UserCode] = 'zzx'
+2014-03-19 19:21:03,505 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','04')
+2014-03-19 19:21:03,627 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','0401')
+2014-03-19 19:21:03,629 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','0405')
+2014-03-19 19:21:03,630 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','040501')
+2014-03-19 19:21:03,632 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','040502')
+2014-03-19 19:21:03,632 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','040503')
+2014-03-19 19:21:03,633 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','040504')
+2014-03-19 19:21:03,633 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','040505')
+2014-03-19 19:21:03,633 [6] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','0402')
+2014-03-19 19:21:17,828 [6] DEBUG Sys - 
+select distinct A.OrganizeCode,A.OrganizeName,A.ParentCode
+,(case when B.UserCode is null then 'false' else 'true' end) as Checked
+from sys_organize A
+left join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode and B.UserCode = 'zzx'
+2014-03-19 19:21:26,122 [5] DEBUG Servicesys_user - 设置用户机构
+2014-03-19 19:21:26,123 [5] DEBUG Sys - delete from sys_userOrganizeMap where [UserCode] = 'zzx'
+2014-03-19 19:21:26,154 [5] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','04')
+2014-03-19 19:21:26,174 [5] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','0401')
+2014-03-19 19:21:26,174 [5] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','0402')
+2014-03-19 19:21:26,174 [5] DEBUG Sys - insert into sys_userOrganizeMap([UserCode],[OrganizeCode]) values('zzx','0404')
+2014-03-19 19:21:28,677 [6] DEBUG Servicesys_user - 获取实体列表
+2014-03-19 19:21:28,678 [6] DEBUG Sys - select top 20 sys_user.* from sys_user where UserCode in (select UserCode from sys_userOrganizeMap where OrganizeCode in (select ID from [dbo].[GetChild]('sys_organize','0401'))) order by UserSeq
+2014-03-19 19:21:29,173 [6] DEBUG Sys - select count(*) from ( select sys_user.* from sys_user where UserCode in (select UserCode from sys_userOrganizeMap where OrganizeCode in (select ID from [dbo].[GetChild]('sys_organize','0401'))) ) tb_temp
+2014-03-19 19:21:31,695 [6] DEBUG Servicesys_user - 获取实体列表
+2014-03-19 19:21:31,695 [6] DEBUG Sys - select top 20 sys_user.* from sys_user where UserCode in (select UserCode from sys_userOrganizeMap where OrganizeCode in (select ID from [dbo].[GetChild]('sys_organize','0402'))) order by UserSeq
+2014-03-19 19:21:31,709 [6] DEBUG Sys - select count(*) from ( select sys_user.* from sys_user where UserCode in (select UserCode from sys_userOrganizeMap where OrganizeCode in (select ID from [dbo].[GetChild]('sys_organize','0402'))) ) tb_temp
+2014-03-19 19:21:34,459 [9] DEBUG Servicesys_user - 获取实体列表
+2014-03-19 19:21:34,459 [9] DEBUG Sys - select top 20 sys_user.* from sys_user where UserCode in (select UserCode from sys_userOrganizeMap where OrganizeCode in (select ID from [dbo].[GetChild]('sys_organize','0404'))) order by UserSeq
+2014-03-19 19:21:34,502 [9] DEBUG Sys - select count(*) from ( select sys_user.* from sys_user where UserCode in (select UserCode from sys_userOrganizeMap where OrganizeCode in (select ID from [dbo].[GetChild]('sys_organize','0404'))) ) tb_temp
+2014-03-19 19:23:17,556 [5] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2014-03-19 19:23:17,620 [5] DEBUG Servicemms_warehouse - 获取动态列表
+2014-03-19 19:23:17,620 [5] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-03-19 19:23:17,746 [5] DEBUG Servicesys_code - 获取动态列表
+2014-03-19 19:23:17,746 [5] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-03-19 19:23:29,302 [8] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/menu/Index','/Sys/menu')
+2014-03-19 19:23:29,657 [5] DEBUG Servicesys_menu - 获取动态列表
+2014-03-19 19:23:29,658 [5] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode
+2014-03-19 19:23:54,658 [6] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/direct/Index','/Mms/direct')
+2014-03-19 19:23:54,671 [6] DEBUG Servicemms_warehouse - 获取动态列表
+2014-03-19 19:23:54,671 [6] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-03-19 19:23:54,672 [6] DEBUG Servicesys_code - 获取动态列表
+2014-03-19 19:23:54,673 [6] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-03-19 19:23:55,480 [5] DEBUG Servicemms_direct - 获取动态列表
+2014-03-19 19:23:55,480 [5] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName,D.MerchantsName as SupplierName,E.MerchantsName as PickUnitName from mms_direct A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_merchants     D on D.MerchantsCode    = A.SupplierCode
+        left join mms_merchants     E on E.MerchantsCode    = A.PickUnit where A.ProjectCode='201306030001' order by A.BillNo
+2014-03-19 19:23:55,664 [5] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName,D.MerchantsName as SupplierName,E.MerchantsName as PickUnitName from mms_direct A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_merchants     D on D.MerchantsCode    = A.SupplierCode
+        left join mms_merchants     E on E.MerchantsCode    = A.PickUnit where A.ProjectCode='201306030001' ) tb_temp
+2014-03-19 19:26:04,314 [12] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/check/Index','/Mms/check')
+2014-03-19 19:26:04,333 [12] DEBUG Servicemms_warehouse - 获取动态列表
+2014-03-19 19:26:04,333 [12] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-03-19 19:26:05,639 [13] DEBUG Servicemms_check - 获取动态列表
+2014-03-19 19:26:05,640 [13] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName from mms_check A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode where isnull(A.BookMoney,0)<>isnull(A.OperateMoney,0) and A.ProjectCode='201306030001' order by A.BillNo
+2014-03-19 19:26:05,742 [13] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName from mms_check A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode where isnull(A.BookMoney,0)<>isnull(A.OperateMoney,0) and A.ProjectCode='201306030001' ) tb_temp

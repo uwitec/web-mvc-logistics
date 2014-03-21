@@ -1,0 +1,761 @@
+2013-11-22 19:55:15,933 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 19:55:15,964 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 19:55:15,971 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 19:55:15,971 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 19:55:16,292 [492] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 19:55:16,316 [492] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 19:55:16,508 [492] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 19:55:16,508 [492] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-11-22 19:55:24,550 [492] DEBUG Servicesys_user - 获取实体对象
+2013-11-22 19:55:24,552 [492] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-11-22 19:56:10,092 [541] DEBUG Servicesys_user - 获取实体对象
+2013-11-22 19:56:10,093 [541] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-11-22 19:56:10,184 [541] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-11-22 19:56:10,234 [541] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','LHS-PC','localhost','福建省厦门市','2013-11-22 19:56:10')
+2013-11-22 19:56:10,263 [801] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 19:56:10,264 [801] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 19:56:10,406 [801] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 19:56:11,384 [801] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 19:56:11,384 [801] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 19:56:13,292 [734] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-22 19:57:03,098 [734] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 19:57:03,111 [734] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 19:57:03,113 [734] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode=''
+2013-11-22 19:57:03,114 [734] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 19:57:03,115 [734] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 19:57:07,322 [492] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 19:57:07,407 [492] ERROR Servicemms_receive - 获取动态列表失败
+Zephyr.Data.FluentDataException: Order by must defined when using Paging.
+   在 Zephyr.Data.SelectBuilder`1.GetPreparedDbCommand() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 21
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+2013-11-22 19:57:17,394 [492] ERROR /api/mms/receive - Zephyr.Data.FluentDataException: Order by must defined when using Paging.
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 116
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2013-11-22 20:42:52,340 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:42:52,372 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:42:52,379 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:42:52,380 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:42:52,738 [497] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 20:42:52,762 [497] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 20:42:52,981 [497] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 20:42:54,111 [497] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 20:42:54,112 [497] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 20:42:55,924 [497] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-22 20:42:59,851 [493] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 20:42:59,862 [493] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 20:42:59,864 [493] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode=''
+2013-11-22 20:42:59,865 [493] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 20:42:59,865 [493] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 20:43:26,410 [490] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 20:43:26,413 [490] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 20:43:26,413 [490] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode=''
+2013-11-22 20:43:26,413 [490] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 20:43:26,414 [490] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 20:56:19,557 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:56:19,588 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:56:19,595 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:56:19,595 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:56:19,947 [638] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 20:56:19,968 [638] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 20:56:20,195 [638] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 20:56:27,179 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:56:27,213 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:56:27,220 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:56:27,220 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 20:56:27,705 [5] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 20:56:27,730 [5] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 20:56:27,948 [5] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 20:56:29,097 [5] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 20:56:29,097 [5] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 20:56:31,101 [5] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-22 20:56:33,835 [5] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 20:56:33,848 [5] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 20:56:33,850 [5] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode=''
+2013-11-22 20:56:33,852 [5] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 20:56:33,852 [5] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 20:56:42,770 [6] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 20:56:42,900 [6] ERROR Servicemms_receive - 获取动态列表失败
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.DateRangeSqlMaker.Handler(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Sql\SqlMaker\DateRangeMaker.cs:行号 25
+   在 Zephyr.Core.Condition.ToSql(DbType dbType, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 44
+   在 Zephyr.Core.Condition.ToSql(IDbContext db, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 35
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass73.<GetSqlWhere>b__72(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 System.Collections.Generic.List`1.ForEach(Action`1 action)
+   在 Zephyr.Core.ServiceBase`1.GetSqlWhere(List`1 condtions) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 Zephyr.Core.ServiceBase`1.BuilderParse(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 32
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+2013-11-22 20:56:51,907 [6] ERROR /api/mms/receive - System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 148
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2013-11-22 20:57:03,817 [12] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 20:57:03,871 [12] ERROR Servicemms_receive - 获取动态列表失败
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.DateRangeSqlMaker.Handler(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Sql\SqlMaker\DateRangeMaker.cs:行号 25
+   在 Zephyr.Core.Condition.ToSql(DbType dbType, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 44
+   在 Zephyr.Core.Condition.ToSql(IDbContext db, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 35
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass73.<GetSqlWhere>b__72(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 System.Collections.Generic.List`1.ForEach(Action`1 action)
+   在 Zephyr.Core.ServiceBase`1.GetSqlWhere(List`1 condtions) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 Zephyr.Core.ServiceBase`1.BuilderParse(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 32
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+2013-11-22 20:57:43,168 [12] ERROR /api/mms/receive - System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 148
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2013-11-22 21:01:47,889 [10] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:04:31,580 [10] ERROR Servicemms_receive - 获取动态列表失败
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.DateRangeSqlMaker.Handler(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Sql\SqlMaker\DateRangeMaker.cs:行号 25
+   在 Zephyr.Core.Condition.ToSql(DbType dbType, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 44
+   在 Zephyr.Core.Condition.ToSql(IDbContext db, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 35
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass73.<GetSqlWhere>b__72(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 System.Collections.Generic.List`1.ForEach(Action`1 action)
+   在 Zephyr.Core.ServiceBase`1.GetSqlWhere(List`1 condtions) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 Zephyr.Core.ServiceBase`1.BuilderParse(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 32
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+2013-11-22 21:04:34,187 [10] ERROR /api/mms/receive - System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 148
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2013-11-22 21:05:13,412 [5] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:07:19,040 [5] ERROR Servicemms_receive - 获取动态列表失败
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.DateRangeSqlMaker.Handler(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Sql\SqlMaker\DateRangeMaker.cs:行号 25
+   在 Zephyr.Core.Condition.ToSql(DbType dbType, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 44
+   在 Zephyr.Core.Condition.ToSql(IDbContext db, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 35
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass73.<GetSqlWhere>b__72(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 System.Collections.Generic.List`1.ForEach(Action`1 action)
+   在 Zephyr.Core.ServiceBase`1.GetSqlWhere(List`1 condtions) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 Zephyr.Core.ServiceBase`1.BuilderParse(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 32
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+2013-11-22 21:07:20,275 [5] ERROR /api/mms/receive - System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 148
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2013-11-22 21:07:23,981 [8] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:07:58,120 [8] ERROR Servicemms_receive - 获取动态列表失败
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.DateRangeSqlMaker.Handler(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Sql\SqlMaker\DateRangeMaker.cs:行号 25
+   在 Zephyr.Core.Condition.ToSql(DbType dbType, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 44
+   在 Zephyr.Core.Condition.ToSql(IDbContext db, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 35
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass73.<GetSqlWhere>b__72(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 System.Collections.Generic.List`1.ForEach(Action`1 action)
+   在 Zephyr.Core.ServiceBase`1.GetSqlWhere(List`1 condtions) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 Zephyr.Core.ServiceBase`1.BuilderParse(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 32
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+2013-11-22 21:07:59,910 [8] ERROR /api/mms/receive - System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 148
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2013-11-22 21:08:33,570 [6] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:15:26,775 [6] ERROR Servicemms_receive - 获取动态列表失败
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.DateRangeSqlMaker.Handler(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Sql\SqlMaker\DateRangeMaker.cs:行号 25
+   在 Zephyr.Core.Condition.ToSql(DbType dbType, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 44
+   在 Zephyr.Core.Condition.ToSql(IDbContext db, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 35
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass73.<GetSqlWhere>b__72(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 System.Collections.Generic.List`1.ForEach(Action`1 action)
+   在 Zephyr.Core.ServiceBase`1.GetSqlWhere(List`1 condtions) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 Zephyr.Core.ServiceBase`1.BuilderParse(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 32
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+2013-11-22 21:15:29,116 [6] ERROR /api/mms/receive - System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 148
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2013-11-22 21:19:25,274 [15] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:19:25,275 [15] ERROR Servicemms_receive - 获取动态列表失败
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.DateRangeSqlMaker.Handler(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Sql\SqlMaker\DateRangeMaker.cs:行号 25
+   在 Zephyr.Core.Condition.ToSql(DbType dbType, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 44
+   在 Zephyr.Core.Condition.ToSql(IDbContext db, Boolean withJoin) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\Condition.cs:行号 35
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass73.<GetSqlWhere>b__72(Condition c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 System.Collections.Generic.List`1.ForEach(Action`1 action)
+   在 Zephyr.Core.ServiceBase`1.GetSqlWhere(List`1 condtions) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 148
+   在 Zephyr.Core.ServiceBase`1.BuilderParse(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseUtils.cs:行号 32
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+2013-11-22 21:19:25,286 [15] ERROR /api/mms/receive - System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 148
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2013-11-22 21:32:36,655 [61] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:32:36,686 [61] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:32:36,693 [61] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:32:36,694 [61] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:32:37,066 [63] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 21:32:41,893 [63] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 21:32:42,089 [63] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 21:32:43,214 [63] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 21:32:49,860 [63] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 21:32:51,710 [69] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-22 21:32:53,641 [68] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 21:32:53,653 [68] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 21:32:56,838 [68] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode=''
+2013-11-22 21:32:56,840 [68] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 21:32:57,980 [68] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 21:33:07,471 [58] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:33:10,969 [58] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo='' and DoPerson='%%' and E.MerchantsName='%%' and A.WarehouseCode='' and A.MaterialType='' and datediff(day,'',ReceiveDate) >=0 and datediff(day,'',ReceiveDate) <=0 and ContractCode='%%' and A.ProjectCode='' order by A.BillNo
+2013-11-22 21:33:11,072 [58] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo='' and DoPerson='%%' and E.MerchantsName='%%' and A.WarehouseCode='' and A.MaterialType='' and datediff(day,'',ReceiveDate) >=0 and datediff(day,'',ReceiveDate) <=0 and ContractCode='%%' and A.ProjectCode='' ) tb_temp
+2013-11-22 21:33:19,187 [59] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:33:19,188 [59] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo='' and DoPerson='%%' and E.MerchantsName='%%' and A.WarehouseCode='' and A.MaterialType='' and datediff(day,'',ReceiveDate) >=0 and datediff(day,'',ReceiveDate) <=0 and ContractCode='%%' and A.ProjectCode='' order by A.BillNo
+2013-11-22 21:33:19,190 [59] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo='' and DoPerson='%%' and E.MerchantsName='%%' and A.WarehouseCode='' and A.MaterialType='' and datediff(day,'',ReceiveDate) >=0 and datediff(day,'',ReceiveDate) <=0 and ContractCode='%%' and A.ProjectCode='' ) tb_temp
+2013-11-22 21:40:31,968 [45] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:40:31,997 [45] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:40:32,004 [45] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:40:32,004 [45] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:40:32,367 [62] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 21:40:32,391 [62] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 21:40:32,616 [62] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 21:40:33,759 [62] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 21:40:33,759 [62] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 21:40:35,316 [62] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-22 21:40:39,044 [56] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 21:40:39,057 [56] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 21:40:39,059 [56] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode=''
+2013-11-22 21:40:39,060 [56] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 21:40:39,061 [56] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 21:40:42,059 [66] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:40:42,060 [66] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='' order by A.BillNo
+2013-11-22 21:40:42,140 [66] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='' ) tb_temp
+2013-11-22 21:46:20,707 [59] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:46:20,708 [59] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='' order by A.BillNo
+2013-11-22 21:46:20,709 [59] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='' ) tb_temp
+2013-11-22 21:51:38,596 [56] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 21:51:38,602 [56] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 21:51:38,603 [56] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 21:51:38,616 [56] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 21:51:38,617 [56] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 21:51:39,371 [36] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-22 21:51:40,227 [38] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 21:51:40,229 [38] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 21:51:40,233 [38] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode=''
+2013-11-22 21:51:40,233 [38] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 21:51:40,233 [38] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 21:51:42,358 [51] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:51:42,358 [51] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='' order by A.BillNo
+2013-11-22 21:51:42,359 [51] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='' ) tb_temp
+2013-11-22 21:52:17,693 [51] ERROR /plugins/getlookupdata - System.IO.DirectoryNotFoundException: 未能找到路径“G:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Views\Shared\Xml\project.xml”的一部分。
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   在 System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   在 System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   在 System.Xml.XmlTextReaderImpl.FinishInitUriString()
+   在 System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
+   在 System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
+   在 System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
+   在 System.Xml.Linq.XElement.Load(String uri, LoadOptions options)
+   在 System.Xml.Linq.XElement.Load(String uri)
+   在 Zephyr.Core.RequestWrapper.LoadXmlFile(String url) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapper.cs:行号 79
+   在 Zephyr.Web.Mvc.Controllers.PluginsController.GetLookupData(String index) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Web.Mvc\Controllers\PluginsController.cs:行号 29
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass42.<BeginInvokeSynchronousActionMethod>b__41()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<>c__DisplayClass39.<BeginInvokeActionMethodWithFilters>b__33()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeActionMethodWithFilters>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+2013-11-22 21:52:44,530 [36] ERROR /plugins/getlookupdata - System.IO.DirectoryNotFoundException: 未能找到路径“G:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Views\Shared\Xml\project.xml”的一部分。
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   在 System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   在 System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   在 System.Xml.XmlTextReaderImpl.FinishInitUriString()
+   在 System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
+   在 System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
+   在 System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
+   在 System.Xml.Linq.XElement.Load(String uri, LoadOptions options)
+   在 System.Xml.Linq.XElement.Load(String uri)
+   在 Zephyr.Core.RequestWrapper.LoadXmlFile(String url) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapper.cs:行号 79
+   在 Zephyr.Web.Mvc.Controllers.PluginsController.GetLookupData(String index) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Web.Mvc\Controllers\PluginsController.cs:行号 29
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass42.<BeginInvokeSynchronousActionMethod>b__41()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<>c__DisplayClass39.<BeginInvokeActionMethodWithFilters>b__33()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeActionMethodWithFilters>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+2013-11-22 21:52:55,945 [41] ERROR /plugins/getlookupdata - System.IO.DirectoryNotFoundException: 未能找到路径“G:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Views\Shared\Xml\project.xml”的一部分。
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   在 System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   在 System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   在 System.Xml.XmlTextReaderImpl.FinishInitUriString()
+   在 System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
+   在 System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
+   在 System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
+   在 System.Xml.Linq.XElement.Load(String uri, LoadOptions options)
+   在 System.Xml.Linq.XElement.Load(String uri)
+   在 Zephyr.Core.RequestWrapper.LoadXmlFile(String url) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapper.cs:行号 79
+   在 Zephyr.Web.Mvc.Controllers.PluginsController.GetLookupData(String index) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Web.Mvc\Controllers\PluginsController.cs:行号 29
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass42.<BeginInvokeSynchronousActionMethod>b__41()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<>c__DisplayClass39.<BeginInvokeActionMethodWithFilters>b__33()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeActionMethodWithFilters>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+2013-11-22 21:59:27,995 [50] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:59:28,026 [50] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:59:28,033 [50] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:59:28,034 [50] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 21:59:28,387 [18] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 21:59:28,412 [18] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 21:59:28,636 [18] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 21:59:29,781 [18] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 21:59:29,782 [18] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 21:59:31,442 [17] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-22 21:59:33,641 [8] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 21:59:33,651 [8] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 21:59:33,653 [8] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode=''
+2013-11-22 21:59:33,654 [8] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 21:59:33,654 [8] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 21:59:36,575 [66] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 21:59:36,576 [66] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='' order by A.BillNo
+2013-11-22 21:59:36,653 [66] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='' ) tb_temp
+2013-11-22 22:00:17,770 [5] ERROR /plugins/getlookupdata - System.IO.FileNotFoundException: 未能找到文件“G:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\mms\Views\Shared\Xml\project.xml”。
+文件名:“G:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\mms\Views\Shared\Xml\project.xml”
+   在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   在 System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   在 System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   在 System.Xml.XmlTextReaderImpl.FinishInitUriString()
+   在 System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
+   在 System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
+   在 System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
+   在 System.Xml.Linq.XElement.Load(String uri, LoadOptions options)
+   在 System.Xml.Linq.XElement.Load(String uri)
+   在 Zephyr.Core.RequestWrapper.LoadXmlFile(String url) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapper.cs:行号 79
+   在 Zephyr.Web.Mvc.Controllers.PluginsController.GetLookupData(String index) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Web.Mvc\Controllers\PluginsController.cs:行号 29
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass42.<BeginInvokeSynchronousActionMethod>b__41()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<>c__DisplayClass39.<BeginInvokeActionMethodWithFilters>b__33()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeActionMethodWithFilters>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+2013-11-22 22:01:14,886 [17] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 22:01:14,918 [17] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 22:01:14,924 [17] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 22:01:14,925 [17] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-22 22:01:15,292 [43] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 22:01:15,313 [43] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 22:01:15,541 [43] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 22:01:16,680 [43] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 22:01:16,681 [43] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 22:01:18,473 [13] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-22 22:01:26,377 [12] ERROR /plugins/getlookupdata - System.Exception: 配置中缺少column节点！
+   在 Zephyr.Core.RequestWrapper.BuildCondition(ConditionBuilder builder, JToken c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapperUtil.cs:行号 41
+   在 Zephyr.Core.RequestWrapper.<>c__DisplayClass15.<>c__DisplayClass17.<ToParamQuery>b__14(ConditionBuilder builder) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapperConvert.cs:行号 71
+   在 Zephyr.Core.ParamQuery.Where(Action`1 builder) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Param\ParamQuery.cs:行号 48
+   在 Zephyr.Core.RequestWrapper.<>c__DisplayClass15.<ToParamQuery>b__13(JToken c) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapperConvert.cs:行号 71
+   在 Zephyr.Core.RequestWrapper.EachWhere(Action`1 Handler) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapperUtil.cs:行号 96
+   在 Zephyr.Core.RequestWrapper.ToParamQuery() 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Request\RequestWrapperConvert.cs:行号 71
+   在 Zephyr.Web.Mvc.Controllers.PluginsController.GetLookupData(String index) 位置 g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Web.Mvc\Controllers\PluginsController.cs:行号 30
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass42.<BeginInvokeSynchronousActionMethod>b__41()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<>c__DisplayClass39.<BeginInvokeActionMethodWithFilters>b__33()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeActionMethodWithFilters>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+2013-11-22 22:01:43,662 [43] DEBUG ServiceModelBase - 获取动态列表
+2013-11-22 22:01:43,663 [43] DEBUG Mms - select top 20 ProjectName as text,ProjectCode as value from mms_project order by ProjectCode
+2013-11-22 22:01:43,705 [43] DEBUG Mms - select count(*) from ( select ProjectName as text,ProjectCode as value from mms_project ) tb_temp
+2013-11-22 22:01:48,370 [35] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 22:01:48,379 [35] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 22:01:48,380 [35] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-11-22 22:01:48,381 [35] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 22:01:48,382 [35] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 22:01:51,219 [9] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 22:01:51,220 [9] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-11-22 22:01:51,295 [9] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-11-22 22:10:26,163 [38] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 22:10:26,169 [38] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 22:10:26,242 [38] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 22:10:26,242 [38] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-11-22 22:10:33,897 [38] DEBUG Servicesys_user - 获取实体对象
+2013-11-22 22:10:33,900 [38] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-11-22 22:10:33,914 [38] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-11-22 22:10:33,948 [38] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','LHS-PC','localhost','福建省厦门市','2013-11-22 22:10:33')
+2013-11-22 22:10:33,977 [48] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 22:10:33,977 [48] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-22 22:10:33,979 [48] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-22 22:10:33,994 [48] DEBUG Servicesys_parameter - 获取字段
+2013-11-22 22:10:33,995 [48] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-22 22:10:38,362 [22] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-11-22 22:10:38,365 [22] DEBUG Servicemms_warehouse - 获取动态列表
+2013-11-22 22:10:38,370 [22] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-11-22 22:10:38,371 [22] DEBUG Servicesys_code - 获取动态列表
+2013-11-22 22:10:38,371 [22] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-11-22 22:10:40,280 [62] DEBUG Servicemms_receive - 获取动态列表
+2013-11-22 22:10:40,280 [62] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-11-22 22:10:40,283 [62] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
