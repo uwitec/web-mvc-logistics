@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{36C1BA99-16C8-4BD8-9FBA-59811CE7C1F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zephyr.Core</RootNamespace>
+    <AssemblyName>Zephyr.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <!--
+    <BuildPackage>true</BuildPackage>
+    -->
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Zephyr.Data">
+      <HintPath>packages\Zephyr.Data.3.0.0.0\lib\net40\Zephyr.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Zephyr.Library">
+      <HintPath>packages\Zephyr.Library.1.0.0.0\lib\net40\Zephyr.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="Zephyr.Utils">
+      <HintPath>packages\Zephyr.Utils.2.0.0.0\lib\net40\Zephyr.Utils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Args\EditEventArgs.cs" />
+    <Compile Include="Base\ServiceBaseEdit.cs" />
+    <Compile Include="Core\AppDefault.cs" />
+    <Compile Include="Enum\TabType.cs" />
+    <Compile Include="Enum\DbType.cs" />
+    <Compile Include="Exporter\Exporter.cs" />
+    <Compile Include="Exporter\ICompress.cs" />
+    <Compile Include="Exporter\IExport.cs" />
+    <Compile Include="Exporter\ZipCompress.cs" />
+    <Compile Include="Exporter\XlsxExport.cs" />
+    <Compile Include="Exporter\Column.cs" />
+    <Compile Include="Exporter\IDataGetter.cs" />
+    <Compile Include="Exporter\ApiData.cs" />
+    <Compile Include="Exporter\XlsExport.cs" />
+    <Compile Include="Exporter\PdfExport.cs" />
+    <Compile Include="Exporter\HtmlDocExport.cs" />
+    <Compile Include="Exporter\NoneCompress.cs" />
+    <Compile Include="Exporter\IFormatter.cs" />
+    <Compile Include="Exporter\SexFormatter.cs" />
+    <Compile Include="Exporter\NoneFormatter.cs" />
+    <Compile Include="Generator\Entity\Table.cs" />
+    <Compile Include="Generator\Entity\TableKey.cs" />
+    <Compile Include="Generator\Entity\TableSchema.cs" />
+    <Compile Include="Generator\Providers\MySql.cs" />
+    <Compile Include="Generator\Util.cs" />
+    <Compile Include="Generator\GenTables.cs" />
+    <Compile Include="Generator\Providers\ISqlGen.cs" />
+    <Compile Include="Generator\Providers\Oracle.cs" />
+    <Compile Include="Generator\Providers\SqlServer.cs" />
+    <Compile Include="Logs\LogReader.cs" />
+    <Compile Include="Param\ConditionBuilder.cs" />
+    <Compile Include="Param\Condition.cs" />
+    <Compile Include="Param\Parameter.cs" />
+    <Compile Include="Base\ServiceBase.cs" />
+    <Compile Include="Base\ServiceBaseDelete.cs" />
+    <Compile Include="Base\ServiceBaseInsert.cs" />
+    <Compile Include="Base\ServiceBaseLog.cs" />
+    <Compile Include="Base\ServiceBaseQuery.cs" />
+    <Compile Include="Base\ServiceBaseUpdate.cs" />
+    <Compile Include="Core\Db.cs" />
+    <Compile Include="Enum\DownloadType.cs" />
+    <Compile Include="Enum\FileSuffix.cs" />
+    <Compile Include="Enum\ErrorHandleType.cs" />
+    <Compile Include="Core\NewKey.cs" />
+    <Compile Include="Core\PinYin.cs" />
+    <Compile Include="Args\InsertEventArgs.cs" />
+    <Compile Include="Args\UpdateEventArgs.cs" />
+    <Compile Include="Args\DeleteEventArgs.cs" />
+    <Compile Include="Logs\LogHelper.cs" />
+    <Compile Include="Param\ParamSP.cs" />
+    <Compile Include="Param\ParamSPData.cs" />
+    <Compile Include="Core\FormsAuth.cs" />
+    <Compile Include="Base\LoginerBase.cs" />
+    <Compile Include="Core\App.cs" />
+    <Compile Include="Core\Attribute.cs" />
+    <Compile Include="Base\ServiceBaseUtils.cs" />
+    <Compile Include="Base\ModelBase.cs" />
+    <Compile Include="Enum\MsgType.cs" />
+    <Compile Include="Enum\OptType.cs" />
+    <Compile Include="Enum\ServiceType.cs" />
+    <Compile Include="Core\Exception.cs" />
+    <Compile Include="Param\ParamDelete.cs" />
+    <Compile Include="Param\ParamDeleteData.cs" />
+    <Compile Include="Param\ParamInsert.cs" />
+    <Compile Include="Param\ParamInsertData.cs" />
+    <Compile Include="Param\ParamQuery.cs" />
+    <Compile Include="Param\ParamQueryData.cs" />
+    <Compile Include="Param\ParamUpdate.cs" />
+    <Compile Include="Param\ParamUpdateData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\RequestWrapper.cs" />
+    <Compile Include="Request\RequestWrapperConvert.cs" />
+    <Compile Include="Request\RequestWrapperUtil.cs" />
+    <Compile Include="Sql\Register\Default.cs" />
+    <Compile Include="Sql\Register\SqlServer.cs" />
+    <Compile Include="Sql\Register\MySql.cs" />
+    <Compile Include="Sql\Register\Oracle.cs" />
+    <Compile Include="Sql\Register\ISymbolRegister.cs" />
+    <Compile Include="Sql\SqlMaker\StringFormatMaker.cs" />
+    <Compile Include="Sql\SqlMaker\MapMaker.cs" />
+    <Compile Include="Sql\SqlMaker\DefaultMaker.cs" />
+    <Compile Include="Sql\SqlMaker\DateRangeMaker.cs" />
+    <Compile Include="Sql\SqlMaker\SqlMakerBase.cs" />
+    <Compile Include="Sql\SqlMaker\SqllDictionary.cs" />
+    <Compile Include="Sql\ZqlMaker\ZqlDefaultMaker.cs" />
+    <Compile Include="Sql\ZqlMaker\ZqlMakerBase.cs" />
+    <Compile Include="Sql\ZqlMaker\ZqlDictionary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Logs\Default.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
