@@ -1,0 +1,1044 @@
+2014-02-17 20:41:22,927 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-17 20:41:23,368 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-17 20:41:23,411 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-17 20:41:23,486 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-17 20:41:24,333 [11] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 20:41:24,357 [11] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-17 20:41:25,240 [11] DEBUG Sys - select * from sys_userSetting where UserCode='lhs'
+2014-02-17 20:41:25,919 [11] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 20:41:25,919 [11] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2014-02-17 20:41:28,233 [12] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'lhs' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'lhs'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2014-02-17 20:43:17,956 [6] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 20:43:17,956 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-17 20:43:18,017 [6] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 20:43:18,017 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2014-02-17 20:43:22,265 [6] DEBUG Servicesys_user - 获取实体对象
+2014-02-17 20:43:22,268 [6] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2014-02-17 20:43:22,317 [6] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2014-02-17 20:43:22,436 [6] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','LHS-PC','localhost','福建省厦门市','2014-02-17 20:43:22')
+2014-02-17 20:43:22,531 [6] DEBUG Servicemms_project - 获取实体对象
+2014-02-17 20:43:22,532 [6] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2014-02-17 20:43:22,637 [16] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 20:43:22,637 [16] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-17 20:43:22,656 [16] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-17 20:43:22,662 [16] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 20:43:22,662 [16] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2014-02-17 20:43:40,136 [11] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2014-02-17 20:43:45,896 [12] DEBUG Sys - SELECT Name as TableName FROM sys.tables order by Name
+2014-02-17 20:43:48,585 [12] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:48,597 [16] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:48,644 [9] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:48,668 [10] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:51,301 [9] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_button')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:51,308 [12] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_button')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:53,825 [9] DEBUG Mms - SELECT Name as TableName FROM sys.tables order by Name
+2014-02-17 20:43:53,849 [8] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_button')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:53,863 [10] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_button')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:55,296 [16] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:43:55,301 [12] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:10,837 [34] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:10,841 [29] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:12,916 [34] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:12,979 [29] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:12,997 [33] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:12,997 [14] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:14,469 [23] DEBUG Sys - SELECT Name as TableName FROM sys.tables order by Name
+2014-02-17 20:52:14,490 [14] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:14,513 [28] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:17,157 [33] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:17,190 [29] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:18,790 [34] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:18,822 [23] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:18,824 [28] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:18,875 [11] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:21,049 [28] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:21,067 [33] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:29,792 [34] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:29,894 [33] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:30,007 [18] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:30,034 [23] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:41,352 [23] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:41,436 [33] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:41,442 [28] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 20:52:41,477 [18] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 22:30:45,009 [87] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2014-02-17 22:30:45,024 [87] DEBUG Servicemms_warehouse - 获取动态列表
+2014-02-17 22:30:45,032 [87] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-02-17 22:30:45,046 [87] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 22:30:45,046 [87] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-02-17 22:30:45,931 [87] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-17 22:30:48,879 [56] DEBUG Servicemms_receive - 获取动态列表
+2014-02-17 22:30:48,880 [56] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2014-02-17 22:30:48,988 [56] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2014-02-17 22:35:50,905 [91] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/liy/Index','/Mms/liy')
+2014-02-17 22:35:50,916 [91] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 22:35:50,916 [91] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2014-02-17 22:35:59,316 [81] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/liy/Index','/Mms/liy')
+2014-02-17 22:35:59,318 [81] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 22:35:59,319 [81] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2014-02-17 22:36:01,387 [86] DEBUG Servicetest_liy - 获取动态列表
+2014-02-17 22:36:01,393 [86] DEBUG Mms - select top 20 * from test_liy order by ID
+2014-02-17 22:36:01,649 [86] DEBUG Mms - select count(*) from ( select * from test_liy ) tb_temp
+2014-02-17 22:36:06,101 [91] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/staff/Index','/Mms/staff')
+2014-02-17 22:36:06,111 [91] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 22:36:06,112 [91] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='PersonType'
+2014-02-17 22:36:07,805 [91] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/staff'
+2014-02-17 22:36:07,808 [91] DEBUG Sys - 
+select *
+from sys_roleMenuColumnMap 
+where MenuCode = '9960'
+and RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+2014-02-17 22:36:07,838 [91] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/staff'
+2014-02-17 22:36:07,840 [91] DEBUG Sys - 
+select A.*
+from sys_button A
+inner join sys_roleMenuButtonMap B on B.MenuCode = '9960' and B.ButtonCode = A.ButtonCode
+where RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+order by ButtonSeq
+2014-02-17 22:36:09,894 [22] DEBUG ServiceREMP_Staff - 获取动态列表
+2014-02-17 22:36:09,895 [22] DEBUG Mms - select top 20 * from REMP_Staff order by EMPSID
+2014-02-17 22:36:10,057 [22] DEBUG Mms - select count(*) from ( select * from REMP_Staff ) tb_temp
+2014-02-17 22:36:11,810 [91] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/Staff/edit')
+2014-02-17 22:36:11,826 [91] DEBUG ServiceREMP_Staff - 获取动态对象
+2014-02-17 22:36:11,828 [91] DEBUG Mms - select REMP_Staff.* from REMP_Staff where EMPSID='2'
+2014-02-17 22:36:11,835 [91] DEBUG ServiceREMP_Staff - 获取上一条下一条数据
+2014-02-17 22:36:11,853 [91] DEBUG ServiceREMP_Staff - 获取字段
+2014-02-17 22:36:11,853 [91] DEBUG Mms - select top 1 EMPSID from REMP_Staff order by EMPSID
+2014-02-17 22:36:11,855 [91] DEBUG ServiceREMP_Staff - 获取字段
+2014-02-17 22:36:11,856 [91] DEBUG Mms - select top 1 EMPSID from REMP_Staff where EMPSID<'2' order by EMPSID desc
+2014-02-17 22:36:11,858 [91] DEBUG ServiceREMP_Staff - 获取字段
+2014-02-17 22:36:11,858 [91] DEBUG Mms - select top 1 EMPSID from REMP_Staff where EMPSID>'2' order by EMPSID
+2014-02-17 22:36:11,861 [91] DEBUG ServiceREMP_Staff - 获取字段
+2014-02-17 22:36:11,861 [91] DEBUG Mms - select top 1 EMPSID from REMP_Staff order by EMPSID desc
+2014-02-17 22:36:12,085 [91] DEBUG ServiceREMP_Change - 获取动态列表
+2014-02-17 22:36:12,086 [91] DEBUG Mms - select REMP_Change.* from REMP_Change where EMPSID='2'
+2014-02-17 22:36:12,103 [91] DEBUG ServiceREMP_Staff - 获取实体对象
+2014-02-17 22:36:12,103 [91] DEBUG Mms - select REMP_Staff.* from REMP_Staff where EMPSID='2'
+2014-02-17 22:36:12,121 [91] DEBUG ServiceREMP_Staff - 获取实体对象
+2014-02-17 22:36:12,121 [91] DEBUG Mms - select REMP_Staff.* from REMP_Staff where EMPSID='2'
+2014-02-17 22:36:12,123 [91] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 22:36:12,124 [91] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='PersonType'
+2014-02-17 22:36:12,125 [91] DEBUG ServiceREMP_Department - 获取动态列表
+2014-02-17 22:36:12,125 [91] DEBUG Mms - select deptname as text,DEPTID as value from REMP_Department
+2014-02-17 23:03:36,355 [6] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/edit')
+2014-02-17 23:03:36,373 [6] DEBUG Servicemms_receive - 获取实体对象
+2014-02-17 23:03:36,379 [6] DEBUG Mms - select mms_receive.* from mms_receive where BillNo='201307020002'
+2014-02-17 23:03:36,387 [6] DEBUG Servicemms_receive - 获取上一条下一条数据
+2014-02-17 23:03:36,390 [6] DEBUG Servicemms_receive - 获取字段
+2014-02-17 23:03:36,390 [6] DEBUG Mms - select top 1 BillNo from mms_receive where ProjectCode='201306030001' order by BillNo
+2014-02-17 23:03:36,393 [6] DEBUG Servicemms_receive - 获取字段
+2014-02-17 23:03:36,393 [6] DEBUG Mms - select top 1 BillNo from mms_receive where BillNo<'201307020002' and ProjectCode='201306030001' order by BillNo desc
+2014-02-17 23:03:36,396 [6] DEBUG Servicemms_receive - 获取字段
+2014-02-17 23:03:36,397 [6] DEBUG Mms - select top 1 BillNo from mms_receive where BillNo>'201307020002' and ProjectCode='201306030001' order by BillNo
+2014-02-17 23:03:36,400 [6] DEBUG Servicemms_receive - 获取字段
+2014-02-17 23:03:36,400 [6] DEBUG Mms - select top 1 BillNo from mms_receive where ProjectCode='201306030001' order by BillNo desc
+2014-02-17 23:03:36,613 [6] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 23:03:36,614 [6] DEBUG Sys - select Text as value,Text as text from sys_code where CodeType='MeasureUnit'
+2014-02-17 23:03:36,616 [6] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 23:03:36,616 [6] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-02-17 23:03:36,617 [6] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 23:03:36,617 [6] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='PayType'
+2014-02-17 23:03:36,618 [6] DEBUG Servicemms_warehouse - 获取动态列表
+2014-02-17 23:03:36,619 [6] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-02-17 23:03:36,620 [6] DEBUG Servicesys_code - 获取字段
+2014-02-17 23:03:36,620 [6] DEBUG Sys - select top 1 Code from sys_code where CodeType='SupplyType' and IsEnable='1' and IsDefault='1'
+2014-02-17 23:03:36,622 [6] DEBUG Servicesys_code - 获取字段
+2014-02-17 23:03:36,623 [6] DEBUG Sys - select top 1 Code from sys_code where CodeType='PayType' and IsEnable='1' and IsDefault='1'
+2014-02-17 23:03:36,765 [6] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-17 23:03:40,379 [40] DEBUG ServiceModelBase - 获取动态列表
+2014-02-17 23:03:40,380 [40] DEBUG Mms - select MerchantsCode as value,MerchantsName as text from mms_merchants A
+    left join mms_merchantsType B on B.MerchantsTypeCode = A.MerchantsTypeCode where MerchantsCode like 'CG00303%' order by MerchantsCode
+2014-02-17 23:03:41,912 [31] DEBUG Servicemms_receive - 获取动态列表
+2014-02-17 23:03:41,912 [31] DEBUG Mms - select A.*, B.MaterialName,B.Model,B.Material from mms_receiveDetail A
+        left join mms_material B on B.MaterialCode = A.MaterialCode where BillNo='201307020002' order by A.MaterialCode
+2014-02-17 23:10:43,766 [40] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/liy/Index','/Mms/liy')
+2014-02-17 23:10:43,768 [40] DEBUG Servicesys_code - 获取动态列表
+2014-02-17 23:10:43,768 [40] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2014-02-17 23:10:45,760 [8] DEBUG Servicetest_liy - 获取动态列表
+2014-02-17 23:10:45,760 [8] DEBUG Mms - select top 20 * from test_liy order by ID
+2014-02-17 23:10:45,761 [8] DEBUG Mms - select count(*) from ( select * from test_liy ) tb_temp
+2014-02-17 23:10:48,343 [8] DEBUG Servicetest_liy - 获取新主键
+2014-02-17 23:10:48,345 [8] DEBUG Mms - select isnull(max(ID),0) from test_liy  where 1 = 1 
+2014-02-17 23:11:19,405 [35] ERROR /api/Mms/Liy/edit - Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 与“Zephyr.Core.ServiceBase<Zephyr.Web.Mms.Models.test_liy>.Edit(Newtonsoft.Json.Linq.JObject, Zephyr.Core.RequestWrapper, System.Collections.Generic.List<Zephyr.Core.RequestWrapper>)”最匹配的重载方法具有一些无效参数
+   在 CallSite.Target(Closure , CallSite , test_liyService , Object , RequestWrapper , Object )
+   在 System.Dynamic.UpdateDelegates.UpdateAndExecute4[T0,T1,T2,T3,TRet](CallSite site, T0 arg0, T1 arg1, T2 arg2, T3 arg3)
+   在 Zephyr.Web.Mms.Controllers.LiyApiController.Edit(Object data) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\LiyController.cs:行号 95
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClassf.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+2014-02-17 23:11:27,791 [81] DEBUG Servicetest_liy - 获取动态列表
+2014-02-17 23:11:27,792 [81] DEBUG Mms - select top 20 * from test_liy order by ApproveDate asc
+2014-02-17 23:11:27,816 [81] DEBUG Mms - select count(*) from ( select * from test_liy ) tb_temp
+2014-02-17 23:11:32,473 [40] DEBUG Servicetest_liy - 获取新主键
+2014-02-17 23:11:32,474 [40] DEBUG Mms - select isnull(max(ID),0) from test_liy  where 1 = 1 
+2014-02-17 23:54:36,471 [108] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:36,476 [21] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:36,632 [42] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:36,659 [21] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:38,154 [13] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_button')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:38,181 [19] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_button')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:44,571 [19] DEBUG Mms - SELECT Name as TableName FROM sys.tables order by Name
+2014-02-17 23:54:44,904 [21] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_button')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:44,945 [80] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_button')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:46,878 [21] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 23:54:46,909 [19] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2014-02-17 23:55:00,603 [42] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_receive')
+ORDER BY sys.columns.column_id
+2014-02-17 23:55:00,623 [19] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_receive')
+ORDER BY sys.columns.column_id
+2014-02-17 23:55:31,626 [37] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 23:55:31,626 [37] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-17 23:55:31,627 [37] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 23:55:31,627 [37] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2014-02-17 23:55:39,417 [21] DEBUG Servicesys_user - 获取实体对象
+2014-02-17 23:55:39,418 [21] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2014-02-17 23:55:39,419 [21] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2014-02-17 23:55:39,424 [21] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','LHS-PC','localhost','福建省厦门市','2014-02-17 23:55:39')
+2014-02-17 23:55:39,426 [21] DEBUG Servicemms_project - 获取实体对象
+2014-02-17 23:55:39,426 [21] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2014-02-17 23:55:39,452 [80] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 23:55:39,452 [80] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-17 23:55:39,465 [80] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-17 23:55:39,467 [80] DEBUG Servicesys_parameter - 获取字段
+2014-02-17 23:55:39,467 [80] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2014-02-17 23:55:40,544 [21] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2014-02-17 23:55:49,429 [108] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2014-02-17 23:56:01,280 [86] DEBUG Mms - SELECT Name as TableName FROM sys.tables order by Name
+2014-02-17 23:56:01,291 [21] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2014-02-17 23:56:06,721 [86] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_receive')
+ORDER BY sys.columns.column_id

@@ -1,0 +1,1211 @@
+2013-12-23 14:44:18,799 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-23 14:44:18,969 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-23 14:44:18,977 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-23 14:44:19,045 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-23 14:44:19,561 [9] DEBUG Servicesys_parameter - 获取字段
+2013-12-23 14:44:19,584 [9] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-23 14:44:19,757 [9] DEBUG Servicesys_parameter - 获取字段
+2013-12-23 14:44:19,758 [9] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-12-23 14:44:26,667 [12] DEBUG Servicesys_user - 获取实体对象
+2013-12-23 14:44:26,671 [12] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-12-23 14:44:26,844 [12] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-12-23 14:44:26,978 [12] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','LHS-PC','localhost','福建省厦门市','2013-12-23 14:44:26')
+2013-12-23 14:44:26,998 [12] DEBUG Servicemms_project - 获取实体对象
+2013-12-23 14:44:26,998 [12] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2013-12-23 14:44:27,103 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-23 14:44:27,104 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-23 14:44:27,461 [10] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-23 14:44:28,047 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-23 14:44:28,048 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-23 14:44:29,501 [9] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-23 14:45:10,325 [5] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/menu/Index','/Sys/menu')
+2013-12-23 14:45:16,362 [5] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/menu/Index','/Sys/menu')
+2013-12-23 14:45:17,526 [6] DEBUG Servicesys_menu - 获取动态列表
+2013-12-23 14:45:17,528 [6] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode
+2013-12-23 14:45:42,077 [17] DEBUG Servicesys_menu - 编辑记录
+2013-12-23 14:45:42,129 [17] DEBUG Sys - select sys_menu.* from sys_menu where MenuCode='ece650ea-6091-4e75-9484-75adee2fbe7d'
+2013-12-23 14:45:42,155 [17] DEBUG Sys - insert into sys_menu([MenuName],[MenuCode],[ParentCode],[IconClass],[URL],[IsVisible],[IsEnable],[MenuSeq],[UpdatePerson],[UpdateDate],[CreatePerson],[CreateDate]) values('1111','2233','98','1','','0','0','','管理员','2013-12-23 14:45:42','管理员','2013-12-23 14:45:42')
+2013-12-23 14:45:42,981 [12] DEBUG Servicesys_menu - 获取动态列表
+2013-12-23 14:45:42,987 [12] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode
+2013-12-23 14:45:49,201 [15] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/role/Index','/Sys/role')
+2013-12-23 14:45:49,212 [15] DEBUG Servicesys_user - 获取动态列表
+2013-12-23 14:45:49,213 [15] DEBUG Sys - select UserCode,UserName from sys_user
+2013-12-23 14:45:49,214 [15] DEBUG Servicesys_organize - 获取动态列表
+2013-12-23 14:45:49,215 [15] DEBUG Sys - select OrganizeCode,OrganizeName from sys_organize
+2013-12-23 14:45:50,133 [5] DEBUG Servicesys_role - 获取实体列表
+2013-12-23 14:45:50,141 [5] DEBUG Sys - select sys_role.* from sys_role order by RoleSeq
+2013-12-23 14:45:54,177 [12] DEBUG Sys - select * from sys_button order by ButtonSeq
+2013-12-23 14:45:54,247 [12] DEBUG Sys - select A.MenuName,A.MenuCode,A.ParentCode,A.IconClass as iconCls,B.MenuName as ParentName,(select 1 from sys_roleMenuMap tb_role where tb_role.RoleCode='super' and tb_role.MenuCode=A.MenuCode) as checked,(
+select case when max(tb1_add.ID) is null then -1 
+            when max(tb2_add.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_add
+left join sys_roleMenuButtonMap AS tb2_add ON tb2_add.MenuCode=tb1_add.MenuCode AND tb2_add.ButtonCode=tb1_add.ButtonCode AND tb2_add.RoleCode='super'
+where tb1_add.MenuCode = A.MenuCode and  tb1_add.ButtonCode = 'add'  
+)as 'btn_add' ,(
+select case when max(tb1_browse.ID) is null then -1 
+            when max(tb2_browse.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_browse
+left join sys_roleMenuButtonMap AS tb2_browse ON tb2_browse.MenuCode=tb1_browse.MenuCode AND tb2_browse.ButtonCode=tb1_browse.ButtonCode AND tb2_browse.RoleCode='super'
+where tb1_browse.MenuCode = A.MenuCode and  tb1_browse.ButtonCode = 'browse'  
+)as 'btn_browse' ,(
+select case when max(tb1_edit.ID) is null then -1 
+            when max(tb2_edit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_edit
+left join sys_roleMenuButtonMap AS tb2_edit ON tb2_edit.MenuCode=tb1_edit.MenuCode AND tb2_edit.ButtonCode=tb1_edit.ButtonCode AND tb2_edit.RoleCode='super'
+where tb1_edit.MenuCode = A.MenuCode and  tb1_edit.ButtonCode = 'edit'  
+)as 'btn_edit' ,(
+select case when max(tb1_delete.ID) is null then -1 
+            when max(tb2_delete.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_delete
+left join sys_roleMenuButtonMap AS tb2_delete ON tb2_delete.MenuCode=tb1_delete.MenuCode AND tb2_delete.ButtonCode=tb1_delete.ButtonCode AND tb2_delete.RoleCode='super'
+where tb1_delete.MenuCode = A.MenuCode and  tb1_delete.ButtonCode = 'delete'  
+)as 'btn_delete' ,(
+select case when max(tb1_search.ID) is null then -1 
+            when max(tb2_search.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_search
+left join sys_roleMenuButtonMap AS tb2_search ON tb2_search.MenuCode=tb1_search.MenuCode AND tb2_search.ButtonCode=tb1_search.ButtonCode AND tb2_search.RoleCode='super'
+where tb1_search.MenuCode = A.MenuCode and  tb1_search.ButtonCode = 'search'  
+)as 'btn_search' ,(
+select case when max(tb1_refresh.ID) is null then -1 
+            when max(tb2_refresh.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_refresh
+left join sys_roleMenuButtonMap AS tb2_refresh ON tb2_refresh.MenuCode=tb1_refresh.MenuCode AND tb2_refresh.ButtonCode=tb1_refresh.ButtonCode AND tb2_refresh.RoleCode='super'
+where tb1_refresh.MenuCode = A.MenuCode and  tb1_refresh.ButtonCode = 'refresh'  
+)as 'btn_refresh' ,(
+select case when max(tb1_download.ID) is null then -1 
+            when max(tb2_download.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_download
+left join sys_roleMenuButtonMap AS tb2_download ON tb2_download.MenuCode=tb1_download.MenuCode AND tb2_download.ButtonCode=tb1_download.ButtonCode AND tb2_download.RoleCode='super'
+where tb1_download.MenuCode = A.MenuCode and  tb1_download.ButtonCode = 'download'  
+)as 'btn_download' ,(
+select case when max(tb1_print.ID) is null then -1 
+            when max(tb2_print.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_print
+left join sys_roleMenuButtonMap AS tb2_print ON tb2_print.MenuCode=tb1_print.MenuCode AND tb2_print.ButtonCode=tb1_print.ButtonCode AND tb2_print.RoleCode='super'
+where tb1_print.MenuCode = A.MenuCode and  tb1_print.ButtonCode = 'print'  
+)as 'btn_print' ,(
+select case when max(tb1_accredit.ID) is null then -1 
+            when max(tb2_accredit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_accredit
+left join sys_roleMenuButtonMap AS tb2_accredit ON tb2_accredit.MenuCode=tb1_accredit.MenuCode AND tb2_accredit.ButtonCode=tb1_accredit.ButtonCode AND tb2_accredit.RoleCode='super'
+where tb1_accredit.MenuCode = A.MenuCode and  tb1_accredit.ButtonCode = 'accredit'  
+)as 'btn_accredit' ,(
+select case when max(tb1_audit.ID) is null then -1 
+            when max(tb2_audit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_audit
+left join sys_roleMenuButtonMap AS tb2_audit ON tb2_audit.MenuCode=tb1_audit.MenuCode AND tb2_audit.ButtonCode=tb1_audit.ButtonCode AND tb2_audit.RoleCode='super'
+where tb1_audit.MenuCode = A.MenuCode and  tb1_audit.ButtonCode = 'audit'  
+)as 'btn_audit' ,(
+select case when max(tb1_inport.ID) is null then -1 
+            when max(tb2_inport.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_inport
+left join sys_roleMenuButtonMap AS tb2_inport ON tb2_inport.MenuCode=tb1_inport.MenuCode AND tb2_inport.ButtonCode=tb1_inport.ButtonCode AND tb2_inport.RoleCode='super'
+where tb1_inport.MenuCode = A.MenuCode and  tb1_inport.ButtonCode = 'inport'  
+)as 'btn_inport' ,(
+select case when max(tb1_copy.ID) is null then -1 
+            when max(tb2_copy.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_copy
+left join sys_roleMenuButtonMap AS tb2_copy ON tb2_copy.MenuCode=tb1_copy.MenuCode AND tb2_copy.ButtonCode=tb1_copy.ButtonCode AND tb2_copy.RoleCode='super'
+where tb1_copy.MenuCode = A.MenuCode and  tb1_copy.ButtonCode = 'copy'  
+)as 'btn_copy' ,(
+select case when max(tb1_save.ID) is null then -1 
+            when max(tb2_save.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_save
+left join sys_roleMenuButtonMap AS tb2_save ON tb2_save.MenuCode=tb1_save.MenuCode AND tb2_save.ButtonCode=tb1_save.ButtonCode AND tb2_save.RoleCode='super'
+where tb1_save.MenuCode = A.MenuCode and  tb1_save.ButtonCode = 'save'  
+)as 'btn_save' 
+from sys_menu as A
+left join sys_menu B on B.MenuCode = A.ParentCode
+where A.IsEnable = 1
+order by A.MenuSeq,A.MenuCode
+2013-12-23 14:45:54,429 [5] DEBUG Servicesys_permission - 获取动态列表
+2013-12-23 14:45:54,430 [5] DEBUG Sys - select A.*
+,case when B.PermissionCode is null then 0 else 1           end as checked
+,case when B.PermissionCode is null then 0 else B.IsDefault end as IsDefault from sys_permission A
+left join sys_rolePermissionMap B on B.RoleCode='super' and B.PermissionCode = A.PermissionCode 
+2013-12-23 14:45:54,565 [12] DEBUG Sys - select * from sys_roleMenuColumnMap where RoleCode = 'super'
+2013-12-23 14:46:03,670 [17] DEBUG Sys - select * from sys_button order by ButtonSeq
+2013-12-23 14:46:03,691 [17] DEBUG Sys - select A.MenuName,A.MenuCode,A.ParentCode,A.IconClass as iconCls,B.MenuName as ParentName,(select 1 from sys_roleMenuMap tb_role where tb_role.RoleCode='super' and tb_role.MenuCode=A.MenuCode) as checked,(
+select case when max(tb1_add.ID) is null then -1 
+            when max(tb2_add.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_add
+left join sys_roleMenuButtonMap AS tb2_add ON tb2_add.MenuCode=tb1_add.MenuCode AND tb2_add.ButtonCode=tb1_add.ButtonCode AND tb2_add.RoleCode='super'
+where tb1_add.MenuCode = A.MenuCode and  tb1_add.ButtonCode = 'add'  
+)as 'btn_add' ,(
+select case when max(tb1_browse.ID) is null then -1 
+            when max(tb2_browse.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_browse
+left join sys_roleMenuButtonMap AS tb2_browse ON tb2_browse.MenuCode=tb1_browse.MenuCode AND tb2_browse.ButtonCode=tb1_browse.ButtonCode AND tb2_browse.RoleCode='super'
+where tb1_browse.MenuCode = A.MenuCode and  tb1_browse.ButtonCode = 'browse'  
+)as 'btn_browse' ,(
+select case when max(tb1_edit.ID) is null then -1 
+            when max(tb2_edit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_edit
+left join sys_roleMenuButtonMap AS tb2_edit ON tb2_edit.MenuCode=tb1_edit.MenuCode AND tb2_edit.ButtonCode=tb1_edit.ButtonCode AND tb2_edit.RoleCode='super'
+where tb1_edit.MenuCode = A.MenuCode and  tb1_edit.ButtonCode = 'edit'  
+)as 'btn_edit' ,(
+select case when max(tb1_delete.ID) is null then -1 
+            when max(tb2_delete.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_delete
+left join sys_roleMenuButtonMap AS tb2_delete ON tb2_delete.MenuCode=tb1_delete.MenuCode AND tb2_delete.ButtonCode=tb1_delete.ButtonCode AND tb2_delete.RoleCode='super'
+where tb1_delete.MenuCode = A.MenuCode and  tb1_delete.ButtonCode = 'delete'  
+)as 'btn_delete' ,(
+select case when max(tb1_search.ID) is null then -1 
+            when max(tb2_search.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_search
+left join sys_roleMenuButtonMap AS tb2_search ON tb2_search.MenuCode=tb1_search.MenuCode AND tb2_search.ButtonCode=tb1_search.ButtonCode AND tb2_search.RoleCode='super'
+where tb1_search.MenuCode = A.MenuCode and  tb1_search.ButtonCode = 'search'  
+)as 'btn_search' ,(
+select case when max(tb1_refresh.ID) is null then -1 
+            when max(tb2_refresh.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_refresh
+left join sys_roleMenuButtonMap AS tb2_refresh ON tb2_refresh.MenuCode=tb1_refresh.MenuCode AND tb2_refresh.ButtonCode=tb1_refresh.ButtonCode AND tb2_refresh.RoleCode='super'
+where tb1_refresh.MenuCode = A.MenuCode and  tb1_refresh.ButtonCode = 'refresh'  
+)as 'btn_refresh' ,(
+select case when max(tb1_download.ID) is null then -1 
+            when max(tb2_download.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_download
+left join sys_roleMenuButtonMap AS tb2_download ON tb2_download.MenuCode=tb1_download.MenuCode AND tb2_download.ButtonCode=tb1_download.ButtonCode AND tb2_download.RoleCode='super'
+where tb1_download.MenuCode = A.MenuCode and  tb1_download.ButtonCode = 'download'  
+)as 'btn_download' ,(
+select case when max(tb1_print.ID) is null then -1 
+            when max(tb2_print.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_print
+left join sys_roleMenuButtonMap AS tb2_print ON tb2_print.MenuCode=tb1_print.MenuCode AND tb2_print.ButtonCode=tb1_print.ButtonCode AND tb2_print.RoleCode='super'
+where tb1_print.MenuCode = A.MenuCode and  tb1_print.ButtonCode = 'print'  
+)as 'btn_print' ,(
+select case when max(tb1_accredit.ID) is null then -1 
+            when max(tb2_accredit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_accredit
+left join sys_roleMenuButtonMap AS tb2_accredit ON tb2_accredit.MenuCode=tb1_accredit.MenuCode AND tb2_accredit.ButtonCode=tb1_accredit.ButtonCode AND tb2_accredit.RoleCode='super'
+where tb1_accredit.MenuCode = A.MenuCode and  tb1_accredit.ButtonCode = 'accredit'  
+)as 'btn_accredit' ,(
+select case when max(tb1_audit.ID) is null then -1 
+            when max(tb2_audit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_audit
+left join sys_roleMenuButtonMap AS tb2_audit ON tb2_audit.MenuCode=tb1_audit.MenuCode AND tb2_audit.ButtonCode=tb1_audit.ButtonCode AND tb2_audit.RoleCode='super'
+where tb1_audit.MenuCode = A.MenuCode and  tb1_audit.ButtonCode = 'audit'  
+)as 'btn_audit' ,(
+select case when max(tb1_inport.ID) is null then -1 
+            when max(tb2_inport.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_inport
+left join sys_roleMenuButtonMap AS tb2_inport ON tb2_inport.MenuCode=tb1_inport.MenuCode AND tb2_inport.ButtonCode=tb1_inport.ButtonCode AND tb2_inport.RoleCode='super'
+where tb1_inport.MenuCode = A.MenuCode and  tb1_inport.ButtonCode = 'inport'  
+)as 'btn_inport' ,(
+select case when max(tb1_copy.ID) is null then -1 
+            when max(tb2_copy.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_copy
+left join sys_roleMenuButtonMap AS tb2_copy ON tb2_copy.MenuCode=tb1_copy.MenuCode AND tb2_copy.ButtonCode=tb1_copy.ButtonCode AND tb2_copy.RoleCode='super'
+where tb1_copy.MenuCode = A.MenuCode and  tb1_copy.ButtonCode = 'copy'  
+)as 'btn_copy' ,(
+select case when max(tb1_save.ID) is null then -1 
+            when max(tb2_save.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_save
+left join sys_roleMenuButtonMap AS tb2_save ON tb2_save.MenuCode=tb1_save.MenuCode AND tb2_save.ButtonCode=tb1_save.ButtonCode AND tb2_save.RoleCode='super'
+where tb1_save.MenuCode = A.MenuCode and  tb1_save.ButtonCode = 'save'  
+)as 'btn_save' 
+from sys_menu as A
+left join sys_menu B on B.MenuCode = A.ParentCode
+where A.IsEnable = 1
+order by A.MenuSeq,A.MenuCode
+2013-12-23 14:46:03,724 [17] DEBUG Sys - select * from sys_roleMenuColumnMap where RoleCode = 'super'
+2013-12-23 14:46:04,002 [16] DEBUG Servicesys_permission - 获取动态列表
+2013-12-23 14:46:04,002 [16] DEBUG Sys - select A.*
+,case when B.PermissionCode is null then 0 else 1           end as checked
+,case when B.PermissionCode is null then 0 else B.IsDefault end as IsDefault from sys_permission A
+left join sys_rolePermissionMap B on B.RoleCode='super' and B.PermissionCode = A.PermissionCode 
+2013-12-23 14:46:21,048 [17] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/menu/Index','/Sys/menu')
+2013-12-23 14:46:21,935 [5] DEBUG Servicesys_menu - 获取动态列表
+2013-12-23 14:46:21,936 [5] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode
+2013-12-23 14:46:36,796 [11] DEBUG Servicesys_menu - 编辑记录
+2013-12-23 14:46:36,797 [11] DEBUG Sys - select sys_menu.* from sys_menu where MenuCode='2233'
+2013-12-23 14:46:36,812 [11] DEBUG Sys - update sys_menu set [MenuName] = '1111', [MenuCode] = '2233', [ParentCode] = '98', [IconClass] = '1', [URL] = '#', [IsVisible] = 'False', [IsEnable] = 'False', [MenuSeq] = '', [UpdatePerson] = '管理员', [UpdateDate] = '2013-12-23 14:46:36' where [MenuCode] = '2233'
+2013-12-23 14:46:37,833 [5] DEBUG Servicesys_menu - 获取动态列表
+2013-12-23 14:46:37,833 [5] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode
+2013-12-23 14:46:46,468 [12] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/role/Index','/Sys/role')
+2013-12-23 14:46:46,470 [12] DEBUG Servicesys_user - 获取动态列表
+2013-12-23 14:46:46,470 [12] DEBUG Sys - select UserCode,UserName from sys_user
+2013-12-23 14:46:46,471 [12] DEBUG Servicesys_organize - 获取动态列表
+2013-12-23 14:46:46,471 [12] DEBUG Sys - select OrganizeCode,OrganizeName from sys_organize
+2013-12-23 14:46:47,278 [5] DEBUG Servicesys_role - 获取实体列表
+2013-12-23 14:46:47,278 [5] DEBUG Sys - select sys_role.* from sys_role order by RoleSeq
+2013-12-23 14:46:50,755 [6] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/user/Index','/Sys/user')
+2013-12-23 14:46:52,088 [7] DEBUG Servicesys_organize - 获取实体列表
+2013-12-23 14:46:52,089 [7] DEBUG Sys - select sys_organize.* from sys_organize
+2013-12-23 14:46:52,167 [12] DEBUG Servicesys_user - 获取实体列表
+2013-12-23 14:46:52,168 [12] DEBUG Sys - select top 20 sys_user.* from sys_user order by UserSeq
+2013-12-23 14:46:52,405 [12] DEBUG Sys - select count(*) from ( select sys_user.* from sys_user ) tb_temp
+2013-12-23 14:46:58,086 [7] DEBUG Sys - 
+select distinct A.RoleCode,A.RoleName
+,(case when B.RoleCode is null then 'false' else 'true' end) as Checked
+from sys_role A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode and B.UserCode = 'admin'
+2013-12-23 14:47:02,222 [15] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/role/Index','/Sys/role')
+2013-12-23 14:47:02,224 [15] DEBUG Servicesys_user - 获取动态列表
+2013-12-23 14:47:02,225 [15] DEBUG Sys - select UserCode,UserName from sys_user
+2013-12-23 14:47:02,225 [15] DEBUG Servicesys_organize - 获取动态列表
+2013-12-23 14:47:02,226 [15] DEBUG Sys - select OrganizeCode,OrganizeName from sys_organize
+2013-12-23 14:47:03,116 [12] DEBUG Servicesys_role - 获取实体列表
+2013-12-23 14:47:03,116 [12] DEBUG Sys - select sys_role.* from sys_role order by RoleSeq
+2013-12-23 14:47:05,185 [12] DEBUG Sys - select * from sys_button order by ButtonSeq
+2013-12-23 14:47:05,206 [12] DEBUG Sys - select A.MenuName,A.MenuCode,A.ParentCode,A.IconClass as iconCls,B.MenuName as ParentName,(select 1 from sys_roleMenuMap tb_role where tb_role.RoleCode='super' and tb_role.MenuCode=A.MenuCode) as checked,(
+select case when max(tb1_add.ID) is null then -1 
+            when max(tb2_add.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_add
+left join sys_roleMenuButtonMap AS tb2_add ON tb2_add.MenuCode=tb1_add.MenuCode AND tb2_add.ButtonCode=tb1_add.ButtonCode AND tb2_add.RoleCode='super'
+where tb1_add.MenuCode = A.MenuCode and  tb1_add.ButtonCode = 'add'  
+)as 'btn_add' ,(
+select case when max(tb1_browse.ID) is null then -1 
+            when max(tb2_browse.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_browse
+left join sys_roleMenuButtonMap AS tb2_browse ON tb2_browse.MenuCode=tb1_browse.MenuCode AND tb2_browse.ButtonCode=tb1_browse.ButtonCode AND tb2_browse.RoleCode='super'
+where tb1_browse.MenuCode = A.MenuCode and  tb1_browse.ButtonCode = 'browse'  
+)as 'btn_browse' ,(
+select case when max(tb1_edit.ID) is null then -1 
+            when max(tb2_edit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_edit
+left join sys_roleMenuButtonMap AS tb2_edit ON tb2_edit.MenuCode=tb1_edit.MenuCode AND tb2_edit.ButtonCode=tb1_edit.ButtonCode AND tb2_edit.RoleCode='super'
+where tb1_edit.MenuCode = A.MenuCode and  tb1_edit.ButtonCode = 'edit'  
+)as 'btn_edit' ,(
+select case when max(tb1_delete.ID) is null then -1 
+            when max(tb2_delete.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_delete
+left join sys_roleMenuButtonMap AS tb2_delete ON tb2_delete.MenuCode=tb1_delete.MenuCode AND tb2_delete.ButtonCode=tb1_delete.ButtonCode AND tb2_delete.RoleCode='super'
+where tb1_delete.MenuCode = A.MenuCode and  tb1_delete.ButtonCode = 'delete'  
+)as 'btn_delete' ,(
+select case when max(tb1_search.ID) is null then -1 
+            when max(tb2_search.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_search
+left join sys_roleMenuButtonMap AS tb2_search ON tb2_search.MenuCode=tb1_search.MenuCode AND tb2_search.ButtonCode=tb1_search.ButtonCode AND tb2_search.RoleCode='super'
+where tb1_search.MenuCode = A.MenuCode and  tb1_search.ButtonCode = 'search'  
+)as 'btn_search' ,(
+select case when max(tb1_refresh.ID) is null then -1 
+            when max(tb2_refresh.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_refresh
+left join sys_roleMenuButtonMap AS tb2_refresh ON tb2_refresh.MenuCode=tb1_refresh.MenuCode AND tb2_refresh.ButtonCode=tb1_refresh.ButtonCode AND tb2_refresh.RoleCode='super'
+where tb1_refresh.MenuCode = A.MenuCode and  tb1_refresh.ButtonCode = 'refresh'  
+)as 'btn_refresh' ,(
+select case when max(tb1_download.ID) is null then -1 
+            when max(tb2_download.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_download
+left join sys_roleMenuButtonMap AS tb2_download ON tb2_download.MenuCode=tb1_download.MenuCode AND tb2_download.ButtonCode=tb1_download.ButtonCode AND tb2_download.RoleCode='super'
+where tb1_download.MenuCode = A.MenuCode and  tb1_download.ButtonCode = 'download'  
+)as 'btn_download' ,(
+select case when max(tb1_print.ID) is null then -1 
+            when max(tb2_print.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_print
+left join sys_roleMenuButtonMap AS tb2_print ON tb2_print.MenuCode=tb1_print.MenuCode AND tb2_print.ButtonCode=tb1_print.ButtonCode AND tb2_print.RoleCode='super'
+where tb1_print.MenuCode = A.MenuCode and  tb1_print.ButtonCode = 'print'  
+)as 'btn_print' ,(
+select case when max(tb1_accredit.ID) is null then -1 
+            when max(tb2_accredit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_accredit
+left join sys_roleMenuButtonMap AS tb2_accredit ON tb2_accredit.MenuCode=tb1_accredit.MenuCode AND tb2_accredit.ButtonCode=tb1_accredit.ButtonCode AND tb2_accredit.RoleCode='super'
+where tb1_accredit.MenuCode = A.MenuCode and  tb1_accredit.ButtonCode = 'accredit'  
+)as 'btn_accredit' ,(
+select case when max(tb1_audit.ID) is null then -1 
+            when max(tb2_audit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_audit
+left join sys_roleMenuButtonMap AS tb2_audit ON tb2_audit.MenuCode=tb1_audit.MenuCode AND tb2_audit.ButtonCode=tb1_audit.ButtonCode AND tb2_audit.RoleCode='super'
+where tb1_audit.MenuCode = A.MenuCode and  tb1_audit.ButtonCode = 'audit'  
+)as 'btn_audit' ,(
+select case when max(tb1_inport.ID) is null then -1 
+            when max(tb2_inport.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_inport
+left join sys_roleMenuButtonMap AS tb2_inport ON tb2_inport.MenuCode=tb1_inport.MenuCode AND tb2_inport.ButtonCode=tb1_inport.ButtonCode AND tb2_inport.RoleCode='super'
+where tb1_inport.MenuCode = A.MenuCode and  tb1_inport.ButtonCode = 'inport'  
+)as 'btn_inport' ,(
+select case when max(tb1_copy.ID) is null then -1 
+            when max(tb2_copy.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_copy
+left join sys_roleMenuButtonMap AS tb2_copy ON tb2_copy.MenuCode=tb1_copy.MenuCode AND tb2_copy.ButtonCode=tb1_copy.ButtonCode AND tb2_copy.RoleCode='super'
+where tb1_copy.MenuCode = A.MenuCode and  tb1_copy.ButtonCode = 'copy'  
+)as 'btn_copy' ,(
+select case when max(tb1_save.ID) is null then -1 
+            when max(tb2_save.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_save
+left join sys_roleMenuButtonMap AS tb2_save ON tb2_save.MenuCode=tb1_save.MenuCode AND tb2_save.ButtonCode=tb1_save.ButtonCode AND tb2_save.RoleCode='super'
+where tb1_save.MenuCode = A.MenuCode and  tb1_save.ButtonCode = 'save'  
+)as 'btn_save' 
+from sys_menu as A
+left join sys_menu B on B.MenuCode = A.ParentCode
+where A.IsEnable = 1
+order by A.MenuSeq,A.MenuCode
+2013-12-23 14:47:05,244 [12] DEBUG Sys - select * from sys_roleMenuColumnMap where RoleCode = 'super'
+2013-12-23 14:47:05,664 [6] DEBUG Servicesys_permission - 获取动态列表
+2013-12-23 14:47:05,665 [6] DEBUG Sys - select A.*
+,case when B.PermissionCode is null then 0 else 1           end as checked
+,case when B.PermissionCode is null then 0 else B.IsDefault end as IsDefault from sys_permission A
+left join sys_rolePermissionMap B on B.RoleCode='super' and B.PermissionCode = A.PermissionCode 
+2013-12-23 14:47:48,118 [32] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/menu/Index','/Sys/menu')
+2013-12-23 14:47:49,069 [15] DEBUG Servicesys_menu - 获取动态列表
+2013-12-23 14:47:49,069 [15] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode
+2013-12-23 14:48:28,570 [30] DEBUG Servicesys_menu - 编辑记录
+2013-12-23 14:48:28,571 [30] DEBUG Sys - select sys_menu.* from sys_menu where MenuCode='2233'
+2013-12-23 14:48:28,572 [30] DEBUG Sys - update sys_menu set [MenuName] = '1111', [MenuCode] = '2233', [ParentCode] = '98', [IconClass] = 'icon-application_cascade', [URL] = '#', [IsVisible] = '1', [IsEnable] = '1', [MenuSeq] = '', [UpdatePerson] = '管理员', [UpdateDate] = '2013-12-23 14:48:28' where [MenuCode] = '2233'
+2013-12-23 14:48:29,470 [33] DEBUG Servicesys_menu - 获取动态列表
+2013-12-23 14:48:29,470 [33] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode
+2013-12-23 14:48:46,311 [30] DEBUG Sys - select * from sys_button order by ButtonSeq
+2013-12-23 14:48:46,332 [30] DEBUG Sys - select A.MenuName,A.MenuCode,A.ParentCode,A.IconClass as iconCls,B.MenuName as ParentName,(select 1 from sys_roleMenuMap tb_role where tb_role.RoleCode='super' and tb_role.MenuCode=A.MenuCode) as checked,(
+select case when max(tb1_add.ID) is null then -1 
+            when max(tb2_add.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_add
+left join sys_roleMenuButtonMap AS tb2_add ON tb2_add.MenuCode=tb1_add.MenuCode AND tb2_add.ButtonCode=tb1_add.ButtonCode AND tb2_add.RoleCode='super'
+where tb1_add.MenuCode = A.MenuCode and  tb1_add.ButtonCode = 'add'  
+)as 'btn_add' ,(
+select case when max(tb1_browse.ID) is null then -1 
+            when max(tb2_browse.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_browse
+left join sys_roleMenuButtonMap AS tb2_browse ON tb2_browse.MenuCode=tb1_browse.MenuCode AND tb2_browse.ButtonCode=tb1_browse.ButtonCode AND tb2_browse.RoleCode='super'
+where tb1_browse.MenuCode = A.MenuCode and  tb1_browse.ButtonCode = 'browse'  
+)as 'btn_browse' ,(
+select case when max(tb1_edit.ID) is null then -1 
+            when max(tb2_edit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_edit
+left join sys_roleMenuButtonMap AS tb2_edit ON tb2_edit.MenuCode=tb1_edit.MenuCode AND tb2_edit.ButtonCode=tb1_edit.ButtonCode AND tb2_edit.RoleCode='super'
+where tb1_edit.MenuCode = A.MenuCode and  tb1_edit.ButtonCode = 'edit'  
+)as 'btn_edit' ,(
+select case when max(tb1_delete.ID) is null then -1 
+            when max(tb2_delete.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_delete
+left join sys_roleMenuButtonMap AS tb2_delete ON tb2_delete.MenuCode=tb1_delete.MenuCode AND tb2_delete.ButtonCode=tb1_delete.ButtonCode AND tb2_delete.RoleCode='super'
+where tb1_delete.MenuCode = A.MenuCode and  tb1_delete.ButtonCode = 'delete'  
+)as 'btn_delete' ,(
+select case when max(tb1_search.ID) is null then -1 
+            when max(tb2_search.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_search
+left join sys_roleMenuButtonMap AS tb2_search ON tb2_search.MenuCode=tb1_search.MenuCode AND tb2_search.ButtonCode=tb1_search.ButtonCode AND tb2_search.RoleCode='super'
+where tb1_search.MenuCode = A.MenuCode and  tb1_search.ButtonCode = 'search'  
+)as 'btn_search' ,(
+select case when max(tb1_refresh.ID) is null then -1 
+            when max(tb2_refresh.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_refresh
+left join sys_roleMenuButtonMap AS tb2_refresh ON tb2_refresh.MenuCode=tb1_refresh.MenuCode AND tb2_refresh.ButtonCode=tb1_refresh.ButtonCode AND tb2_refresh.RoleCode='super'
+where tb1_refresh.MenuCode = A.MenuCode and  tb1_refresh.ButtonCode = 'refresh'  
+)as 'btn_refresh' ,(
+select case when max(tb1_download.ID) is null then -1 
+            when max(tb2_download.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_download
+left join sys_roleMenuButtonMap AS tb2_download ON tb2_download.MenuCode=tb1_download.MenuCode AND tb2_download.ButtonCode=tb1_download.ButtonCode AND tb2_download.RoleCode='super'
+where tb1_download.MenuCode = A.MenuCode and  tb1_download.ButtonCode = 'download'  
+)as 'btn_download' ,(
+select case when max(tb1_print.ID) is null then -1 
+            when max(tb2_print.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_print
+left join sys_roleMenuButtonMap AS tb2_print ON tb2_print.MenuCode=tb1_print.MenuCode AND tb2_print.ButtonCode=tb1_print.ButtonCode AND tb2_print.RoleCode='super'
+where tb1_print.MenuCode = A.MenuCode and  tb1_print.ButtonCode = 'print'  
+)as 'btn_print' ,(
+select case when max(tb1_accredit.ID) is null then -1 
+            when max(tb2_accredit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_accredit
+left join sys_roleMenuButtonMap AS tb2_accredit ON tb2_accredit.MenuCode=tb1_accredit.MenuCode AND tb2_accredit.ButtonCode=tb1_accredit.ButtonCode AND tb2_accredit.RoleCode='super'
+where tb1_accredit.MenuCode = A.MenuCode and  tb1_accredit.ButtonCode = 'accredit'  
+)as 'btn_accredit' ,(
+select case when max(tb1_audit.ID) is null then -1 
+            when max(tb2_audit.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_audit
+left join sys_roleMenuButtonMap AS tb2_audit ON tb2_audit.MenuCode=tb1_audit.MenuCode AND tb2_audit.ButtonCode=tb1_audit.ButtonCode AND tb2_audit.RoleCode='super'
+where tb1_audit.MenuCode = A.MenuCode and  tb1_audit.ButtonCode = 'audit'  
+)as 'btn_audit' ,(
+select case when max(tb1_inport.ID) is null then -1 
+            when max(tb2_inport.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_inport
+left join sys_roleMenuButtonMap AS tb2_inport ON tb2_inport.MenuCode=tb1_inport.MenuCode AND tb2_inport.ButtonCode=tb1_inport.ButtonCode AND tb2_inport.RoleCode='super'
+where tb1_inport.MenuCode = A.MenuCode and  tb1_inport.ButtonCode = 'inport'  
+)as 'btn_inport' ,(
+select case when max(tb1_copy.ID) is null then -1 
+            when max(tb2_copy.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_copy
+left join sys_roleMenuButtonMap AS tb2_copy ON tb2_copy.MenuCode=tb1_copy.MenuCode AND tb2_copy.ButtonCode=tb1_copy.ButtonCode AND tb2_copy.RoleCode='super'
+where tb1_copy.MenuCode = A.MenuCode and  tb1_copy.ButtonCode = 'copy'  
+)as 'btn_copy' ,(
+select case when max(tb1_save.ID) is null then -1 
+            when max(tb2_save.ID) is null then 0 
+            else 1 end 
+from  sys_menuButtonMap AS tb1_save
+left join sys_roleMenuButtonMap AS tb2_save ON tb2_save.MenuCode=tb1_save.MenuCode AND tb2_save.ButtonCode=tb1_save.ButtonCode AND tb2_save.RoleCode='super'
+where tb1_save.MenuCode = A.MenuCode and  tb1_save.ButtonCode = 'save'  
+)as 'btn_save' 
+from sys_menu as A
+left join sys_menu B on B.MenuCode = A.ParentCode
+where A.IsEnable = 1
+order by A.MenuSeq,A.MenuCode
+2013-12-23 14:48:46,370 [30] DEBUG Sys - select * from sys_roleMenuColumnMap where RoleCode = 'super'
+2013-12-23 14:48:46,838 [33] DEBUG Servicesys_permission - 获取动态列表
+2013-12-23 14:48:46,838 [33] DEBUG Sys - select A.*
+,case when B.PermissionCode is null then 0 else 1           end as checked
+,case when B.PermissionCode is null then 0 else B.IsDefault end as IsDefault from sys_permission A
+left join sys_rolePermissionMap B on B.RoleCode='super' and B.PermissionCode = A.PermissionCode 
+2013-12-23 14:48:51,834 [33] DEBUG Servicesys_role - 修改角色菜单权限
+2013-12-23 14:48:51,838 [33] DEBUG Sys - delete from sys_roleMenuMap where [RoleCode] = 'super'
+2013-12-23 14:48:51,865 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','10')
+2013-12-23 14:48:51,878 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1002')
+2013-12-23 14:48:51,881 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1001')
+2013-12-23 14:48:51,882 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1009')
+2013-12-23 14:48:51,882 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1010')
+2013-12-23 14:48:51,883 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1013')
+2013-12-23 14:48:51,884 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1007')
+2013-12-23 14:48:51,884 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1006')
+2013-12-23 14:48:51,892 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1011')
+2013-12-23 14:48:51,893 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1003')
+2013-12-23 14:48:51,894 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1012')
+2013-12-23 14:48:51,894 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1008')
+2013-12-23 14:48:51,899 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1005')
+2013-12-23 14:48:51,900 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1004')
+2013-12-23 14:48:51,900 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100101')
+2013-12-23 14:48:51,904 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100201')
+2013-12-23 14:48:51,904 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100312')
+2013-12-23 14:48:51,905 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100401')
+2013-12-23 14:48:51,906 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100501')
+2013-12-23 14:48:51,906 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100601')
+2013-12-23 14:48:51,907 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100701')
+2013-12-23 14:48:51,907 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100801')
+2013-12-23 14:48:51,908 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','100901')
+2013-12-23 14:48:51,909 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','101001')
+2013-12-23 14:48:51,909 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','101101')
+2013-12-23 14:48:51,910 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','101201')
+2013-12-23 14:48:51,910 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','101301')
+2013-12-23 14:48:51,911 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','11')
+2013-12-23 14:48:51,912 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1105')
+2013-12-23 14:48:51,912 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1101')
+2013-12-23 14:48:51,913 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1102')
+2013-12-23 14:48:51,913 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1103')
+2013-12-23 14:48:51,914 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1104')
+2013-12-23 14:48:51,915 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1109')
+2013-12-23 14:48:51,915 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','12')
+2013-12-23 14:48:51,916 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1204')
+2013-12-23 14:48:51,917 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1201')
+2013-12-23 14:48:51,917 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1202')
+2013-12-23 14:48:51,918 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','1203')
+2013-12-23 14:48:51,918 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','99')
+2013-12-23 14:48:51,919 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9902')
+2013-12-23 14:48:51,919 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9903')
+2013-12-23 14:48:51,920 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9910')
+2013-12-23 14:48:51,921 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9904')
+2013-12-23 14:48:51,921 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9905')
+2013-12-23 14:48:51,922 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9906')
+2013-12-23 14:48:51,923 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9911')
+2013-12-23 14:48:51,924 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9907')
+2013-12-23 14:48:51,925 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','98')
+2013-12-23 14:48:51,925 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','2233')
+2013-12-23 14:48:51,926 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9810')
+2013-12-23 14:48:51,926 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9915')
+2013-12-23 14:48:51,927 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9950')
+2013-12-23 14:48:51,927 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9920')
+2013-12-23 14:48:51,928 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9960')
+2013-12-23 14:48:51,929 [33] DEBUG Sys - insert into sys_roleMenuMap([RoleCode],[MenuCode]) values('super','9961')
+2013-12-23 14:48:51,973 [33] DEBUG Servicesys_role - 修改角色菜单按钮权限
+2013-12-23 14:48:51,975 [33] DEBUG Sys - delete from sys_roleMenuButtonMap where [RoleCode] = 'super'
+2013-12-23 14:48:51,978 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','1001','add')
+2013-12-23 14:48:51,982 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','1001','edit')
+2013-12-23 14:48:51,986 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','1001','delete')
+2013-12-23 14:48:52,024 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','1001','refresh')
+2013-12-23 14:48:52,031 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','1001','download')
+2013-12-23 14:48:52,035 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','1001','audit')
+2013-12-23 14:48:52,040 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','9960','add')
+2013-12-23 14:48:52,040 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','9960','edit')
+2013-12-23 14:48:52,041 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','9960','delete')
+2013-12-23 14:48:52,042 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','9960','refresh')
+2013-12-23 14:48:52,043 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','9960','download')
+2013-12-23 14:48:52,043 [33] DEBUG Sys - insert into sys_roleMenuButtonMap([RoleCode],[MenuCode],[ButtonCode]) values('super','9960','audit')
+2013-12-23 14:48:52,084 [33] DEBUG Servicesys_role - 修改角色数据权限
+2013-12-23 14:48:52,086 [33] DEBUG Sys - delete from sys_rolePermissionMap where [RoleCode] = 'super'
+2013-12-23 14:48:52,089 [33] DEBUG Sys - insert into sys_rolePermissionMap([RoleCode],[PermissionCode],[IsDefault]) values('super','0102','0')
+2013-12-23 14:48:52,131 [33] DEBUG Servicesys_role - 修改角色数据列权限
+2013-12-23 14:48:52,135 [33] DEBUG Sys - delete from sys_roleMenuColumnMap where [RoleCode] = 'super'
+2013-12-23 14:48:56,670 [33] DEBUG Servicesys_parameter - 获取字段
+2013-12-23 14:48:56,671 [33] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-23 14:48:56,680 [33] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-23 14:48:56,683 [33] DEBUG Servicesys_parameter - 获取字段
+2013-12-23 14:48:56,683 [33] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-23 14:48:57,257 [31] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-23 14:48:58,522 [31] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/role/Index','/Sys/role')
+2013-12-23 14:48:58,525 [31] DEBUG Servicesys_user - 获取动态列表
+2013-12-23 14:48:58,525 [31] DEBUG Sys - select UserCode,UserName from sys_user
+2013-12-23 14:48:58,526 [31] DEBUG Servicesys_organize - 获取动态列表
+2013-12-23 14:48:58,526 [31] DEBUG Sys - select OrganizeCode,OrganizeName from sys_organize
+2013-12-23 14:48:59,447 [23] DEBUG Servicesys_role - 获取实体列表
+2013-12-23 14:48:59,447 [23] DEBUG Sys - select sys_role.* from sys_role order by RoleSeq
+2013-12-23 14:53:37,400 [39] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2013-12-23 14:53:43,025 [39] DEBUG Sys - SELECT Name as TableName FROM sys.tables order by Name
+2013-12-23 14:53:43,032 [36] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:44,332 [34] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:48,872 [17] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:48,911 [37] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:49,444 [15] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:49,463 [39] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:50,145 [34] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:50,182 [37] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:50,555 [39] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:50,588 [34] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:51,709 [39] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:51,747 [36] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:52,268 [6] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:52,304 [37] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:52,934 [17] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:52,941 [39] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:55,037 [6] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:55,070 [36] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:56,076 [39] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:56,121 [37] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:58,225 [37] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:53:58,249 [39] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:26,055 [37] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:26,153 [11] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:26,554 [16] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:26,586 [39] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:28,293 [39] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:28,332 [16] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:29,117 [17] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:29,197 [6] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:32,648 [16] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:54:32,714 [34] DEBUG Sys - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('sys_log')
+ORDER BY sys.columns.column_id
+2013-12-23 14:55:46,817 [31] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/menu/Index','/Sys/menu')
+2013-12-23 14:55:47,729 [11] DEBUG Servicesys_menu - 获取动态列表
+2013-12-23 14:55:47,729 [11] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode
+2013-12-23 14:55:54,015 [26] DEBUG Servicesys_menu - 编辑记录
+2013-12-23 14:55:54,016 [26] DEBUG Sys - select sys_menu.* from sys_menu where MenuCode='2233'
+2013-12-23 14:55:54,016 [26] DEBUG Sys - 
+-- 删除角色字段Map
+delete from sys_roleMenuColumnMap where menucode = '2233';
+
+-- 删除角色按钮Map
+delete from sys_roleMenuButtonMap where menucode = '2233';
+
+-- 删除角色菜单Map
+delete from sys_roleMenuMap       where menucode = '2233';
+
+-- 删除菜单按钮Map
+delete from sys_menuButtonMap     where menucode = '2233';
+2013-12-23 14:55:54,099 [26] DEBUG Sys - delete from sys_menu where [MenuCode] = '2233'
+2013-12-23 14:55:54,940 [31] DEBUG Servicesys_menu - 获取动态列表
+2013-12-23 14:55:54,940 [31] DEBUG Sys - select A.*,B.MenuName as ParentName from sys_menu A left join sys_menu B on B.MenuCode = A.ParentCode order by A.MenuSeq,A.MenuCode

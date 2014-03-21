@@ -1,0 +1,131 @@
+2013-11-24 21:23:04,208 [5] DEBUG Servicesys_parameter - 获取字段
+2013-11-24 21:23:04,220 [5] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-24 21:23:04,223 [5] DEBUG Servicesys_parameter - 获取字段
+2013-11-24 21:23:04,223 [5] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-11-24 21:23:04,552 [10] DEBUG Servicesys_parameter - 获取字段
+2013-11-24 21:23:04,553 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-24 21:23:04,554 [10] DEBUG Servicesys_parameter - 获取字段
+2013-11-24 21:23:04,554 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-11-24 21:23:09,072 [75] DEBUG Servicesys_user - 获取实体对象
+2013-11-24 21:23:09,074 [75] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-11-24 21:23:09,082 [75] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-11-24 21:23:09,115 [75] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','LHS-PC','localhost','福建省厦门市','2013-11-24 21:23:09')
+2013-11-24 21:23:09,119 [75] DEBUG Servicemms_project - 获取实体对象
+2013-11-24 21:23:09,125 [75] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2013-11-24 21:23:09,161 [77] DEBUG Servicesys_parameter - 获取字段
+2013-11-24 21:23:09,161 [77] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-24 21:23:09,162 [77] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-24 21:23:09,180 [77] DEBUG Servicesys_parameter - 获取字段
+2013-11-24 21:23:09,180 [77] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-24 21:23:09,478 [15] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-11-24 21:23:14,877 [17] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/product/Index','/Mms/product')
+2013-11-24 21:23:14,889 [17] DEBUG Servicesys_code - 获取动态列表
+2013-11-24 21:23:14,891 [17] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MeasureUnit'
+2013-11-24 21:23:19,657 [77] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/product/Index','/Mms/product')
+2013-11-24 21:23:19,659 [77] DEBUG Servicesys_code - 获取动态列表
+2013-11-24 21:23:19,659 [77] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MeasureUnit'
+2013-11-24 21:23:20,570 [74] DEBUG Servicemms_product - 获取动态列表
+2013-11-24 21:23:20,571 [74] DEBUG Mms - select top 20 * from mms_product order by ID
+2013-11-24 21:23:20,618 [74] DEBUG Mms - select count(*) from ( select * from mms_product ) tb_temp
+2013-11-24 21:23:25,671 [77] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/staff/Index','/Mms/staff')
+2013-11-24 21:23:25,681 [77] DEBUG Servicesys_code - 获取动态列表
+2013-11-24 21:23:25,681 [77] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='PersonType'
+2013-11-24 21:23:26,928 [77] ERROR /mms/staff - System.Web.HttpCompileException (0x80004005): g:\01.开发框架\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Views\Staff\Index.cshtml(5): error CS0234: 命名空间“Zephyr.Web.Mms.Models”中不存在类型或命名空间名称“sys_roleMenuColumnMapService”(是否缺少程序集引用?)
+   在 System.Web.Compilation.AssemblyBuilder.Compile()
+   在 System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   在 System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   在 System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   在 System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   在 System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   在 System.Web.Compilation.BuildManager.GetObjectFactory(String virtualPath, Boolean throwIfNotFound)
+   在 System.Web.Mvc.BuildManagerWrapper.System.Web.Mvc.IBuildManager.FileExists(String virtualPath)
+   在 System.Web.Mvc.BuildManagerViewEngine.FileExists(ControllerContext controllerContext, String virtualPath)
+   在 System.Web.Mvc.VirtualPathProviderViewEngine.<>c__DisplayClass4.<GetPathFromGeneralName>b__0(String path)
+   在 System.Web.WebPages.DefaultDisplayMode.GetDisplayInfo(HttpContextBase httpContext, String virtualPath, Func`2 virtualPathExists)
+   在 System.Web.WebPages.DisplayModeProvider.<>c__DisplayClassb.<GetDisplayInfoForVirtualPath>b__8(IDisplayMode mode)
+   在 System.Linq.Enumerable.WhereSelectListIterator`2.MoveNext()
+   在 System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source, Func`2 predicate)
+   在 System.Web.WebPages.DisplayModeProvider.GetDisplayInfoForVirtualPath(String virtualPath, HttpContextBase httpContext, Func`2 virtualPathExists, IDisplayMode currentDisplayMode, Boolean requireConsistentDisplayMode)
+   在 System.Web.Mvc.VirtualPathProviderViewEngine.GetPathFromGeneralName(ControllerContext controllerContext, List`1 locations, String name, String controllerName, String areaName, String cacheKey, String[]& searchedLocations)
+   在 System.Web.Mvc.VirtualPathProviderViewEngine.GetPath(ControllerContext controllerContext, String[] locations, String[] areaLocations, String locationsPropertyName, String name, String controllerName, String cacheKeyPrefix, Boolean useCache, String[]& searchedLocations)
+   在 System.Web.Mvc.VirtualPathProviderViewEngine.FindView(ControllerContext controllerContext, String viewName, String masterName, Boolean useCache)
+   在 System.Web.Mvc.ViewEngineCollection.<>c__DisplayClassc.<FindView>b__b(IViewEngine e)
+   在 System.Web.Mvc.ViewEngineCollection.Find(Func`2 lookup, Boolean trackSearchedPaths)
+   在 System.Web.Mvc.ViewEngineCollection.FindView(ControllerContext controllerContext, String viewName, String masterName)
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<InvokeActionResultWithFilters>b__17()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<>c__DisplayClass1c.<InvokeActionResultWithFilters>b__19()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<>c__DisplayClass1c.<InvokeActionResultWithFilters>b__19()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<>c__DisplayClass1c.<InvokeActionResultWithFilters>b__19()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+2013-11-24 23:04:46,750 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-24 23:04:46,783 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-24 23:04:46,791 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-24 23:04:46,792 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-24 23:04:47,195 [83] DEBUG Servicesys_parameter - 获取字段
+2013-11-24 23:04:47,225 [83] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-11-24 23:04:47,437 [83] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-11-24 23:04:48,609 [83] DEBUG Servicesys_parameter - 获取字段
+2013-11-24 23:04:48,609 [83] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-11-24 23:04:53,663 [87] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-24 23:04:53,694 [87] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-24 23:04:53,702 [87] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-24 23:04:53,702 [87] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-11-24 23:04:54,084 [69] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode

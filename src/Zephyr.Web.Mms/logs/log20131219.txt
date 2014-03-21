@@ -1,0 +1,241 @@
+2013-12-19 16:22:16,786 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-19 16:22:16,820 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-19 16:22:16,828 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-19 16:22:16,828 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-19 16:22:17,911 [9] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:22:17,945 [9] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-19 16:22:18,525 [9] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:22:18,526 [9] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-12-19 16:22:26,895 [15] DEBUG Servicesys_user - 获取实体对象
+2013-12-19 16:22:26,898 [15] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-12-19 16:22:27,262 [15] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-12-19 16:22:27,446 [15] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','LHS-PC','localhost','福建省厦门市','2013-12-19 16:22:27')
+2013-12-19 16:22:27,525 [15] DEBUG Servicemms_project - 获取实体对象
+2013-12-19 16:22:27,526 [15] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2013-12-19 16:22:27,854 [14] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:22:27,855 [14] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-19 16:22:28,413 [14] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:22:29,109 [14] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:22:29,109 [14] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-19 16:22:30,651 [15] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-19 16:22:41,294 [12] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:22:53,966 [5] DEBUG Sys - update sys_userSetting set [SettingValue] = '20' where [UserCode] = 'admin' and [SettingCode] = 'gridrows'
+2013-12-19 16:22:54,051 [5] DEBUG Sys - update sys_userSetting set [SettingValue] = '/mms/home/desktop' where [UserCode] = 'admin' and [SettingCode] = 'homeTabUrl'
+2013-12-19 16:22:54,055 [5] DEBUG Sys - update sys_userSetting set [SettingValue] = '我的桌面' where [UserCode] = 'admin' and [SettingCode] = 'homeTabTitle'
+2013-12-19 16:22:54,058 [5] DEBUG Sys - update sys_userSetting set [SettingValue] = '10' where [UserCode] = 'admin' and [SettingCode] = 'maxTabCount'
+2013-12-19 16:22:54,061 [5] DEBUG Sys - update sys_userSetting set [SettingValue] = 'accordiontree' where [UserCode] = 'admin' and [SettingCode] = 'navigation'
+2013-12-19 16:22:54,065 [5] DEBUG Sys - update sys_userSetting set [SettingValue] = 'zh_CN' where [UserCode] = 'admin' and [SettingCode] = 'locale'
+2013-12-19 16:22:54,068 [5] DEBUG Sys - update sys_userSetting set [SettingValue] = 'default' where [UserCode] = 'admin' and [SettingCode] = 'theme'
+2013-12-19 16:22:55,194 [5] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:22:55,194 [5] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-19 16:22:55,202 [5] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:22:55,205 [5] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:22:55,205 [5] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-19 16:22:55,734 [15] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-19 16:23:07,063 [5] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/product/Index','/Mms/product')
+2013-12-19 16:23:07,135 [5] DEBUG Servicesys_code - 获取动态列表
+2013-12-19 16:23:07,137 [5] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MeasureUnit'
+2013-12-19 16:23:14,507 [7] DEBUG Servicemms_product - 获取动态列表
+2013-12-19 16:23:14,508 [7] DEBUG Mms - select top 20 * from mms_product order by ID
+2013-12-19 16:23:14,722 [7] DEBUG Mms - select count(*) from ( select * from mms_product ) tb_temp
+2013-12-19 16:23:18,394 [7] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:23:24,359 [16] DEBUG Sys - update sys_userSetting set [SettingValue] = '20' where [UserCode] = 'admin' and [SettingCode] = 'gridrows'
+2013-12-19 16:23:24,359 [16] DEBUG Sys - update sys_userSetting set [SettingValue] = '/mms/home/desktop' where [UserCode] = 'admin' and [SettingCode] = 'homeTabUrl'
+2013-12-19 16:23:24,360 [16] DEBUG Sys - update sys_userSetting set [SettingValue] = '我的桌面' where [UserCode] = 'admin' and [SettingCode] = 'homeTabTitle'
+2013-12-19 16:23:24,361 [16] DEBUG Sys - update sys_userSetting set [SettingValue] = '10' where [UserCode] = 'admin' and [SettingCode] = 'maxTabCount'
+2013-12-19 16:23:24,362 [16] DEBUG Sys - update sys_userSetting set [SettingValue] = 'tree' where [UserCode] = 'admin' and [SettingCode] = 'navigation'
+2013-12-19 16:23:24,366 [16] DEBUG Sys - update sys_userSetting set [SettingValue] = 'zh_CN' where [UserCode] = 'admin' and [SettingCode] = 'locale'
+2013-12-19 16:23:24,366 [16] DEBUG Sys - update sys_userSetting set [SettingValue] = 'default' where [UserCode] = 'admin' and [SettingCode] = 'theme'
+2013-12-19 16:23:25,879 [9] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:23:25,879 [9] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-19 16:23:25,887 [9] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:23:25,889 [9] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:23:25,890 [9] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-19 16:23:26,452 [12] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-19 16:23:36,057 [7] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:23:41,626 [9] DEBUG Sys - update sys_userSetting set [SettingValue] = '20' where [UserCode] = 'admin' and [SettingCode] = 'gridrows'
+2013-12-19 16:23:41,627 [9] DEBUG Sys - update sys_userSetting set [SettingValue] = '/mms/home/desktop' where [UserCode] = 'admin' and [SettingCode] = 'homeTabUrl'
+2013-12-19 16:23:41,627 [9] DEBUG Sys - update sys_userSetting set [SettingValue] = '我的桌面' where [UserCode] = 'admin' and [SettingCode] = 'homeTabTitle'
+2013-12-19 16:23:41,628 [9] DEBUG Sys - update sys_userSetting set [SettingValue] = '10' where [UserCode] = 'admin' and [SettingCode] = 'maxTabCount'
+2013-12-19 16:23:41,629 [9] DEBUG Sys - update sys_userSetting set [SettingValue] = 'accordionbigicon' where [UserCode] = 'admin' and [SettingCode] = 'navigation'
+2013-12-19 16:23:41,638 [9] DEBUG Sys - update sys_userSetting set [SettingValue] = 'zh_CN' where [UserCode] = 'admin' and [SettingCode] = 'locale'
+2013-12-19 16:23:41,638 [9] DEBUG Sys - update sys_userSetting set [SettingValue] = 'default' where [UserCode] = 'admin' and [SettingCode] = 'theme'
+2013-12-19 16:23:42,938 [13] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:23:42,938 [13] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-19 16:23:42,943 [13] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:23:42,945 [13] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:23:42,945 [13] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-19 16:23:43,416 [10] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-19 16:24:04,120 [16] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2013-12-19 16:24:15,289 [7] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:24:18,682 [7] DEBUG Sys - update sys_userSetting set [SettingValue] = '20' where [UserCode] = 'admin' and [SettingCode] = 'gridrows'
+2013-12-19 16:24:18,683 [7] DEBUG Sys - update sys_userSetting set [SettingValue] = '/mms/home/desktop' where [UserCode] = 'admin' and [SettingCode] = 'homeTabUrl'
+2013-12-19 16:24:18,683 [7] DEBUG Sys - update sys_userSetting set [SettingValue] = '我的桌面' where [UserCode] = 'admin' and [SettingCode] = 'homeTabTitle'
+2013-12-19 16:24:18,684 [7] DEBUG Sys - update sys_userSetting set [SettingValue] = '10' where [UserCode] = 'admin' and [SettingCode] = 'maxTabCount'
+2013-12-19 16:24:18,684 [7] DEBUG Sys - update sys_userSetting set [SettingValue] = 'accordion' where [UserCode] = 'admin' and [SettingCode] = 'navigation'
+2013-12-19 16:24:18,688 [7] DEBUG Sys - update sys_userSetting set [SettingValue] = 'zh_CN' where [UserCode] = 'admin' and [SettingCode] = 'locale'
+2013-12-19 16:24:18,689 [7] DEBUG Sys - update sys_userSetting set [SettingValue] = 'default' where [UserCode] = 'admin' and [SettingCode] = 'theme'
+2013-12-19 16:24:20,644 [21] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:24:20,644 [21] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-19 16:24:20,652 [21] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-19 16:24:20,654 [21] DEBUG Servicesys_parameter - 获取字段
+2013-12-19 16:24:20,654 [21] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-19 16:24:21,185 [14] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-19 16:27:43,336 [34] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2013-12-19 16:38:28,619 [44] DEBUG Mms - SELECT Name as TableName FROM sys.tables order by Name
+2013-12-19 16:38:28,635 [57] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2013-12-19 16:38:28,645 [52] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2013-12-19 16:38:30,635 [52] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2013-12-19 16:38:30,660 [60] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id

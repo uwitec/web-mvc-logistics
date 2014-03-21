@@ -1,0 +1,557 @@
+2014-02-27 10:56:06,741 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 10:56:07,866 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 10:56:08,159 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 10:56:08,219 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 10:56:08,389 [1] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 10:56:08,462 [1] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 10:56:09,472 [7] DEBUG Servicesys_parameter - 获取字段
+2014-02-27 10:56:09,490 [7] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-27 10:56:10,165 [7] DEBUG Servicesys_parameter - 获取字段
+2014-02-27 10:56:10,166 [7] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2014-02-27 10:56:18,974 [7] DEBUG Servicesys_user - 获取实体对象
+2014-02-27 10:56:18,975 [7] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2014-02-27 10:56:19,291 [7] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2014-02-27 10:56:19,577 [7] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','KAJ-PC','localhost','福建省厦门市','2014/2/27 10:56:19')
+2014-02-27 10:56:19,652 [7] DEBUG Servicemms_project - 获取实体对象
+2014-02-27 10:56:19,653 [7] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2014-02-27 10:56:19,876 [7] DEBUG Servicesys_parameter - 获取字段
+2014-02-27 10:56:19,876 [7] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-27 10:56:20,292 [7] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-27 10:56:20,876 [7] DEBUG Servicesys_parameter - 获取字段
+2014-02-27 10:56:20,876 [7] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2014-02-27 10:56:21,940 [9] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2014-02-27 10:56:23,674 [6] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Trade/trailer/Index','/Trade/trailer')
+2014-02-27 10:56:23,683 [6] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 10:56:23,684 [6] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2014-02-27 10:56:25,473 [7] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 10:56:25,473 [7] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 10:56:25,683 [7] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 10:56:26,732 [9] DEBUG Servicetrade_trailer - 获取新主键
+2014-02-27 10:56:26,734 [9] DEBUG Trade - select isnull(max(JOBNO),0) from trade_trailer  where 1 = 1 
+2014-02-27 10:57:17,124 [6] DEBUG Servicetrade_trailer - 编辑记录
+2014-02-27 10:57:17,141 [6] DEBUG Trade - select trade_trailer.* from trade_trailer where JOBNO=''
+2014-02-27 10:57:17,173 [6] DEBUG Trade - insert into trade_trailer([TR_JOBNOIN],[TR_KIND],[TR_IEID],[TR_BLNO],[TR_CONNO],[TR_SEALNO],[TR_CARRI],[TR_CARNO],[TR_ETSH],[TR_TYPE],[TR_SPTYPE],[TR_TRAILER],[TR_TRAILDATE],[TR_ORDERDATE]) values('201402001','内贸','出港','BL0001','CN20115','1233','中远','11','','20','GP','','','')
+2014-02-27 10:57:17,508 [6] ERROR Servicetrade_trailer - 编辑记录失败
+System.Data.SqlClient.SqlException (0x80131904): 将截断字符串或二进制数据。
+语句已终止。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.Execute() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\Execute.cs:行号 9
+   在 Zephyr.Data.BaseInsertBuilder.Execute() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Builders\Insert\BaseInsertBuilder.cs:行号 22
+   在 Zephyr.Core.ServiceBase`1.<Edit>b__a(RequestWrapper x) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 68
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClassf.<Edit>b__b() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 182
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:e47df601-86d3-4ed7-af32-404589ef7808
+2014-02-27 10:57:17,670 [6] ERROR /api/Trade/Trailer/edit - System.Data.SqlClient.SqlException (0x80131904): 将截断字符串或二进制数据。
+语句已终止。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.Edit(JObject data, RequestWrapper formWrapper, List`1 tabsWrapper) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 72
+   在 CallSite.Target(Closure , CallSite , trade_trailerService , Object , Object , List`1 )
+   在 System.Dynamic.UpdateDelegates.UpdateAndExecute4[T0,T1,T2,T3,TRet](CallSite site, T0 arg0, T1 arg1, T2 arg2, T3 arg3)
+   在 Zephyr.Web.Trade.Controllers.TrailerApiController.Edit(Object data) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Web.Mms\Areas\Trade\Controllers\TrailerController.cs:行号 95
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClassf.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:e47df601-86d3-4ed7-af32-404589ef7808
+2014-02-27 10:57:28,176 [10] DEBUG Servicetrade_trailer - 编辑记录
+2014-02-27 10:57:28,179 [10] DEBUG Trade - select trade_trailer.* from trade_trailer where JOBNO=''
+2014-02-27 10:57:28,182 [10] DEBUG Trade - insert into trade_trailer([TR_JOBNOIN],[TR_KIND],[TR_IEID],[TR_BLNO],[TR_CONNO],[TR_SEALNO],[TR_CARRI],[TR_CARNO],[TR_ETSH],[TR_TYPE],[TR_SPTYPE],[TR_TRAILER],[TR_TRAILDATE],[TR_ORDERDATE]) values('201402001','内贸','出港','BL0001','CN20115','1233','中远','11','','20','GP','','','')
+2014-02-27 10:57:28,183 [10] ERROR Servicetrade_trailer - 编辑记录失败
+System.Data.SqlClient.SqlException (0x80131904): 将截断字符串或二进制数据。
+语句已终止。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.Execute() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\Execute.cs:行号 9
+   在 Zephyr.Data.BaseInsertBuilder.Execute() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Builders\Insert\BaseInsertBuilder.cs:行号 22
+   在 Zephyr.Core.ServiceBase`1.<Edit>b__a(RequestWrapper x) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 68
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClassf.<Edit>b__b() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 182
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:e47df601-86d3-4ed7-af32-404589ef7808
+2014-02-27 10:57:28,190 [10] ERROR /api/Trade/Trailer/edit - System.Data.SqlClient.SqlException (0x80131904): 将截断字符串或二进制数据。
+语句已终止。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.Edit(JObject data, RequestWrapper formWrapper, List`1 tabsWrapper) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 72
+   在 CallSite.Target(Closure , CallSite , trade_trailerService , Object , Object , List`1 )
+   在 Zephyr.Web.Trade.Controllers.TrailerApiController.Edit(Object data) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Web.Mms\Areas\Trade\Controllers\TrailerController.cs:行号 95
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClassf.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:e47df601-86d3-4ed7-af32-404589ef7808
+2014-02-27 10:57:30,547 [6] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 10:57:30,547 [6] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 10:57:30,548 [6] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 10:57:33,070 [6] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 10:57:33,070 [6] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 10:57:33,072 [6] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 11:02:52,327 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:02:52,342 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:02:52,351 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:02:52,352 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:02:52,354 [1] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:02:52,354 [1] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:02:52,677 [10] DEBUG Servicesys_parameter - 获取字段
+2014-02-27 11:02:52,687 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-27 11:02:52,847 [10] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-27 11:02:53,050 [10] DEBUG Servicesys_parameter - 获取字段
+2014-02-27 11:02:53,050 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2014-02-27 11:02:53,896 [11] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2014-02-27 11:02:55,906 [10] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Trade/trailer/Index','/Trade/trailer')
+2014-02-27 11:02:55,926 [10] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:02:55,927 [10] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2014-02-27 11:02:57,107 [10] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 11:02:57,108 [10] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 11:02:57,116 [10] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 11:02:59,351 [11] DEBUG Servicetrade_trailer - 获取新主键
+2014-02-27 11:02:59,354 [11] DEBUG Trade - select isnull(max(JOBNO),0) from trade_trailer  where 1 = 1 
+2014-02-27 11:04:12,532 [10] DEBUG Servicetrade_trailer - 编辑记录
+2014-02-27 11:04:12,538 [10] DEBUG Trade - select trade_trailer.* from trade_trailer where JOBNO=''
+2014-02-27 11:04:12,547 [10] DEBUG Trade - insert into trade_trailer([TR_JOBNOIN],[TR_KIND],[TR_IEID],[TR_BLNO],[TR_CONNO],[TR_SEALNO],[TR_CARRI],[TR_CARNO],[TR_ETSH],[TR_TYPE],[TR_SPTYPE],[TR_TRAILER],[TR_TRAILDATE],[TR_ORDERDATE]) values('2014001','内贸','I','BL001','CNTS0023','1212','中远','V121','','20','GP','','','')
+2014-02-27 11:04:12,609 [10] ERROR Servicetrade_trailer - 编辑记录失败
+System.Data.SqlClient.SqlException (0x80131904): 不能将值 NULL 插入列 'JOBNO'，表 'Zephyr.Trade.dbo.trade_trailer'；列不允许有 Null 值。INSERT 失败。
+语句已终止。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.Execute() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\Execute.cs:行号 9
+   在 Zephyr.Data.BaseInsertBuilder.Execute() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Data\Builders\Insert\BaseInsertBuilder.cs:行号 22
+   在 Zephyr.Core.ServiceBase`1.<Edit>b__a(RequestWrapper x) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 68
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClassf.<Edit>b__b() 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 182
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:11cd5c58-df6f-42a0-9c2d-6585c010be71
+2014-02-27 11:04:12,639 [10] ERROR /api/Trade/Trailer/edit - System.Data.SqlClient.SqlException (0x80131904): 不能将值 NULL 插入列 'JOBNO'，表 'Zephyr.Trade.dbo.trade_trailer'；列不允许有 Null 值。INSERT 失败。
+语句已终止。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.Edit(JObject data, RequestWrapper formWrapper, List`1 tabsWrapper) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseEdit.cs:行号 72
+   在 CallSite.Target(Closure , CallSite , trade_trailerService , Object , Object , List`1 )
+   在 System.Dynamic.UpdateDelegates.UpdateAndExecute4[T0,T1,T2,T3,TRet](CallSite site, T0 arg0, T1 arg1, T2 arg2, T3 arg3)
+   在 Zephyr.Web.Trade.Controllers.TrailerApiController.Edit(Object data) 位置 f:\lbl\soft\Zephyr.Net\src\Zephyr.Web.Mms\Areas\Trade\Controllers\TrailerController.cs:行号 95
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClassf.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:11cd5c58-df6f-42a0-9c2d-6585c010be71
+2014-02-27 11:07:33,577 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:07:33,590 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:07:33,593 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:07:33,593 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:07:33,595 [1] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:07:33,596 [1] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 11:07:33,802 [8] DEBUG Servicesys_parameter - 获取字段
+2014-02-27 11:07:33,811 [8] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2014-02-27 11:07:33,969 [8] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-27 11:07:34,178 [8] DEBUG Servicesys_parameter - 获取字段
+2014-02-27 11:07:34,178 [8] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2014-02-27 11:07:35,136 [11] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2014-02-27 11:07:39,981 [11] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Trade/trailer/Index','/Trade/trailer')
+2014-02-27 11:07:39,986 [11] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:07:39,987 [11] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2014-02-27 11:07:41,160 [11] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 11:07:41,160 [11] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 11:07:41,170 [11] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 11:07:42,071 [8] DEBUG Servicetrade_trailer - 获取新主键
+2014-02-27 11:07:42,073 [8] DEBUG Trade - select isnull(max(JOBNO),0) from trade_trailer  where 1 = 1 
+2014-02-27 11:07:57,159 [6] DEBUG Servicetrade_trailer - 编辑记录
+2014-02-27 11:07:57,165 [6] DEBUG Trade - select trade_trailer.* from trade_trailer where JOBNO='000001'
+2014-02-27 11:07:57,174 [6] DEBUG Trade - insert into trade_trailer([JOBNO],[TR_JOBNOIN],[TR_KIND],[TR_IEID],[TR_BLNO],[TR_CONNO],[TR_SEALNO],[TR_CARRI],[TR_CARNO],[TR_ETSH],[TR_TYPE],[TR_SPTYPE],[TR_TRAILER],[TR_TRAILDATE],[TR_ORDERDATE]) values('000001','1','1','1','1','1','1','1','1','','1','1','1','','')
+2014-02-27 11:08:01,371 [11] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 11:08:01,385 [11] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 11:08:01,413 [11] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 11:38:49,771 [27] DEBUG Servicetrade_trailer - 编辑记录
+2014-02-27 11:38:49,818 [27] DEBUG Trade - select trade_trailer.* from trade_trailer where JOBNO='000001'
+2014-02-27 11:38:49,826 [27] DEBUG Trade - update trade_trailer set [TR_JOBNOIN] = '1', [TR_KIND] = '1', [TR_IEID] = '1', [TR_BLNO] = '1', [TR_CONNO] = '2', [TR_SEALNO] = '2', [TR_CARRI] = '2', [TR_CARNO] = '2', [TR_ETSH] = '1900/1/1 0:00:00', [TR_TYPE] = '1 ', [TR_SPTYPE] = '1 ', [TR_TRAILER] = '1', [TR_TRAILDATE] = '1900/1/1 0:00:00', [TR_ORDERDATE] = '1900/1/1 0:00:00' where [JOBNO] = '000001'
+2014-02-27 11:38:52,058 [29] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 11:38:52,061 [29] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 11:38:52,064 [29] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 11:38:52,782 [30] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 11:38:52,782 [30] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 11:38:52,784 [30] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 11:39:41,901 [27] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 11:39:41,901 [27] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 11:39:41,904 [27] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 11:39:49,558 [28] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2014-02-27 11:39:49,622 [28] DEBUG Servicemms_warehouse - 获取动态列表
+2014-02-27 11:39:49,639 [28] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-02-27 11:39:49,686 [28] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:39:49,686 [28] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-02-27 11:39:53,530 [28] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-27 11:39:54,458 [28] DEBUG Servicemms_receive - 获取动态列表
+2014-02-27 11:39:54,458 [28] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2014-02-27 11:39:54,591 [28] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2014-02-27 11:39:55,389 [29] DEBUG Servicemms_receive - 获取新主键
+2014-02-27 11:39:55,389 [29] DEBUG Mms - select isnull(max(BillNo),0) from mms_receive
+2014-02-27 11:39:55,444 [28] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/edit')
+2014-02-27 11:39:55,458 [28] DEBUG Servicemms_receive - 获取实体对象
+2014-02-27 11:39:55,459 [28] DEBUG Mms - select mms_receive.* from mms_receive where BillNo='201402270001'
+2014-02-27 11:39:55,493 [28] DEBUG Servicemms_receive - 获取上一条下一条数据
+2014-02-27 11:39:55,514 [28] DEBUG Servicemms_receive - 获取字段
+2014-02-27 11:39:55,515 [28] DEBUG Mms - select top 1 BillNo from mms_receive where ProjectCode='201306030001' order by BillNo
+2014-02-27 11:39:55,516 [28] DEBUG Servicemms_receive - 获取字段
+2014-02-27 11:39:55,517 [28] DEBUG Mms - select top 1 BillNo from mms_receive where BillNo<'201402270001' and ProjectCode='201306030001' order by BillNo desc
+2014-02-27 11:39:55,539 [28] DEBUG Servicemms_receive - 获取字段
+2014-02-27 11:39:55,539 [28] DEBUG Mms - select top 1 BillNo from mms_receive where BillNo>'201402270001' and ProjectCode='201306030001' order by BillNo
+2014-02-27 11:39:55,569 [28] DEBUG Servicemms_receive - 获取字段
+2014-02-27 11:39:55,569 [28] DEBUG Mms - select top 1 BillNo from mms_receive where ProjectCode='201306030001' order by BillNo desc
+2014-02-27 11:39:55,583 [28] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:39:55,583 [28] DEBUG Sys - select Text as value,Text as text from sys_code where CodeType='MeasureUnit'
+2014-02-27 11:39:55,585 [28] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:39:55,585 [28] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-02-27 11:39:55,585 [28] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:39:55,585 [28] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='PayType'
+2014-02-27 11:39:55,585 [28] DEBUG Servicemms_warehouse - 获取动态列表
+2014-02-27 11:39:55,585 [28] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-02-27 11:39:55,586 [28] DEBUG Servicesys_code - 获取字段
+2014-02-27 11:39:55,586 [28] DEBUG Sys - select top 1 Code from sys_code where CodeType='SupplyType' and IsEnable='1' and IsDefault='1'
+2014-02-27 11:39:55,587 [28] DEBUG Servicesys_code - 获取字段
+2014-02-27 11:39:55,587 [28] DEBUG Sys - select top 1 Code from sys_code where CodeType='PayType' and IsEnable='1' and IsDefault='1'
+2014-02-27 11:39:56,896 [27] DEBUG Servicemms_receive - 获取动态列表
+2014-02-27 11:39:56,896 [27] DEBUG Mms - select A.*, B.MaterialName,B.Model,B.Material from mms_receiveDetail A
+        left join mms_material B on B.MaterialCode = A.MaterialCode where BillNo='201402270001' order by A.MaterialCode
+2014-02-27 11:40:21,060 [27] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/send/Index','/Mms/send')
+2014-02-27 11:40:21,064 [27] DEBUG Servicemms_warehouse - 获取动态列表
+2014-02-27 11:40:21,065 [27] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-02-27 11:40:21,065 [27] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:21,065 [27] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2014-02-27 11:40:21,066 [27] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:21,066 [27] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MaterialUse'
+2014-02-27 11:40:21,590 [27] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/send'
+2014-02-27 11:40:21,591 [27] DEBUG Sys - 
+select *
+from sys_roleMenuColumnMap 
+where MenuCode = '1001'
+and RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+2014-02-27 11:40:21,706 [27] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/send'
+2014-02-27 11:40:21,707 [27] DEBUG Sys - 
+select A.*
+from sys_button A
+inner join sys_roleMenuButtonMap B on B.MenuCode = '1001' and B.ButtonCode = A.ButtonCode
+where RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+order by ButtonSeq
+2014-02-27 11:40:22,230 [28] DEBUG Servicemms_send - 获取动态列表
+2014-02-27 11:40:22,231 [28] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName,E.MerchantsName as PickUnitName from mms_send A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode
+        left join mms_merchants E on E.MerchantsCode=A.PickUnit where A.ProjectCode='201306030001' order by A.BillNo
+2014-02-27 11:40:22,275 [28] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName,E.MerchantsName as PickUnitName from mms_send A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode
+        left join mms_merchants E on E.MerchantsCode=A.PickUnit where A.ProjectCode='201306030001' ) tb_temp
+2014-02-27 11:40:24,513 [29] DEBUG Servicemms_send - 获取新主键
+2014-02-27 11:40:24,513 [29] DEBUG Mms - select isnull(max(BillNo),0) from mms_send
+2014-02-27 11:40:24,549 [28] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/send/edit')
+2014-02-27 11:40:24,576 [28] DEBUG Servicemms_send - 获取实体对象
+2014-02-27 11:40:24,576 [28] DEBUG Mms - select mms_send.* from mms_send where BillNo='201402270001'
+2014-02-27 11:40:24,578 [28] DEBUG Servicemms_send - 获取上一条下一条数据
+2014-02-27 11:40:24,579 [28] DEBUG Servicemms_send - 获取字段
+2014-02-27 11:40:24,579 [28] DEBUG Mms - select top 1 BillNo from mms_send where ProjectCode='201306030001' order by BillNo
+2014-02-27 11:40:24,581 [28] DEBUG Servicemms_send - 获取字段
+2014-02-27 11:40:24,581 [28] DEBUG Mms - select top 1 BillNo from mms_send where BillNo<'201402270001' and ProjectCode='201306030001' order by BillNo desc
+2014-02-27 11:40:24,583 [28] DEBUG Servicemms_send - 获取字段
+2014-02-27 11:40:24,583 [28] DEBUG Mms - select top 1 BillNo from mms_send where BillNo>'201402270001' and ProjectCode='201306030001' order by BillNo
+2014-02-27 11:40:24,585 [28] DEBUG Servicemms_send - 获取字段
+2014-02-27 11:40:24,585 [28] DEBUG Mms - select top 1 BillNo from mms_send where ProjectCode='201306030001' order by BillNo desc
+2014-02-27 11:40:24,596 [28] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:24,596 [28] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2014-02-27 11:40:24,596 [28] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:24,597 [28] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MaterialUse'
+2014-02-27 11:40:24,597 [28] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:24,597 [28] DEBUG Sys - select Text as value,Text as text from sys_code where CodeType='MeasureUnit'
+2014-02-27 11:40:24,597 [28] DEBUG Servicemms_warehouse - 获取动态列表
+2014-02-27 11:40:24,597 [28] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-02-27 11:40:24,598 [28] DEBUG Servicesys_code - 获取字段
+2014-02-27 11:40:24,598 [28] DEBUG Sys - select top 1 Code from sys_code where CodeType='Pricing' and IsEnable='1' and IsDefault='1'
+2014-02-27 11:40:25,634 [27] DEBUG Servicemms_send - 获取动态列表
+2014-02-27 11:40:25,635 [27] DEBUG Mms - select A.*, B.MaterialName,B.Model,B.Material from mms_sendDetail A left join mms_material B on B.MaterialCode = A.MaterialCode where BillNo='201402270001' order by A.MaterialCode
+2014-02-27 11:40:30,105 [27] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/direct/Index','/Mms/direct')
+2014-02-27 11:40:30,121 [27] DEBUG Servicemms_warehouse - 获取动态列表
+2014-02-27 11:40:30,122 [27] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-02-27 11:40:30,122 [27] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:30,122 [27] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-02-27 11:40:31,283 [26] DEBUG Servicemms_direct - 获取动态列表
+2014-02-27 11:40:31,284 [26] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName,D.MerchantsName as SupplierName,E.MerchantsName as PickUnitName from mms_direct A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_merchants     D on D.MerchantsCode    = A.SupplierCode
+        left join mms_merchants     E on E.MerchantsCode    = A.PickUnit where A.ProjectCode='201306030001' order by A.BillNo
+2014-02-27 11:40:31,364 [26] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName,D.MerchantsName as SupplierName,E.MerchantsName as PickUnitName from mms_direct A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_merchants     D on D.MerchantsCode    = A.SupplierCode
+        left join mms_merchants     E on E.MerchantsCode    = A.PickUnit where A.ProjectCode='201306030001' ) tb_temp
+2014-02-27 11:40:31,872 [27] DEBUG Servicemms_direct - 获取新主键
+2014-02-27 11:40:31,872 [27] DEBUG Mms - select isnull(max(BillNo),0) from mms_direct
+2014-02-27 11:40:31,934 [26] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/direct/edit')
+2014-02-27 11:40:31,940 [26] DEBUG Servicemms_direct - 获取实体对象
+2014-02-27 11:40:31,941 [26] DEBUG Mms - select mms_direct.* from mms_direct where BillNo='201402270001'
+2014-02-27 11:40:31,943 [26] DEBUG Servicemms_direct - 获取上一条下一条数据
+2014-02-27 11:40:31,944 [26] DEBUG Servicemms_direct - 获取字段
+2014-02-27 11:40:31,944 [26] DEBUG Mms - select top 1 BillNo from mms_direct where ProjectCode='201306030001' order by BillNo
+2014-02-27 11:40:31,946 [26] DEBUG Servicemms_direct - 获取字段
+2014-02-27 11:40:31,946 [26] DEBUG Mms - select top 1 BillNo from mms_direct where BillNo<'201402270001' and ProjectCode='201306030001' order by BillNo desc
+2014-02-27 11:40:31,948 [26] DEBUG Servicemms_direct - 获取字段
+2014-02-27 11:40:31,948 [26] DEBUG Mms - select top 1 BillNo from mms_direct where BillNo>'201402270001' and ProjectCode='201306030001' order by BillNo
+2014-02-27 11:40:31,950 [26] DEBUG Servicemms_direct - 获取字段
+2014-02-27 11:40:31,950 [26] DEBUG Mms - select top 1 BillNo from mms_direct where ProjectCode='201306030001' order by BillNo desc
+2014-02-27 11:40:31,961 [26] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:31,961 [26] DEBUG Sys - select Text as value,Text as text from sys_code where CodeType='MeasureUnit'
+2014-02-27 11:40:31,962 [26] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:31,962 [26] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-02-27 11:40:31,962 [26] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:31,962 [26] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='PayType'
+2014-02-27 11:40:31,962 [26] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:40:31,962 [26] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MaterialUse'
+2014-02-27 11:40:31,963 [26] DEBUG Servicesys_code - 获取字段
+2014-02-27 11:40:31,963 [26] DEBUG Sys - select top 1 Code from sys_code where CodeType='SupplyType' and IsEnable='1' and IsDefault='1'
+2014-02-27 11:40:31,963 [26] DEBUG Servicesys_code - 获取字段
+2014-02-27 11:40:31,963 [26] DEBUG Sys - select top 1 Code from sys_code where CodeType='PayType' and IsEnable='1' and IsDefault='1'
+2014-02-27 11:40:33,128 [29] DEBUG Servicemms_direct - 获取动态列表
+2014-02-27 11:40:33,128 [29] DEBUG Mms - select A.*, B.MaterialName,B.Model,B.Material from mms_directDetail A left join mms_material B on B.MaterialCode = A.MaterialCode where BillNo='201402270001' order by A.MaterialCode
+2014-02-27 11:41:11,862 [26] DEBUG Servicetrade_trailer - 获取动态列表
+2014-02-27 11:41:11,862 [26] DEBUG Trade - select top 20 * from trade_trailer order by JOBNO
+2014-02-27 11:41:11,864 [26] DEBUG Trade - select count(*) from ( select * from trade_trailer ) tb_temp
+2014-02-27 11:41:18,488 [27] DEBUG Servicemms_receive - 获取新主键
+2014-02-27 11:41:18,488 [27] DEBUG Mms - select isnull(max(BillNo),0) from mms_receive
+2014-02-27 11:41:18,541 [27] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/edit')
+2014-02-27 11:41:18,557 [27] DEBUG Servicemms_receive - 获取实体对象
+2014-02-27 11:41:18,558 [27] DEBUG Mms - select mms_receive.* from mms_receive where BillNo='201402270002'
+2014-02-27 11:41:18,560 [27] DEBUG Servicemms_receive - 获取上一条下一条数据
+2014-02-27 11:41:18,560 [27] DEBUG Servicemms_receive - 获取字段
+2014-02-27 11:41:18,561 [27] DEBUG Mms - select top 1 BillNo from mms_receive where ProjectCode='201306030001' order by BillNo
+2014-02-27 11:41:18,561 [27] DEBUG Servicemms_receive - 获取字段
+2014-02-27 11:41:18,561 [27] DEBUG Mms - select top 1 BillNo from mms_receive where BillNo<'201402270002' and ProjectCode='201306030001' order by BillNo desc
+2014-02-27 11:41:18,562 [27] DEBUG Servicemms_receive - 获取字段
+2014-02-27 11:41:18,562 [27] DEBUG Mms - select top 1 BillNo from mms_receive where BillNo>'201402270002' and ProjectCode='201306030001' order by BillNo
+2014-02-27 11:41:18,563 [27] DEBUG Servicemms_receive - 获取字段
+2014-02-27 11:41:18,563 [27] DEBUG Mms - select top 1 BillNo from mms_receive where ProjectCode='201306030001' order by BillNo desc
+2014-02-27 11:41:18,563 [27] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:41:18,563 [27] DEBUG Sys - select Text as value,Text as text from sys_code where CodeType='MeasureUnit'
+2014-02-27 11:41:18,564 [27] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:41:18,564 [27] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2014-02-27 11:41:18,564 [27] DEBUG Servicesys_code - 获取动态列表
+2014-02-27 11:41:18,564 [27] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='PayType'
+2014-02-27 11:41:18,564 [27] DEBUG Servicemms_warehouse - 获取动态列表
+2014-02-27 11:41:18,564 [27] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2014-02-27 11:41:18,565 [27] DEBUG Servicesys_code - 获取字段
+2014-02-27 11:41:18,565 [27] DEBUG Sys - select top 1 Code from sys_code where CodeType='SupplyType' and IsEnable='1' and IsDefault='1'
+2014-02-27 11:41:18,565 [27] DEBUG Servicesys_code - 获取字段
+2014-02-27 11:41:18,565 [27] DEBUG Sys - select top 1 Code from sys_code where CodeType='PayType' and IsEnable='1' and IsDefault='1'
+2014-02-27 11:41:19,522 [26] DEBUG Servicemms_receive - 获取动态列表
+2014-02-27 11:41:19,523 [26] DEBUG Mms - select A.*, B.MaterialName,B.Model,B.Material from mms_receiveDetail A
+        left join mms_material B on B.MaterialCode = A.MaterialCode where BillNo='201402270002' order by A.MaterialCode
+2014-02-27 11:41:58,561 [26] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2014-02-27 16:26:46,936 [38] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 16:26:47,213 [38] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 16:26:47,220 [38] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 16:26:47,272 [38] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 16:26:47,274 [38] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 16:26:47,312 [38] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 16:26:48,680 [39] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2014-02-27 16:26:50,569 [39] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2014-02-27 17:02:30,322 [38] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 17:02:30,335 [38] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 17:02:30,344 [38] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 17:02:30,345 [38] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 17:02:30,371 [38] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 17:02:30,371 [38] DEBUG Trade - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2014-02-27 17:02:32,573 [47] DEBUG Trade - SELECT Name as TableName FROM sys.tables order by Name
+2014-02-27 17:02:32,577 [51] DEBUG Trade - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2014-02-27 17:02:35,127 [47] DEBUG Trade - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('trade_scheduler')
+ORDER BY sys.columns.column_id
+2014-02-27 17:02:55,672 [51] DEBUG Trade - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('trade_scheduler')
+ORDER BY sys.columns.column_id
+2014-02-27 17:02:55,679 [51] DEBUG Trade - sp_pkeys 'trade_scheduler'

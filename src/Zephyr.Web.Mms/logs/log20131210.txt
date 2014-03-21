@@ -1,0 +1,883 @@
+2013-12-10 10:03:42,035 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:03:42,071 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:03:42,079 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:03:42,080 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:03:42,600 [12] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:03:42,624 [12] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:03:43,181 [12] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:03:43,710 [12] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:03:43,710 [12] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:03:45,106 [7] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:03:49,110 [7] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:06:32,339 [13] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:06:32,339 [13] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:06:32,355 [13] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:06:32,357 [13] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:06:32,357 [13] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:06:33,251 [20] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:10:37,526 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:10:37,557 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:10:37,564 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:10:37,565 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:10:37,928 [29] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:10:37,952 [29] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:10:38,454 [29] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:10:38,904 [29] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:10:38,905 [29] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:10:40,371 [29] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:12:12,854 [20] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:12:12,855 [20] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:12:12,869 [20] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:12:12,871 [20] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:12:12,872 [20] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:12:13,591 [15] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:12:18,418 [16] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:12:23,329 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = '20' where [UserCode] = 'admin' and [SettingCode] = 'gridrows'
+2013-12-10 10:12:23,330 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = '/mms/home/desktop' where [UserCode] = 'admin' and [SettingCode] = 'homeTabUrl'
+2013-12-10 10:12:23,331 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = '我的桌面' where [UserCode] = 'admin' and [SettingCode] = 'homeTabTitle'
+2013-12-10 10:12:23,331 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = '10' where [UserCode] = 'admin' and [SettingCode] = 'maxTabCount'
+2013-12-10 10:12:23,332 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = 'menubutton' where [UserCode] = 'admin' and [SettingCode] = 'navigation'
+2013-12-10 10:12:23,333 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = 'zh_CN' where [UserCode] = 'admin' and [SettingCode] = 'locale'
+2013-12-10 10:12:23,334 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = 'default' where [UserCode] = 'admin' and [SettingCode] = 'theme'
+2013-12-10 10:12:23,828 [29] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:12:23,829 [29] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:12:23,855 [29] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:12:23,917 [29] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:12:23,917 [29] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:12:24,428 [26] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:12:33,669 [25] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:12:39,968 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = '20' where [UserCode] = 'admin' and [SettingCode] = 'gridrows'
+2013-12-10 10:12:39,968 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = '/mms/home/desktop' where [UserCode] = 'admin' and [SettingCode] = 'homeTabUrl'
+2013-12-10 10:12:39,969 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = '我的桌面' where [UserCode] = 'admin' and [SettingCode] = 'homeTabTitle'
+2013-12-10 10:12:39,969 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = '10' where [UserCode] = 'admin' and [SettingCode] = 'maxTabCount'
+2013-12-10 10:12:39,970 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = 'accordiontree' where [UserCode] = 'admin' and [SettingCode] = 'navigation'
+2013-12-10 10:12:39,971 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = 'zh_CN' where [UserCode] = 'admin' and [SettingCode] = 'locale'
+2013-12-10 10:12:39,972 [15] DEBUG Sys - update sys_userSetting set [SettingValue] = 'default' where [UserCode] = 'admin' and [SettingCode] = 'theme'
+2013-12-10 10:12:40,758 [9] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:12:40,758 [9] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:12:40,770 [9] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:12:40,772 [9] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:12:40,772 [9] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:12:41,385 [27] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:15:57,094 [34] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:15:57,124 [34] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:15:57,130 [34] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:15:57,131 [34] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:15:57,534 [8] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:15:57,559 [8] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:15:58,048 [8] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:15:58,499 [8] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:15:58,499 [8] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:16:03,302 [14] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:16:03,334 [14] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:16:03,341 [14] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:16:03,342 [14] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:16:04,276 [10] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:16:06,013 [22] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:17:30,943 [15] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:17:30,974 [15] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:17:30,981 [15] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:17:30,982 [15] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:17:31,364 [20] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:17:31,892 [20] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:19:59,250 [30] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/send/Index','/Mms/send')
+2013-12-10 10:19:59,271 [30] DEBUG Servicemms_warehouse - 获取动态列表
+2013-12-10 10:19:59,292 [30] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-12-10 10:19:59,293 [30] DEBUG Servicesys_code - 获取动态列表
+2013-12-10 10:19:59,294 [30] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2013-12-10 10:19:59,294 [30] DEBUG Servicesys_code - 获取动态列表
+2013-12-10 10:19:59,295 [30] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MaterialUse'
+2013-12-10 10:20:00,331 [30] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/send'
+2013-12-10 10:20:00,335 [30] DEBUG Sys - 
+select *
+from sys_roleMenuColumnMap 
+where MenuCode = '1001'
+and RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+2013-12-10 10:20:00,338 [30] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/send'
+2013-12-10 10:20:00,339 [30] DEBUG Sys - 
+select A.*
+from sys_button A
+inner join sys_roleMenuButtonMap B on B.MenuCode = '1001' and B.ButtonCode = A.ButtonCode
+where RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+order by ButtonSeq
+2013-12-10 10:20:00,348 [30] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:20:01,738 [19] DEBUG Servicemms_send - 获取动态列表
+2013-12-10 10:20:01,740 [19] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName,E.MerchantsName as PickUnitName from mms_send A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode
+        left join mms_merchants E on E.MerchantsCode=A.PickUnit where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-10 10:20:01,825 [19] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName,E.MerchantsName as PickUnitName from mms_send A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode
+        left join mms_merchants E on E.MerchantsCode=A.PickUnit where A.ProjectCode='201306030001' ) tb_temp
+2013-12-10 10:20:09,176 [32] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:21:07,709 [7] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:21:07,741 [7] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:21:07,749 [7] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:21:07,749 [7] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 10:21:08,108 [18] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:21:08,133 [18] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:21:08,640 [18] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:21:09,085 [18] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:21:09,086 [18] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:21:10,471 [22] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:21:14,167 [18] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:21:38,356 [30] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/send/Index','/Mms/send')
+2013-12-10 10:21:38,369 [30] DEBUG Servicemms_warehouse - 获取动态列表
+2013-12-10 10:21:38,371 [30] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-12-10 10:21:38,372 [30] DEBUG Servicesys_code - 获取动态列表
+2013-12-10 10:21:38,373 [30] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2013-12-10 10:21:38,373 [30] DEBUG Servicesys_code - 获取动态列表
+2013-12-10 10:21:38,374 [30] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MaterialUse'
+2013-12-10 10:21:39,296 [30] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/send'
+2013-12-10 10:21:39,298 [30] DEBUG Sys - 
+select *
+from sys_roleMenuColumnMap 
+where MenuCode = '1001'
+and RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+2013-12-10 10:21:39,301 [30] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/send'
+2013-12-10 10:21:39,302 [30] DEBUG Sys - 
+select A.*
+from sys_button A
+inner join sys_roleMenuButtonMap B on B.MenuCode = '1001' and B.ButtonCode = A.ButtonCode
+where RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+order by ButtonSeq
+2013-12-10 10:21:41,888 [32] DEBUG Servicemms_send - 获取动态列表
+2013-12-10 10:21:41,889 [32] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName,E.MerchantsName as PickUnitName from mms_send A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode
+        left join mms_merchants E on E.MerchantsCode=A.PickUnit where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-10 10:21:41,964 [32] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName,E.MerchantsName as PickUnitName from mms_send A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode
+        left join mms_merchants E on E.MerchantsCode=A.PickUnit where A.ProjectCode='201306030001' ) tb_temp
+2013-12-10 10:42:01,826 [23] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:42:01,831 [23] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:42:01,834 [23] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:42:01,834 [23] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-12-10 10:42:05,637 [18] DEBUG Servicesys_user - 获取实体对象
+2013-12-10 10:42:05,639 [18] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-12-10 10:42:05,649 [18] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-12-10 10:42:05,673 [18] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','','LHS-PC','localhost','福建省厦门市','2013-12-10 10:42:05')
+2013-12-10 10:42:05,677 [18] DEBUG Servicemms_project - 获取实体对象
+2013-12-10 10:42:05,683 [18] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2013-12-10 10:42:05,714 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:42:05,715 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:42:05,740 [10] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:42:05,742 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:42:05,742 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:42:06,372 [29] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:42:08,440 [24] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:42:08,441 [24] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:42:08,452 [24] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:42:08,454 [24] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:42:08,454 [24] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:42:08,673 [27] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:44:05,538 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:44:05,538 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:44:05,553 [10] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:44:05,556 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:44:05,556 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:44:06,290 [27] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:44:15,727 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:44:15,727 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:44:15,741 [10] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:44:15,744 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:44:15,744 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:44:16,702 [18] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:44:23,567 [22] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:44:23,568 [22] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:44:23,594 [22] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:44:23,596 [22] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:44:23,596 [22] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:44:24,250 [29] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:45:11,186 [27] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:45:11,186 [27] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:45:11,209 [27] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:45:11,210 [27] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:45:11,211 [27] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:45:16,904 [11] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:45:36,789 [24] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:45:36,789 [24] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:45:36,803 [24] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:45:36,805 [24] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:45:36,806 [24] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:45:37,586 [8] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:45:46,382 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:45:46,382 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:45:46,399 [10] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:45:46,401 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:45:46,401 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:45:48,317 [18] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:45:58,144 [28] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:45:58,145 [28] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:45:58,159 [28] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:45:58,160 [28] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:45:58,161 [28] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:45:59,161 [30] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:46:06,456 [11] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:46:06,456 [11] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:46:06,489 [11] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:46:06,491 [11] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:46:06,491 [11] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:46:06,993 [18] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:46:20,157 [6] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:46:20,157 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:46:20,170 [6] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:46:20,172 [6] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:46:20,172 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:46:21,203 [32] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:46:32,404 [29] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:46:32,405 [29] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:46:32,423 [29] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:46:32,424 [29] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:46:32,425 [29] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:46:33,269 [8] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:47:20,875 [24] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:47:20,875 [24] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:47:20,892 [24] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:47:20,894 [24] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:47:20,894 [24] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:47:22,006 [28] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 10:49:29,409 [27] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:49:29,410 [27] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 10:49:29,424 [27] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 10:49:29,426 [27] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 10:49:29,426 [27] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 10:49:29,773 [10] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 11:03:27,778 [8] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 11:03:27,783 [8] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 11:03:27,795 [8] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 11:03:27,797 [8] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 11:03:27,797 [8] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 11:03:28,107 [17] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 11:03:29,981 [24] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 11:03:29,982 [24] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 11:03:29,997 [24] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 11:03:29,999 [24] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 11:03:29,999 [24] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 11:03:30,274 [22] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 11:03:33,318 [11] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 14:47:18,009 [148] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 14:47:18,011 [148] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 14:47:18,019 [148] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 14:47:18,020 [148] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 14:47:18,020 [148] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 14:47:21,781 [134] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 15:36:51,913 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 15:36:51,938 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 15:36:51,942 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 15:36:51,943 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 15:36:52,172 [379] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 15:36:52,183 [379] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 15:36:52,448 [379] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 15:36:52,827 [379] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 15:36:52,827 [379] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 15:36:55,724 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 15:36:55,746 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 15:36:55,750 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 15:36:55,750 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-10 15:36:56,534 [376] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 15:36:57,349 [379] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 15:47:37,771 [378] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:00:42,525 [371] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:00:42,556 [371] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 17:00:42,659 [371] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:00:42,702 [371] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:00:42,702 [371] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 17:00:45,822 [378] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:00:45,822 [378] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 17:00:45,828 [378] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:00:45,830 [378] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:00:45,830 [378] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 17:00:46,044 [376] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 17:00:50,777 [379] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:00:55,874 [374] DEBUG Sys - update sys_userSetting set [SettingValue] = '20' where [UserCode] = 'admin' and [SettingCode] = 'gridrows'
+2013-12-10 17:00:55,874 [374] DEBUG Sys - update sys_userSetting set [SettingValue] = '/mms/home/desktop' where [UserCode] = 'admin' and [SettingCode] = 'homeTabUrl'
+2013-12-10 17:00:55,875 [374] DEBUG Sys - update sys_userSetting set [SettingValue] = '我的桌面' where [UserCode] = 'admin' and [SettingCode] = 'homeTabTitle'
+2013-12-10 17:00:55,875 [374] DEBUG Sys - update sys_userSetting set [SettingValue] = '10' where [UserCode] = 'admin' and [SettingCode] = 'maxTabCount'
+2013-12-10 17:00:55,875 [374] DEBUG Sys - update sys_userSetting set [SettingValue] = 'accordion' where [UserCode] = 'admin' and [SettingCode] = 'navigation'
+2013-12-10 17:00:55,892 [374] DEBUG Sys - update sys_userSetting set [SettingValue] = 'zh_CN' where [UserCode] = 'admin' and [SettingCode] = 'locale'
+2013-12-10 17:00:55,893 [374] DEBUG Sys - update sys_userSetting set [SettingValue] = 'default' where [UserCode] = 'admin' and [SettingCode] = 'theme'
+2013-12-10 17:00:56,573 [376] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:00:56,573 [376] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 17:00:56,584 [376] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:00:56,586 [376] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:00:56,586 [376] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 17:00:56,858 [379] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 17:01:03,677 [371] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-12-10 17:01:03,721 [371] DEBUG Servicemms_warehouse - 获取动态列表
+2013-12-10 17:01:03,725 [371] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-12-10 17:01:03,726 [371] DEBUG Servicesys_code - 获取动态列表
+2013-12-10 17:01:03,727 [371] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-12-10 17:01:10,781 [374] DEBUG Servicemms_receive - 获取动态列表
+2013-12-10 17:01:10,782 [374] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-10 17:01:10,866 [374] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-10 17:47:43,477 [380] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-12-10 17:47:43,521 [380] DEBUG Servicemms_warehouse - 获取动态列表
+2013-12-10 17:47:43,524 [380] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-12-10 17:47:43,577 [380] DEBUG Servicesys_code - 获取动态列表
+2013-12-10 17:47:43,577 [380] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-12-10 17:47:43,589 [380] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:47:44,602 [380] DEBUG Servicemms_receive - 获取动态列表
+2013-12-10 17:47:44,602 [380] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-10 17:47:44,677 [380] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-10 17:47:45,827 [371] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:47:45,827 [371] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 17:47:45,838 [371] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:47:45,839 [371] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:47:45,839 [371] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 17:47:46,123 [371] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 17:47:46,568 [375] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-12-10 17:47:46,569 [375] DEBUG Servicemms_warehouse - 获取动态列表
+2013-12-10 17:47:46,569 [375] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-12-10 17:47:46,569 [375] DEBUG Servicesys_code - 获取动态列表
+2013-12-10 17:47:46,569 [375] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-12-10 17:47:47,023 [363] DEBUG Servicemms_receive - 获取动态列表
+2013-12-10 17:47:47,023 [363] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-10 17:47:47,025 [363] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-10 17:48:09,687 [380] DEBUG Servicemms_receive - 获取动态列表
+2013-12-10 17:48:09,688 [380] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-10 17:48:09,689 [380] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-10 17:48:30,824 [371] DEBUG ServiceModelBase - 获取动态列表
+2013-12-10 17:48:30,825 [371] DEBUG Mms - select top 20 ProjectName as text,ProjectCode as value from mms_project order by ProjectCode
+2013-12-10 17:48:30,844 [371] DEBUG Mms - select count(*) from ( select ProjectName as text,ProjectCode as value from mms_project ) tb_temp
+2013-12-10 17:48:35,197 [371] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:49:32,344 [379] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:49:32,345 [379] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-10 17:49:32,355 [379] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-10 17:49:32,356 [379] DEBUG Servicesys_parameter - 获取字段
+2013-12-10 17:49:32,356 [379] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-10 17:49:32,723 [375] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-10 17:50:57,521 [377] DEBUG ServiceModelBase - 获取动态列表
+2013-12-10 17:50:57,521 [377] DEBUG Mms - select top 20 ProjectName as text,ProjectCode as value from mms_project order by ProjectCode
+2013-12-10 17:50:57,522 [377] DEBUG Mms - select count(*) from ( select ProjectName as text,ProjectCode as value from mms_project ) tb_temp
+2013-12-10 17:50:59,904 [371] DEBUG ServiceModelBase - 获取动态列表
+2013-12-10 17:50:59,904 [371] DEBUG Mms - select top 20 ProjectName as text,ProjectCode as value from mms_project order by ProjectCode
+2013-12-10 17:50:59,905 [371] DEBUG Mms - select count(*) from ( select ProjectName as text,ProjectCode as value from mms_project ) tb_temp

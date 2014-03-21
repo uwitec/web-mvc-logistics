@@ -1,0 +1,994 @@
+2013-12-07 22:33:17,556 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:33:17,585 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:33:17,591 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:33:17,592 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:33:18,419 [7] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:33:18,422 [6] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:33:18,443 [7] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-07 22:33:18,444 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-07 22:33:18,786 [7] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:33:18,786 [6] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:33:18,787 [7] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-12-07 22:33:18,787 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-12-07 22:33:25,318 [8] DEBUG Servicesys_user - 获取实体对象
+2013-12-07 22:33:25,320 [8] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-12-07 22:33:25,413 [8] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-12-07 22:33:25,533 [8] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','','LHS-PC','localhost','福建省厦门市','2013-12-07 22:33:25')
+2013-12-07 22:33:25,559 [8] DEBUG Servicemms_project - 获取实体对象
+2013-12-07 22:33:25,560 [8] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2013-12-07 22:33:25,624 [6] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:33:25,625 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-07 22:33:25,970 [6] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-07 22:33:26,451 [6] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:33:26,452 [6] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-07 22:33:27,490 [8] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-07 22:33:31,805 [12] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2013-12-07 22:33:43,589 [12] DEBUG Mms - SELECT Name as TableName FROM sys.tables order by Name
+2013-12-07 22:33:43,596 [10] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2013-12-07 22:33:44,666 [8] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2013-12-07 22:34:11,966 [11] DEBUG Servicesys_user - 获取实体对象
+2013-12-07 22:34:11,966 [11] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-12-07 22:34:11,969 [11] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-12-07 22:34:11,983 [11] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','管理员','LHS-PC','localhost','福建省厦门市','2013-12-07 22:34:11')
+2013-12-07 22:34:12,170 [11] DEBUG Servicemms_project - 获取实体对象
+2013-12-07 22:34:12,171 [11] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2013-12-07 22:34:12,555 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:34:12,555 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-07 22:34:12,569 [10] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-07 22:34:12,571 [10] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:34:12,571 [10] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-07 22:34:13,490 [5] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-07 22:34:17,086 [5] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2013-12-07 22:34:22,093 [10] DEBUG Mms - SELECT Name as TableName FROM sys.tables order by Name
+2013-12-07 22:34:22,110 [7] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2013-12-07 22:34:23,242 [12] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_checkDetail')
+ORDER BY sys.columns.column_id
+2013-12-07 22:34:23,927 [9] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_deal')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:25,658 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:37:25,689 [1] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:37:25,696 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:37:25,697 [1] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:37:26,080 [27] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:37:26,104 [27] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-07 22:37:26,625 [27] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-07 22:37:27,073 [27] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:37:27,073 [27] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-07 22:37:28,712 [27] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-07 22:37:33,725 [22] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Sys/generator/Index','/Sys/generator')
+2013-12-07 22:37:39,119 [27] DEBUG Mms - SELECT Name as TableName FROM sys.tables order by Name
+2013-12-07 22:37:39,156 [26] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('undefined')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:40,025 [20] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:46,823 [21] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:46,857 [25] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:50,303 [25] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_directDetail')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:53,080 [26] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:53,111 [22] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:53,994 [24] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_directDetail')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:54,002 [27] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_directDetail')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:55,146 [24] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:55,161 [23] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:58,468 [26] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_directDetail')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:58,484 [11] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_directDetail')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:59,564 [8] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:37:59,569 [10] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_direct')
+ORDER BY sys.columns.column_id
+2013-12-07 22:38:02,884 [9] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_directDetail')
+ORDER BY sys.columns.column_id
+2013-12-07 22:38:02,884 [10] DEBUG Mms - 
+SELECT	sys.columns.name						AS ColumnName, 
+		type_name(sys.columns.system_type_id)	AS SqlTypeName,
+		sys.columns.max_length					AS MaxLength,
+		sys.columns.is_nullable					AS IsNullable,
+		sys.columns.is_identity					AS IsIdentity,
+		(case when exists(select 1  
+						 from   syscolumns 
+						 join   sysindexkeys on syscolumns.id  =sysindexkeys.id and syscolumns.colid=sysindexkeys.colid and syscolumns.id=sys.columns.object_id 
+						 join   sysindexes   on syscolumns.id  =sysindexes.id   and sysindexkeys.indid=sysindexes.indid   
+						 join   sysobjects   on sysindexes.name=sysobjects.name and sysobjects.xtype= 'PK '
+						 where syscolumns.name = sys.columns.name) then 1 else 0 end) AS IsPrimaryKey,
+		(select value from sys.extended_properties where sys.extended_properties.major_id = sys.columns.object_id and sys.extended_properties.minor_id = sys.columns.column_id) as Description
+FROM sys.columns    
+WHERE sys.columns.object_id = object_id('mms_directDetail')
+ORDER BY sys.columns.column_id
+2013-12-07 22:45:27,354 [39] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:45:27,370 [39] DEBUG Sys - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:45:27,375 [39] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:45:27,375 [39] DEBUG Mms - select name from dbo.sysobjects where id = object_id(N'[dbo].[fun_getPY]') and xtype in (N'FN', N'IF', N'TF')
+2013-12-07 22:45:27,558 [36] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:45:27,575 [36] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-07 22:45:27,585 [36] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:45:27,586 [36] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-12-07 22:45:27,973 [38] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:45:27,973 [38] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-07 22:45:27,974 [38] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:45:27,974 [38] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME_EN'
+2013-12-07 22:45:33,139 [33] DEBUG Servicesys_user - 获取实体对象
+2013-12-07 22:45:33,141 [33] DEBUG Sys - select sys_user.* from sys_user where UserCode='admin' and Password='81dc9bdb52d04dc20036dbd8313ed055' and IsEnable='1'
+2013-12-07 22:45:33,254 [33] DEBUG Sys - 
+update sys_user
+set LoginCount = isnull(LoginCount,0) + 1
+   ,LastLoginDate = getdate()
+where UserCode = 'admin' 
+2013-12-07 22:45:33,308 [33] DEBUG Sys - insert into sys_loginHistory([UserCode],[UserName],[HostName],[HostIP],[LoginCity],[LoginDate]) values('admin','','LHS-PC','localhost','福建省厦门市','2013-12-07 22:45:33')
+2013-12-07 22:45:33,313 [33] DEBUG Servicemms_project - 获取实体对象
+2013-12-07 22:45:33,313 [33] DEBUG Mms - select mms_project.* from mms_project where ProjectCode='201306030001'
+2013-12-07 22:45:33,375 [31] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:45:33,376 [31] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_NAME'
+2013-12-07 22:45:33,610 [31] DEBUG Sys - select * from sys_userSetting where UserCode='admin'
+2013-12-07 22:45:33,921 [31] DEBUG Servicesys_parameter - 获取字段
+2013-12-07 22:45:33,921 [31] DEBUG Sys - select ParamValue from sys_parameter where ParamCode='SYS_COPYRIGHT'
+2013-12-07 22:45:34,738 [36] DEBUG Sys - 
+-- 角色的菜单
+select distinct B.*
+from sys_roleMenuMap A
+inner join sys_menu  B on B.MenuCode = A.MenuCode
+where B.IsEnable='1'
+  and RoleCode in (
+  select RoleCode from sys_userRoleMap where UserCode = 'admin' -- 用户的角色
+union all
+  select RoleCode from sys_organizeRoleMap where OrganizeCode in  -- 机构的角色
+  (
+	select OrganizeCode from sys_userOrganizeMap where UserCode = 'admin'
+  )  
+)
+order by B.MenuSeq,B.MenuCode
+2013-12-07 22:45:37,948 [33] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/receive/Index','/Mms/receive')
+2013-12-07 22:45:37,970 [33] DEBUG Servicemms_warehouse - 获取动态列表
+2013-12-07 22:45:37,971 [33] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-12-07 22:45:37,972 [33] DEBUG Servicesys_code - 获取动态列表
+2013-12-07 22:45:37,973 [33] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='SupplyType'
+2013-12-07 22:45:39,985 [36] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:39,986 [36] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:45:40,020 [36] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:45:41,940 [31] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:41,941 [31] DEBUG Mms - select top 10 BillNo from mms_receive where BillNo like ';%' or [dbo].[fun_getPY](BillNo) like N';%'
+2013-12-07 22:45:43,825 [37] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:43,826 [37] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo=';'       and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:45:43,833 [37] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo=';'       and A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:45:45,048 [35] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:45,049 [35] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo=';'       and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:45:45,050 [35] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo=';'       and A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:45:45,660 [33] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:45,661 [33] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:45:45,663 [33] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:45:47,597 [37] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:47,597 [37] DEBUG Mms - select top 10 BillNo from mms_receive where BillNo like ';%' or [dbo].[fun_getPY](BillNo) like N';%'
+2013-12-07 22:45:49,132 [35] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:49,132 [35] DEBUG Mms - select top 10 BillNo from mms_receive where BillNo like ';i%' or [dbo].[fun_getPY](BillNo) like N';i%'
+2013-12-07 22:45:49,814 [14] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:49,815 [14] DEBUG Mms - select top 10 BillNo from mms_receive where BillNo like ';in%' or [dbo].[fun_getPY](BillNo) like N';in%'
+2013-12-07 22:45:50,012 [31] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:50,012 [31] DEBUG Mms - select top 10 BillNo from mms_receive where BillNo like ';ins%' or [dbo].[fun_getPY](BillNo) like N';ins%'
+2013-12-07 22:45:50,144 [37] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:50,144 [37] DEBUG Mms - select top 10 BillNo from mms_receive where BillNo like ';inse%' or [dbo].[fun_getPY](BillNo) like N';inse%'
+2013-12-07 22:45:50,251 [35] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:50,251 [35] DEBUG Mms - select top 10 BillNo from mms_receive where BillNo like ';inser%' or [dbo].[fun_getPY](BillNo) like N';inser%'
+2013-12-07 22:45:50,434 [14] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:50,435 [14] DEBUG Mms - select top 10 BillNo from mms_receive where BillNo like ';insert%' or [dbo].[fun_getPY](BillNo) like N';insert%'
+2013-12-07 22:45:52,354 [30] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:52,354 [30] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo=';insert'       and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:45:52,361 [30] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where BillNo=';insert'       and A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:45:54,044 [35] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:45:54,044 [35] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:45:54,046 [35] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:46:00,686 [14] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:00,687 [14] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like ''%' or [dbo].[fun_getPY](MerchantsName) like N''%'
+2013-12-07 22:46:00,788 [14] ERROR Servicemms_merchants - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): 数据类型 varchar 和 varchar 在 modulo 运算符中不兼容。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:00,851 [14] ERROR /api/mms/merchant/getnames - System.Data.SqlClient.SqlException (0x80131904): 数据类型 varchar 和 varchar 在 modulo 运算符中不兼容。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Web.Mms.Controllers.MerchantApiController.GetNames(String q) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\MerchantController.cs:行号 33
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:01,099 [35] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:01,099 [35] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like '''%' or [dbo].[fun_getPY](MerchantsName) like N'''%'
+2013-12-07 22:46:01,839 [36] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:01,839 [36] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like ''%' or [dbo].[fun_getPY](MerchantsName) like N''%'
+2013-12-07 22:46:01,841 [36] ERROR Servicemms_merchants - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): 数据类型 varchar 和 varchar 在 modulo 运算符中不兼容。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:01,847 [36] ERROR /api/mms/merchant/getnames - System.Data.SqlClient.SqlException (0x80131904): 数据类型 varchar 和 varchar 在 modulo 运算符中不兼容。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Web.Mms.Controllers.MerchantApiController.GetNames(String q) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\MerchantController.cs:行号 33
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:03,600 [14] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:03,600 [14] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%'%'     and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:03,662 [14] ERROR Servicemms_receive - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:03,673 [14] ERROR /api/mms/receive - System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 149
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:04,547 [33] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:04,548 [33] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%'%'     and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:04,549 [33] ERROR Servicemms_receive - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:04,554 [33] ERROR /api/mms/receive - System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 149
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:08,569 [38] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:08,569 [38] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like ''%' or [dbo].[fun_getPY](MerchantsName) like N''%'
+2013-12-07 22:46:08,570 [38] ERROR Servicemms_merchants - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): 数据类型 varchar 和 varchar 在 modulo 运算符中不兼容。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:08,580 [38] ERROR /api/mms/merchant/getnames - System.Data.SqlClient.SqlException (0x80131904): 数据类型 varchar 和 varchar 在 modulo 运算符中不兼容。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Web.Mms.Controllers.MerchantApiController.GetNames(String q) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\MerchantController.cs:行号 33
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:10,242 [33] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:10,243 [33] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like '''%' or [dbo].[fun_getPY](MerchantsName) like N'''%'
+2013-12-07 22:46:10,505 [38] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:10,506 [38] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like ''''%' or [dbo].[fun_getPY](MerchantsName) like N''''%'
+2013-12-07 22:46:10,507 [38] ERROR Servicemms_merchants - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): 数据类型 varchar 和 varchar 在 modulo 运算符中不兼容。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:10,512 [38] ERROR /api/mms/merchant/getnames - System.Data.SqlClient.SqlException (0x80131904): 数据类型 varchar 和 varchar 在 modulo 运算符中不兼容。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Web.Mms.Controllers.MerchantApiController.GetNames(String q) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\MerchantController.cs:行号 33
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:12,406 [35] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:12,407 [35] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%'''%'     and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:12,408 [35] ERROR Servicemms_receive - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:12,419 [35] ERROR /api/mms/receive - System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 149
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:13,637 [36] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:13,637 [36] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like 'a%' or [dbo].[fun_getPY](MerchantsName) like N'a%'
+2013-12-07 22:46:14,468 [38] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:14,469 [38] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%a%'     and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:14,480 [38] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%a%'     and A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:46:15,179 [14] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:15,180 [14] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:15,182 [14] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:46:17,107 [38] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:17,107 [38] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like ';%' or [dbo].[fun_getPY](MerchantsName) like N';%'
+2013-12-07 22:46:17,456 [30] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:17,456 [30] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like ';a%' or [dbo].[fun_getPY](MerchantsName) like N';a%'
+2013-12-07 22:46:18,876 [37] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:18,877 [37] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%;a%'     and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:18,889 [37] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%;a%'     and A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:46:20,330 [36] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:20,331 [36] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like ';%' or [dbo].[fun_getPY](MerchantsName) like N';%'
+2013-12-07 22:46:21,054 [33] DEBUG Servicemms_merchants - 获取动态列表
+2013-12-07 22:46:21,054 [33] DEBUG Mms - select top 10 MerchantsName from mms_merchants where MerchantsName like ';'%' or [dbo].[fun_getPY](MerchantsName) like N';'%'
+2013-12-07 22:46:21,056 [33] ERROR Servicemms_merchants - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): '%' 附近有语法错误。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:21,069 [33] ERROR /api/mms/merchant/getnames - System.Data.SqlClient.SqlException (0x80131904): '%' 附近有语法错误。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Web.Mms.Controllers.MerchantApiController.GetNames(String q) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\MerchantController.cs:行号 33
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:22,594 [16] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:22,594 [16] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%;'%'     and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:22,595 [16] ERROR Servicemms_receive - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:22,600 [16] ERROR /api/mms/receive - System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 149
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:23,408 [29] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:23,408 [29] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where E.MerchantsName like '%;'%'     and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:23,409 [29] ERROR Servicemms_receive - 获取动态列表失败
+System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Data.ExecuteQueryHandler.HandleQueryException(Exception exception) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 107
+   在 Zephyr.Data.ExecuteQueryHandler.ExecuteQuery(Boolean useReader, Action action) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\Handlers\ExecuteQueryHandler.cs:行号 28
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity,TList](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 14
+   在 Zephyr.Data.DbCommand.QueryMany[TEntity](Action`2 customMapper) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Command\PartialClasses\QueryMany.cs:行号 36
+   在 Zephyr.Data.SelectBuilder`1.QueryManyDynamic() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Data\Builders\Select\SelectBuilder.cs:行号 150
+   在 Zephyr.Core.ServiceBase`1.<>c__DisplayClass41.<GetDynamicList>b__40() 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 44
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:23,420 [29] ERROR /api/mms/receive - System.Data.SqlClient.SqlException (0x80131904): '201306030001' 附近有语法错误。
+字符串 ' order by A.BillNo' 后的引号不完整。
+   在 Zephyr.Core.LogHelper.Logger(ILog log, String function, ErrorHandle errorHandleType, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Logs\LogHelper.cs:行号 54
+   在 Zephyr.Core.ServiceBase`1.Logger(String function, Action tryHandle, Action`1 catchHandle, Action finallyHandle) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseLog.cs:行号 23
+   在 Zephyr.Core.ServiceBase`1.GetDynamicList(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 28
+   在 Zephyr.Core.ServiceBase`1.GetDynamicListWithPaging(ParamQuery param) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Net\Zephyr.Core\Base\ServiceBaseQuery.cs:行号 43
+   在 Zephyr.Web.Mms.Controllers.ReceiveApiController.Get(RequestWrapper query) 位置 g:\02.进行项目\纵云框架产品\Zephyr.Net.V2.0\src\Zephyr.Web.Mms\Areas\Mms\Controllers\ReceiveController.cs:行号 149
+   在 lambda_method(Closure , Object , Object[] )
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass13.<GetExecutor>b__c(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.<>c__DisplayClass5.<ExecuteAsync>b__4()
+   在 System.Threading.Tasks.TaskHelpers.RunSynchronously[TResult](Func`1 func, CancellationToken cancellationToken)
+ClientConnectionId:0ffa3ea0-f58a-4ac1-8d87-d01bfefebd3c
+2013-12-07 22:46:25,654 [16] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:25,655 [16] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:25,657 [16] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:46:28,634 [36] DEBUG Servicemms_receive - 获取动态列表
+2013-12-07 22:46:28,636 [36] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where datediff(day,'2013-11-30 ',ReceiveDate) >=0 and datediff(day,' 2013-12-07',ReceiveDate) <=0  and A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:28,647 [36] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName as WarehouseName, E.MerchantsName AS SupplierName from mms_receive A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType     = A.MaterialType
+        left join mms_warehouse     D on D.WarehouseCode    = A.WarehouseCode
+        left join mms_merchants     E on E.MerchantsCode    = A.SupplierCode where datediff(day,'2013-11-30 ',ReceiveDate) >=0 and datediff(day,' 2013-12-07',ReceiveDate) <=0  and A.ProjectCode='201306030001' ) tb_temp
+2013-12-07 22:46:36,732 [30] DEBUG Sys - 
+select 1
+from sys_roleMenuMap A
+left join sys_userRoleMap B on B.RoleCode = A.RoleCode
+left join sys_menu C on C.MenuCode = A.MenuCode
+where B.UserCode = 'admin'
+and C.URL in ('/Mms/send/Index','/Mms/send')
+2013-12-07 22:46:36,738 [30] DEBUG Servicemms_warehouse - 获取动态列表
+2013-12-07 22:46:36,738 [30] DEBUG Mms - select WarehouseCode as value,WarehouseName as text from mms_warehouse where ProjectCode='201306030001'
+2013-12-07 22:46:36,739 [30] DEBUG Servicesys_code - 获取动态列表
+2013-12-07 22:46:36,739 [30] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='Pricing'
+2013-12-07 22:46:36,740 [30] DEBUG Servicesys_code - 获取动态列表
+2013-12-07 22:46:36,740 [30] DEBUG Sys - select Code as value,Text as text from sys_code where CodeType='MaterialUse'
+2013-12-07 22:46:39,798 [30] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/send'
+2013-12-07 22:46:39,799 [30] DEBUG Sys - 
+select *
+from sys_roleMenuColumnMap 
+where MenuCode = '1001'
+and RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+2013-12-07 22:46:39,804 [30] DEBUG Sys - select MenuCode from sys_menu where URL = '/mms/send'
+2013-12-07 22:46:39,805 [30] DEBUG Sys - 
+select A.*
+from sys_button A
+inner join sys_roleMenuButtonMap B on B.MenuCode = '1001' and B.ButtonCode = A.ButtonCode
+where RoleCode in (
+select RoleCode
+from sys_userRoleMap
+where userCode = 'admin'
+union
+select A.RoleCode
+from sys_organizeRoleMap A
+inner join sys_userOrganizeMap B on B.OrganizeCode = A.OrganizeCode
+where B.UserCode = 'admin'
+)
+order by ButtonSeq
+2013-12-07 22:46:41,393 [31] DEBUG Servicemms_send - 获取动态列表
+2013-12-07 22:46:41,394 [31] DEBUG Mms - select top 20 A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName,E.MerchantsName as PickUnitName from mms_send A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode
+        left join mms_merchants E on E.MerchantsCode=A.PickUnit where A.ProjectCode='201306030001' order by A.BillNo
+2013-12-07 22:46:41,403 [31] DEBUG Mms - select count(*) from ( select A.*, B.ProjectName, C.MaterialTypeName, D.WarehouseName,E.MerchantsName as PickUnitName from mms_send A
+        left join mms_project       B on B.ProjectCode      = A.ProjectCode
+        left join mms_materialType  C on C.MaterialType = A.MaterialType
+        left join mms_warehouse         D on D.WarehouseCode       = A.WarehouseCode
+        left join mms_merchants E on E.MerchantsCode=A.PickUnit where A.ProjectCode='201306030001' ) tb_temp
