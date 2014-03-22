@@ -38,3 +38,13 @@ F:\lbl\soft\web-mvc-logistics - 副本 (2)\src\Zephyr.Net\Zephyr.Core\bin\debug\
 F:\lbl\soft\web-mvc-logistics - 副本 (2)\src\Zephyr.Net\Zephyr.Core\obj\Debug\Zephyr.Core.csprojResolveAssemblyReference.cache
 F:\lbl\soft\web-mvc-logistics - 副本 (2)\src\Zephyr.Net\Zephyr.Core\obj\Debug\Zephyr.Core.dll
 F:\lbl\soft\web-mvc-logistics - 副本 (2)\src\Zephyr.Net\Zephyr.Core\obj\Debug\Zephyr.Core.pdb
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\bin\debug\Zephyr.Core.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\bin\debug\Zephyr.Core.pdb
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\bin\debug\Newtonsoft.Json.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\bin\debug\Zephyr.Data.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\bin\debug\Zephyr.Library.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\bin\debug\Zephyr.Utils.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\bin\debug\Newtonsoft.Json.xml
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\obj\Debug\Zephyr.Core.csprojResolveAssemblyReference.cache
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\obj\Debug\Zephyr.Core.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Core\obj\Debug\Zephyr.Core.pdb
