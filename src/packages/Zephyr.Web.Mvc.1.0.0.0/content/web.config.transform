@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    <add key="LoginEffectiveHours" value="8" />
+  </appSettings>
+  <connectionStrings>
+    <!--<add name="Sys" providerName="SqlServer" connectionString="server=.\SQL2005;uid=sa;pwd=123456;database=Zephyr.Sys" />-->
+    <!--<add name="Sys" providerName="MySql" connectionString="Server=localhost;Uid=root;Pwd=root;Database=zephyr.sys;" />-->
+  </connectionStrings>
+  <system.web>
+    <authentication mode="Forms">
+      <forms loginUrl="~/Login" />
+    </authentication>
+  </system.web>
+  <system.webServer>
+    <handlers>
+      <add name="Resource" path="Resource/*" verb="GET" type="System.Web.HttpNotFoundHandler" preCondition="integratedMode" />
+    </handlers>
+  </system.webServer>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="WebGrease" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-1.5.2.14234" newVersion="1.5.2.14234" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  <system.data>
+    <DbProviderFactories>
+      <remove invariant="MySql.Data.MySqlClient" />
+      <add name="MySQL Data Provider" invariant="MySql.Data.MySqlClient" description=".Net Framework Data Provider for MySQL" type="MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data, Version=6.7.4.0" />
+    </DbProviderFactories>
+  </system.data>
+</configuration>

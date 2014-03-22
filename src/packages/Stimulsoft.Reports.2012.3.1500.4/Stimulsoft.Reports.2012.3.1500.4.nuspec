@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Stimulsoft.Reports</id>
+    <version>2012.3.1500.4</version>
+    <title>Stimulsoft Reports</title>
+    <authors>Stimulsoft</authors>
+    <owners>Stimulsoft</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Stimulsoft.Reports 
+auto add file content/page/report.aspx</description>
+  </metadata>
+</package>
