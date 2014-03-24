@@ -1,0 +1,209 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>配置数据库生成选项</title>
+<link rel="stylesheet" href="css/install.css?ver=3.5.1" type="text/css" />
+<link rel="stylesheet" href="../wp-includes/css/buttons.css?ver=3.5.1" type="text/css" />
+    <style type="text/css">
+        html { background: #f9f9f9; }
+        body { background: #fff; color: #333; font-family:Verdana,宋体,Tahoma; font-size:12px; margin: 2em auto; padding: 1em 2em; -webkit-border-radius: 3px; border-radius: 3px; border: 1px solid #dfdfdf; max-width: 700px; }
+        a { color: #21759b; text-decoration: none; }
+        a:hover { color: #d54e21; }
+        h1 { border-bottom: 1px solid #dadada; clear: both; color: #666; font: 24px Georgia, "Times New Roman", Times, serif; margin: 30px 0 0 0; padding: 0; padding-bottom: 7px; }
+        h2 { font-size: 16px; }
+        p, li, dd, dt { padding-bottom: 2px; font-size: 14px; line-height: 1.5; }
+        code, .code { font-size: 14px; }
+        ul, ol, dl { padding: 5px 5px 5px 22px; }
+        a img { border:0}
+        abbr { border: 0; font-variant: normal; }
+        #logo { margin: 6px 0 14px 0; border-bottom: none; text-align:center}
+        .step { margin: 20px 0 15px; }
+        .step, th { text-align: left; padding: 0; }
+        .step .button-large { font-size: 14px; }
+        textarea { border: 1px solid #dfdfdf; -webkit-border-radius: 3px; border-radius: 3px; font-family: sans-serif; width:  695px; }
+        .form-table { border-collapse: collapse; margin-top: 1em; width: 100%; }
+        .form-table td { margin-bottom: 9px; padding: 10px 20px 10px 0; border-bottom: 8px solid #fff; font-size: 14px; vertical-align: top}
+        .form-table th { font-size: 14px; text-align: left; padding: 16px 20px 10px 0; border-bottom: 8px solid #fff; width: 140px; vertical-align: top; }
+        .form-table code { line-height: 18px; font-size: 14px; }
+        .form-table p { margin: 4px 0 0 0; font-size: 11px; }
+        select{ height:25px; }
+        .form-table input{ height:20px; line-height: 20px; font-size: 15px; padding: 2px; border: 1px #dfdfdf solid; -webkit-border-radius: 3px; border-radius: 3px; font-family: sans-serif; }
+        .form-table input[type=text],
+        .form-table input[type=password] { width: 206px; }
+        .form-table th p { font-weight: normal; }
+        .form-table.install-success td { vertical-align: middle; padding: 16px 20px 10px 0; }
+        .form-table.install-success td p { margin: 0; font-size: 14px; }
+        .form-table.install-success td code { margin: 0; font-size: 18px; }
+        #error-page { margin-top: 50px; }
+        #error-page p { font-size: 14px; line-height: 18px; margin: 25px 0 20px; }
+        #error-page code, .code { font-family: Consolas, Monaco, monospace; }
+        #pass-strength-result { background-color: #eee; border-color: #ddd !important; border-style: solid; border-width: 1px; margin: 5px 5px 5px 0; padding: 5px; text-align: center; width: 200px; display: none; }
+        #pass-strength-result.bad { background-color: #ffb78c; border-color: #ff853c !important; }
+        #pass-strength-result.good { background-color: #ffec8b; border-color: #ffcc00 !important; }
+        #pass-strength-result.short { background-color: #ffa0a0; border-color: #f04040 !important; }
+        #pass-strength-result.strong { background-color: #c3ff88; border-color: #8dff1c !important; }
+        .message { border: 1px solid #e6db55; padding: 0.3em 0.6em; margin: 5px 0 15px; background-color: #ffffe0; }
+        /* install-rtl */
+        body.rtl { font-family: Tahoma, arial; }
+        .rtl h1 { font-family: arial; margin: 5px -4px 0 0; }
+        .rtl ul,
+        .rtl ol { padding: 5px 22px 5px 5px; }
+        .button,
+        .button-primary,
+        .button-secondary { display: inline-block; text-decoration: none; font-size: 12px; line-height: 23px; height: 24px; margin: 0; padding: 0 10px 1px; cursor: pointer; border-width: 1px; border-style: solid; -webkit-border-radius: 3px; -webkit-appearance: none; border-radius: 3px; white-space: nowrap; -webkit-box-sizing: border-box; -moz-box-sizing:    border-box; box-sizing:         border-box; }
+        /* Remove the dotted border on :focus and the extra padding in Firefox */
+        button::-moz-focus-inner,
+        input[type="reset"]::-moz-focus-inner,
+        input[type="button"]::-moz-focus-inner,
+        input[type="submit"]::-moz-focus-inner { border-width: 1px 0; border-style: solid none; border-color: transparent; padding: 0; }
+        .button.button-large,
+        .button-group.button-large .button { height: 30px; line-height: 28px; padding: 0 12px 2px; }
+        .button.button-small,
+        .button-group.button-small .button { height: 21px; line-height: 20px; padding: 0 8px 1px; }
+        .button.button-hero,
+        .button-group.button-hero .button { font-size: 14px; height: 46px; line-height: 44px; padding: 0 36px; }
+        .button:active { outline: none; }
+        .button.hidden { display: none; }
+        .button{ background: #f3f3f3; background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f4f4f4)); background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4); background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4); background-image:      -o-linear-gradient(top, #fefefe, #f4f4f4); background-image:   linear-gradient(to bottom, #fefefe, #f4f4f4); border-color: #bbb; color: #333; text-shadow: 0 1px 0 #fff; }
+        .button.hover,
+        .button:hover,
+        .button.focus,
+        .button:focus{ background: #f3f3f3; background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f3f3f3)); background-image: -webkit-linear-gradient(top, #fff, #f3f3f3); background-image:    -moz-linear-gradient(top, #fff, #f3f3f3); background-image:     -ms-linear-gradient(top, #fff, #f3f3f3); background-image:      -o-linear-gradient(top, #fff, #f3f3f3); background-image:   linear-gradient(to bottom, #fff, #f3f3f3); border-color: #999; color: #222; }
+        .button.focus,
+        .button:focus{ -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2); box-shadow: 1px 1px 1px rgba(0,0,0,.2); }
+        .button.active,
+        .button.active:hover,
+        .button.active:focus,
+        .button:active{ background: #eee; background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#fefefe)); background-image: -webkit-linear-gradient(top, #f4f4f4, #fefefe); background-image:    -moz-linear-gradient(top, #f4f4f4, #fefefe); background-image:     -ms-linear-gradient(top, #f4f4f4, #fefefe); background-image:      -o-linear-gradient(top, #f4f4f4, #fefefe); background-image:   linear-gradient(to bottom, #f4f4f4, #fefefe); border-color: #999; color: #333; text-shadow: 0 -1px 0 #fff; -webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 ); box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 ); }
+        .button[disabled],
+        .button:disabled,
+        .button-disabled { color: #aaa !important; border-color: #ddd !important; background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#f4f4f4)) !important; background-image: -webkit-linear-gradient(top, #f9f9f9, #f4f4f4) !important; background-image:    -moz-linear-gradient(top, #f9f9f9, #f4f4f4) !important; background-image:     -ms-linear-gradient(top, #f9f9f9, #f4f4f4) !important; background-image:      -o-linear-gradient(top, #f9f9f9, #f4f4f4) !important; background-image:   linear-gradient(to bottom, #f9f9f9, #f4f4f4) !important; -webkit-box-shadow: none !important; box-shadow:         none !important; text-shadow: 0 1px 0 #fff !important; cursor: default; }
+    </style>
+   
+</head>
+<body >
+<h1 id="logo"><a href="http://www.zoewin.com/">数据库配置</a></h1>
+<form method="post" action="/sys/wizard/step2">
+	<p>请在下方填写您的数据库连接信息。</p>
+	<table class="form-table">
+		<tr>
+			<th scope="row"><label for="dbtype">数据库类型</label></th>
+			<td> 
+                <select name="dbtype" id="dbtype" style="width:16em" >
+                    <option value="MySql">MySql</option>
+                    <option value="SqlServer" selected="selected">SqlServer</option>
+                </select>
+			</td>
+			<td>目前向导只支持mysql和sql server自动生成</td>
+		</tr>
+        <tr>
+			<th scope="row"><label for="dbhost">数据库服务器</label></th>
+			<td><input name="dbhost" id="dbhost" type="text" size="25" value=".\sql2005" /></td>
+			<td>如 ip\sqlexpress 或 localhost 等 </td>
+		</tr>
+        <tr>
+			<th scope="row"><label for="uname">用户名</label></th>
+			<td><input name="uname" id="uname" type="text" size="25" value="sa" /></td>
+			<td>您的数据库用户名</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="pwd">密码</label></th>
+			<td><input name="pwd" id="pwd" type="text" size="25" value="123456" /></td>
+			<td>及其登陆密码</td>
+		</tr>
+        <tr>
+			<th scope="row"><label for="dbname">数据库名</label></th>
+			<td><input name="dbname" id="dbname" type="text" size="25" value="Zephyr.Sys" /></td>
+			<td>纵云权限系统数据库名</td>
+		</tr>
+	
+	</table>
+		<p class="step" style="text-align:right">
+            <input name="forward" type="button" value="上一步" class="button button-large" style="float:left" onclick="history.go(-1);" />
+            <input name="test" type="button" value="测试连接" class="button button-large" onclick="Test();" />
+            <input name="submit" type="submit" disabled="disabled" value="创建" class="button button-large" />
+		</p>
+</form>
+     <script src="~/Content/js/jquery/jquery-@(AppSettings.JqueryVersion).min.js"></script>
+    <script type="text/javascript">
+        var connectionTested = false;
+        submit = $("[type=submit]");
+
+        $("input").change(function () {
+            submit.attr("disabled", "disabled");
+        });
+
+        $("select").change(function () {
+            submit.attr("disabled", "disabled");
+            var val = $(this).val();
+            if (val == "MySql") {
+                $('#dbhost').val("localhost");
+                $('#uname').val("root");
+                $('#pwd').val("root");
+                $('#dbname').val("Zephyr.Sys");
+            }
+            else {
+                $('#dbhost').val(".\\SQL2005");
+                $('#uname').val("sa");
+                $('#pwd').val("123456");
+                $('#dbname').val("Zephyr.Sys");
+            }
+        });
+
+        $("form").submit(function () {
+
+            if (!connectionTested)
+                alert("请先测试连接，测试成功后再创建！");
+            else {
+                submit.val("正在创建请稍候...");
+                submit.attr("disabled", "disabled");
+            }
+
+            return connectionTested;
+        });
+ 
+        function Test() {
+            connectionTested = false;
+            submit.attr("disabled", "disabled");
+            var form = {
+                dbtype: $('#dbtype').val(),
+                dbhost: $('#dbhost').val(),
+                uname: $('#uname').val(),
+                pwd: $('#pwd').val(),
+                dbname: $('#dbname').val()
+            };
+ 
+            $.ajax({
+                type: 'POST',
+                url: '/sys/wizard/test',
+                data: form,
+                success: function (d) {
+                    if (d.status == 'success') {
+                        connectionTested = true;
+                        submit.removeAttr("disabled");
+                        alert("连接成功！");
+                    }
+                    else if (d.status == 'confirm')
+                    {
+                        if (confirm(d.message))
+                        {
+                            connectionTested = true;
+                            submit.removeAttr("disabled");
+                        }
+                    }
+                    else{
+                        alert(d.message);
+                    }
+                },
+                error: function (e) { alert(e.responseText);}
+            });
+        }
+ 
+    </script>
+</body>
+</html>
+
