@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null;
+}
+@*<!DOCTYPE html><html lang="zh"> 使用这个出现了滚动条*@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+        <link href="~/Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <!--加载页面CSS-->
+        @Styles.Render("~/Content/css/index")
+        <!--加载控件CSS-->
+        <link href="~/Content/js/easyui/@AppSettings.EasyuiVersion/themes/@AppLoginer.Theme/easyui.css" rel="Stylesheet"/>
+        <link href="~/Content/css/btns/sexybuttons.css"  rel="Stylesheet"/>
+        <link href="~/Content/css/btns/css3btn.css"  rel="Stylesheet"/>
+        <link href="~/Content/js/jquery-plugins/showloading/showLoading.css"  rel="Stylesheet"/>
+        <link href="~/Content/js/jquery-plugins/ztree/3.5/zTreeStyle.css"  rel="Stylesheet"/>
+        <link href="~/Content/js/jquery-plugins/jnotify/jquery.jnotify.css"  rel="Stylesheet"/>
+        <!--加载主题CSS-->
+        @StylesLess.Render("~/Content/css/theme/" + AppLoginer.Theme)
+    </head>
+    <body class="easyui-layout" fit="true" scroll="no">
+        <noscript>
+            <div class="noscript">
+                <img src="~/Content/images/noscript.gif" alt="抱歉，请开启脚本支持！" />
+            </div>
+        </noscript>
+
+        @Html.Partial("_LayoutPartial")
+  
+        <div id="closeMenu" class="easyui-menu hide" style="width:150px;">
+		    <div id="refresh">刷新</div>
+		    <div class="menu-sep"></div>
+		    <div id="close">关闭</div>
+		    <div id="closeall">全部关闭</div>
+		    <div id="closeother">除此之外全部关闭</div>
+		    <div class="menu-sep"></div>
+		    <div id="closeright">关闭右侧标签</div>
+		    <div id="closeleft">关闭左侧标签</div>
+		    <div class="menu-sep"></div>
+		    <div id="exit">退出</div>
+	    </div>
+
+        <div id="w"></div>
+        <div id="notity"></div>
+       
+        <!--加载页面脚本-->
+        @System.Web.Optimization.Scripts.Render("~/Content/js/index")
+        <script type="text/javascript">wrapper.initSettings(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(AppLoginer.GetSettings())));</script>
+        <script type="text/javascript" src="~/Content/js/easyui/@AppSettings.EasyuiVersion/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="~/Content/js/easyui/@AppSettings.EasyuiVersion/locale/easyui-lang-zh_CN.js"></script>
+        <!--加载图标库CSS-->
+        <link href="~/Content/css/icon/icon.css" rel="stylesheet"/>
+    </body>
+</html>
