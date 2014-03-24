@@ -1,0 +1,12 @@
+F:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.dll
+F:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.pdb
+F:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.dll
+F:\lbl\soft\Zephyr.Net\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.pdb
+D:\lbl\SOFT\Zephyr.Net20140310\Zephyr.Net\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.dll
+D:\lbl\SOFT\Zephyr.Net20140310\Zephyr.Net\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.pdb
+D:\lbl\SOFT\Zephyr.Net20140310\Zephyr.Net\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.dll
+D:\lbl\SOFT\Zephyr.Net20140310\Zephyr.Net\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.pdb
+F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.dll
+F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.pdb
+F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.dll
+F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.pdb
