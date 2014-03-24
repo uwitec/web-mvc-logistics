@@ -10,3 +10,8 @@ F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zep
 F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.pdb
 F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.dll
 F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.pdb
+F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.dll
+F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Utils\bin\Debug\Zephyr.Utils.pdb
+F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.csprojResolveAssemblyReference.cache
+F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.dll
+F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Utils\obj\Debug\Zephyr.Utils.pdb
