@@ -21,8 +21,21 @@ F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Library\obj\Debug\Z
 F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.pdb
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\bin\Debug\Zephyr.Library.dll
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\bin\Debug\Zephyr.Library.pdb
-F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.csprojResolveAssemblyReference.cache
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.NPOI.SS.Resource1.resources
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.csproj.GenerateResource.Cache
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.dll
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.pdb
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\bin\Debug\Zephyr.Library.dll
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\bin\Debug\Zephyr.Library.pdb
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.NPOI.SS.Resource1.resources
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.csproj.GenerateResource.Cache
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.dll
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.pdb
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\bin\Debug\Zephyr.Library.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\bin\Debug\Zephyr.Library.pdb
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.csprojResolveAssemblyReference.cache
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.NPOI.SS.Resource1.resources
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.csproj.GenerateResource.Cache
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.pdb
+F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Library\obj\Debug\Zephyr.Library.csprojResolveAssemblyReference.cache

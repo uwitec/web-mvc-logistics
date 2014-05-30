@@ -159,6 +159,22 @@ union
             return result;
         }
 
+        public dynamic GetUsers()
+        {
+            var pQuery = ParamQuery.Instance()
+                .Select("usercode as value,username as text");
+
+            return base.GetDynamicList(pQuery);
+        }
+
+        public dynamic GetTextUsers()
+        {
+            var pQuery = ParamQuery.Instance()
+                .Select("username as value,username as text");
+
+            return base.GetDynamicList(pQuery);
+        }
+
         public dynamic GetUserOrganize(string user)
         {
             var sql = String.Format(@"

@@ -15,6 +15,15 @@ F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zeph
 F:\lbl\soft\web-mvc-logistics - 副本\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.pdb
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\bin\Debug\Zephyr.Data.dll
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\bin\Debug\Zephyr.Data.pdb
-F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.csprojResolveAssemblyReference.cache
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.dll
 F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.pdb
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\bin\Debug\Zephyr.Data.dll
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\bin\Debug\Zephyr.Data.pdb
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.dll
+D:\lbl\SOFT\web-mvc-logistics\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.pdb
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\bin\Debug\Zephyr.Data.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\bin\Debug\Zephyr.Data.pdb
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.csprojResolveAssemblyReference.cache
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.dll
+D:\lbl\SOFT\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.pdb
+F:\lbl\soft\web-mvc-logistics\src\Zephyr.Net\Zephyr.Data\obj\Debug\Zephyr.Data.csprojResolveAssemblyReference.cache
