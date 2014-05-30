@@ -73,7 +73,7 @@ namespace Zephyr.Web.Trade
             var expando = (IDictionary<string, object>)new ExpandoObject();
             expando["query"] = string.Format("/api/trade/{0}", controller);
             expando["remove"] = string.Format("/api/trade/{0}/", controller);
-            expando["jobno"] = string.Format("/api/trade/{0}/getnewjobno", controller);
+            expando["keyid"] = string.Format("/api/trade/{0}/getnewkeyid", controller);
             expando["audit"] = string.Format("/api/trade/{0}/audit/", controller);
             expando["edit"] = string.Format("/trade/{0}/edit/", controller);
             if (extend!=null)
@@ -87,6 +87,7 @@ namespace Zephyr.Web.Trade
             var expando = (IDictionary<string, object>)new ExpandoObject();
             expando["detailTitle"] = billName+ "明细";
             expando["noneSelect"] = "请先选择一条" + billName + "！";
+            expando["editSuccess"] = "保存成功！";
             expando["deleteConfirm"] = "确定要删除选中的" + billName + "吗？";
             expando["deleteSuccess"] = "删除成功！";
             expando["auditSuccess"] = "单据已审核！";

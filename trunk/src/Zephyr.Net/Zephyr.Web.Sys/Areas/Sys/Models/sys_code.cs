@@ -17,6 +17,24 @@ namespace Zephyr.Web.Sys.Models
             return base.GetDynamicList(pQuery);
         }
 
+        public List<dynamic> GetValueListByType(string codeType)
+        {
+            var pQuery = ParamQuery.Instance()
+                .Select("Value as value,Text as text")
+                .Where("CodeType", codeType);
+
+            return base.GetDynamicList(pQuery);
+        }
+
+        public List<dynamic> GetTextListByType(string codeType)
+        {
+            var pQuery = ParamQuery.Instance()
+                .Select("Text as value,Text as text")
+                .Where("CodeType", codeType);
+
+            return base.GetDynamicList(pQuery);
+        }
+
         public List<dynamic> GetMeasureUnitListByType()
         {
             var pQuery = ParamQuery.Instance()

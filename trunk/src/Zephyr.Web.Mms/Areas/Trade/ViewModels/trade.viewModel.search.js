@@ -8,7 +8,7 @@ trade.viewModel = trade.viewModel || {};
 
 trade.viewModel.search = function (data) {
     var self = this;
-    this.idField = data.idField || "jobno";
+    this.idField = data.idField || "keyid";
     this.urls = data.urls;
     this.resx = data.resx;
     this.dataSource = data.dataSource;
@@ -42,7 +42,7 @@ trade.viewModel.search = function (data) {
     this.addClick = function () {
         com.ajax({
             type: 'GET',
-            url: self.urls.jobno,
+            url: self.urls.keyid,
             success: function (d) {
                 com.openTab(self.resx.detailTitle, self.urls.edit + d);
             }
@@ -89,6 +89,10 @@ trade.viewModel.search = function (data) {
 
     this.downloadClick = function (vm, event) {
         com.exporter(self.grid).download($(event.currentTarget).attr("suffix"));
+    };
+
+    this.printClick = function () {
+        com.openTab('打印报表', '/report?area=mms&rpt=' + self.urls.report + '&BillNo=' + self.form.BillNo(), 'icon-printer_color');
     };
 };
  

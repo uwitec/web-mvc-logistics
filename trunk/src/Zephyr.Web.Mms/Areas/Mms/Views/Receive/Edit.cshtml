@@ -68,8 +68,8 @@
         <div class="grid_3 val"><input type="text" data-bind="comboboxValue:form.SupplyType,datasource:dataSource.supplyType,comboboxReadOnly:readonly" class="easyui-combobox z-txt"  required="true" /></div>
         <div class="grid_1 lbl required">付款方式</div>
         <div class="grid_3 val"><input type="text" data-bind="comboboxValue:form.PayKind,datasource:dataSource.payKinds,comboboxReadOnly:readonly" class="z-txt easyui-combobox" required="true"/></div>
-        <div class="grid_1 lbl">合同名称 </div>
-        <div class="grid_3 val required"><input type="text" data-bind="value:form.ContractCode,readOnly:readonly" class="z-txt"  /></div>
+        <div class="grid_1 lbl required">合同名称 </div>
+        <div class="grid_3 val "><input type="text" data-bind="value:form.ContractCode,readOnly:readonly" class="easyui-validatebox z-txt" required="true" /></div>
        
         <div class="clear"></div>
 

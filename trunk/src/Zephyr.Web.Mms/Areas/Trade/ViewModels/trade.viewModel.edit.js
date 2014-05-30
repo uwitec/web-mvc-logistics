@@ -120,6 +120,6 @@ trade.viewModel.edit = function (data) {
         //text: ko.computed(function () { return self.form.ApproveState() == "passed" ? "反审" : "审核"; })
     };
     this.printClick = function () {
-        //com.openTab('打印报表', '/report?area=mms&rpt=' + self.urls.report + '&BillNo=' + self.form.BillNo(), 'icon-printer_color');
+        //com.openTab('打印报表', '/report?area=mms&rpt=' + self.urls.report + '&keyid=' + self.form.keyid(), 'icon-printer_color');
     };
 };

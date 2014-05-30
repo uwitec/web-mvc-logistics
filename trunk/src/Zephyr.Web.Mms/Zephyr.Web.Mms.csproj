@@ -225,7 +225,28 @@
     <Compile Include="Areas\Trade\Common\TradeBaseApi.cs" />
     <Compile Include="Areas\Trade\Common\TradeHelper.cs" />
     <Compile Include="Areas\Trade\Common\TradeService.cs" />
+    <Compile Include="Areas\Trade\Controllers\AreaController.cs" />
+    <Compile Include="Areas\Trade\Controllers\CostcodeController.cs" />
+    <Compile Include="Areas\Trade\Controllers\CurrencyController.cs" />
+    <Compile Include="Areas\Trade\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Trade\Controllers\ExportController.cs" />
+    <Compile Include="Areas\Trade\Controllers\LineController.cs" />
+    <Compile Include="Areas\Trade\Controllers\LoadplanController.cs" />
+    <Compile Include="Areas\Trade\Models\sea_container.cs" />
+    <Compile Include="Areas\Trade\Models\sea_loadplan.cs" />
     <Compile Include="Areas\Trade\Controllers\TrailerController.cs" />
+    <Compile Include="Areas\Trade\Controllers\VesselController.cs" />
+    <Compile Include="Areas\Trade\Controllers\副本 CustomerController.cs" />
+    <Compile Include="Areas\Trade\Models\base_area.cs" />
+    <Compile Include="Areas\Trade\Models\base_costcode.cs" />
+    <Compile Include="Areas\Trade\Models\base_currency.cs" />
+    <Compile Include="Areas\Trade\Models\crm_cusaccount.cs" />
+    <Compile Include="Areas\Trade\Models\crm_cuscontact.cs" />
+    <Compile Include="Areas\Trade\Models\crm_cusloadplace.cs" />
+    <Compile Include="Areas\Trade\Models\crm_customer.cs" />
+    <Compile Include="Areas\Trade\Models\base_line.cs" />
+    <Compile Include="Areas\Trade\Models\base_vessel.cs" />
+    <Compile Include="Areas\Trade\Models\sea_export.cs" />
     <Compile Include="Areas\Trade\Models\trade_scheduler.cs" />
     <Compile Include="Areas\Trade\Models\trade_trailer.cs" />
     <Compile Include="Areas\Trade\TradeAreaRegistration.cs" />
@@ -266,9 +287,15 @@
     <Content Include="Areas\Mms\Views\Shared\Xml\material_stock.xml" />
     <Content Include="Areas\Mms\Views\Shared\Xml\merchants.xml" />
     <Content Include="Areas\Mms\Views\Shared\Xml\project.xml" />
+    <Content Include="Areas\Trade\ViewModels\trade.area.js" />
+    <Content Include="Areas\Trade\ViewModels\trade.viewModel.searchEdit.js" />
     <Content Include="Areas\Trade\ViewModels\trade.com.js" />
     <Content Include="Areas\Trade\ViewModels\trade.viewModel.edit.js" />
     <Content Include="Areas\Trade\ViewModels\trade.viewModel.search.js" />
+    <Content Include="Areas\Trade\ViewModels\trade.customer.edit.js" />
+    <Content Include="Areas\Trade\ViewModels\副本 trade.customer.edit.js" />
+    <Content Include="Areas\Trade\Views\Shared\Xml\AreaSelect.xml" />
+    <Content Include="Areas\Trade\Views\Shared\Xml\CustomerSelect.xml" />
     <Content Include="Content\css\960\fixed\960.css" />
     <Content Include="Content\css\960\fixed\960_12_col.css" />
     <Content Include="Content\css\960\fixed\960_16_col.css" />
@@ -2999,9 +3026,7 @@
     <Content Include="Content\css\less\theme.css" />
     <Content Include="源码使用协议.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Trade\Views\Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -3131,6 +3156,19 @@
     <Content Include="Areas\Trade\Views\Web.config" />
     <Content Include="Areas\Trade\Views\Trailer\Index.cshtml" />
     <Content Include="Areas\Trade\Views\Trailer\Edit.cshtml" />
+    <Content Include="Areas\Trade\Views\Line\Index.cshtml" />
+    <Content Include="Areas\Trade\Views\Area\Index.cshtml" />
+    <Content Include="Areas\Trade\Views\Vessel\Index.cshtml" />
+    <Content Include="Areas\Trade\Views\Currency\Index.cshtml" />
+    <Content Include="Areas\Trade\Views\Costcode\Index.cshtml" />
+    <Content Include="Areas\Trade\Views\Customer\Index.cshtml" />
+    <Content Include="Areas\Trade\Views\Customer\Edit.cshtml" />
+    <Content Include="Areas\Trade\Views\Customer\副本 Edit.cshtml" />
+    <Content Include="Areas\Trade\Views\Export\Edit.cshtml" />
+    <Content Include="Areas\Trade\Views\Export\Index.cshtml" />
+    <Content Include="Areas\Trade\ViewModels\trade.export.edit.js" />
+    <Content Include="Areas\Trade\Views\Loadplan\Edit.cshtml" />
+    <Content Include="Areas\Trade\Views\Loadplan\Index.cshtml" />
     <None Include="Properties\PublishProfiles\mms.pubxml" />
   </ItemGroup>
   <PropertyGroup>
